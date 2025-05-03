@@ -8,13 +8,14 @@
  }
 \usepackage{graphicx} % Required for inserting images
 \usepackage[english,greek]{babel}
-\usepackage{mathabx} % Load the mathabx package
+\usepackage{amsmath} % Load the mathabx package
 \usepackage{subcaption}
 \usepackage{dirtytalk}
 \usepackage{hyperref}
 \usepackage{comment}
 \usepackage{caption}
 \usepackage{float}
+\usepackage{amssymb}
 \newcommand{\en}{\selectlanguage{english}}
 \newcommand{\gr}{\selectlanguage{greek}}
 
@@ -29,14 +30,66 @@
 \begin{document}
 \maketitle
 
+\section*{Υπολογισμός του α}
 
+\[ Z_0 = \frac{1}{2 \pi}\sqrt{\frac{\mu}{\epsilon}} \ln (\frac{b}{a}) \Rightarrow \]
+
+\[ a = b e^{-2\pi Z_0 \sqrt{\frac{\epsilon}{\mu}}} \]
+Προκύπτει
+\[a = 0.76 mm\]
 
 
 \section*{Αλγόριθμος ενέργειας}
 
+\[W_e = \frac{1}{2} \iint_S \epsilon \nabla \phi  \cdot \nabla \phi dS\]
+αναλύω το δυναμικό στις συναρτήσεις βάσης:
+\[\phi \approx \sum_{p=1}^{N_n} \phi_p N_p(\mathbf{r}) \]
+όπου ως $N_p$ αναφέρονται οι ολικές συναρτήσεις βάσης για τον κόμβο $p$.
+\[W_e \approx \frac{1}{2} \iint_S \epsilon \nabla (\sum_p \phi_p N_p(\mathbf{r}))  \cdot \nabla (\sum_q \phi_q N_q(\mathbf{r})) dS\]
+γνωρίζουμε τις τιμές $\phi_p$, το $\epsilon$ είναι σταθερό στον χώρο και τα αθροίσματα είναι πεπερασμένα, οπότε:
+\[ W_e \approx  \frac{1}{2} \epsilon \iint_S  \sum_p \{ \phi_p \nabla N_p(\mathbf{r}) \} \cdot  \sum_q \{ \phi_q \nabla N_q(\mathbf{r}) \} dS\]
+\[ = \frac{1}{2} \epsilon  \sum_p \sum_q  \phi_p \phi_q \iint_S \nabla N_p(\mathbf{r})  \cdot \nabla N_q(\mathbf{r})  dS \]
+Αν συμβολίσω $N_i^t$ τις \emph{τοπικές} συναρτήσεις βάσης του κόμβου $i$ ενός τριγώνου $t$, για τριγωνικά στοιχεία πρώτης τάξης ισχύει: 
+\[ N_i^t (x,y) =  \zeta_i(x,y) = a_i + b_ix + c_iy, \text{\ εντός του στοιχείου και $0$ αλλού}\Rightarrow\]
+\[ \nabla N_i^l =   \begin{align} 
+                        \begin{bmatrix}
+                        b_i \\
+                        c_i
+                        \end{bmatrix}
+                    \end{align}, \text{\ εντός του στοιχείου και $0$ αλλού}\]
+Ακολουθώντας τη διαδικασία της συνάθροισης, για κάθε κόμβο η ολική συνάρτηση βάσης εντός κάθε τριγώνου στο οποίο αυτός ανήκει ισούται με 
+την τοπική συνάρτηση βάσης του και εκτός αυτών με μηδέν.
+Έπεται ότι το γινόμενο $\nabla N_p \cdot \nabla N_q$ ισούται με $0$ για μη γειτονικούς κόμβους. Για γειτονικούς κόμβους $p,q$ όπου 
+ανήκουν και οι δύο σε κάποιο 
+τρίγωνο $t$, ισχύει εντός του τριγώνου
+
+\[ \nabla N_p  \cdot \nabla N_q  = \nabla N_i^t \cdot \nabla N_j^t = 
+    \begin{align} 
+        \begin{bmatrix}
+        b_i \\
+        c_i
+        \end{bmatrix}
+    \end{align}  \cdot \begin{align} 
+        \begin{bmatrix}
+        b_j \\
+        c_j        \end{bmatrix}
+    \end{align}  =  b_ib_j + c_ic_j
+\]
+με $i,j$ την τοπική αρίθμηση εντός του $t$. Έτσι:
+\[ \iint_S \nabla N_p  \cdot \nabla N_q  dS = \sum_{t | p,q \in t} (b_i^tb_j^t + c_i^tc_j^t) A_e^t  \]
+
+\[ \therefore W_e \approx \frac{1}{2} \epsilon  \sum_p \sum_{q \in N(p)}  \phi_p \phi_q   \sum_{t | p,q \in t} (b_i^tb_j^t + c_i^tc_j^t) A_e^t  \]
+\[ =   \sum_p \sum_{q \in N(p)} \frac{1}{2} \epsilon  \phi_p \phi_q   \sum_{t | p,q \in t} (b_i^tb_j^t + c_i^tc_j^t) A_e^t   \]
+όπου ως $N(p)$ συμβολίζω τους γείτονες του κόμβου $p$ (συμπεριλαμβανομένου και του εαυτού του).
+
+Για να γλυτώσουμε υπολογιστικό χρόνο μπορούμε, όπως και στον υπολογισμό του πίνακα $\mathbf{S}$, να απαριθμήσουμε όλα τα 
+τρίγωνα και για κάθε έναν από τους $9$ συνδυασμούς των κόμβων να υπολογίζουμε την ποσότητα 
+\[ \frac{1}{2} \epsilon  \phi_i \phi_j  (b_ib_j + c_ic_j) A_e   \]
+και να την προσθέτουμε διαδοχικά στο αποτέλεσμα. 
 
 
-
+\section*{Χωρητικότητα ομοαξονικού αναλυτικά }
+\[ C = \frac{2 \pi \epsilon}{\ln (\frac{b}{a})} =  6.67 \cdot 10^{-11} F\]
 
 
 
