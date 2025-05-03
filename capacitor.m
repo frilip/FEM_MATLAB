@@ -1,0 +1,154 @@
+
+e0 = 8.854e-12;
+
+w = 0.04;
+h = 0.002;
+d = 0.01;
+V = 100;
+er = 2.2;
+A = 3*width;
+dx = 2e-3;
+
+%     frame    conductor dwn  cond up       cond down BC   cond up BC
+gd = [3        3              3             3              3;
+      4        4              4             4              4;
+      -A/2     -w/2          -w/2          -w/2-dx         -w/2-dx;
+       A/2      w/2           w/2           w/2+dx          w/2+dx;
+       A/2      w/2           w/2           w/2+dx          w/2+dx;
+      -A/2     -w/2          -w/2          -w/2-dx         -w/2-dx;
+      -A/2     -d/2 - h      d/2           -d/2 - h-dx     d/2 - dx;
+      -A/2     -d/2 - h      d/2           -d/2 - h-dx     d/2 - dx;
+      A/2      -d/2          d/2 + h       -d/2 + dx       d/2 + h + dx;
+      A/2      -d/2          d/2 + h       -d/2 + dx       d/2 + h + dx];
+ 
+ns = char('frame','cond_up','cond_down', 'cond_up_BC','cond_down_BC')';
+sf = '(frame - cond_up_BC - cond_down_BC) + (cond_up_BC - cond_up) + (cond_down_BC - cond_down)';
+dl = decsg(gd,sf,ns);
+
+figure;
+pdegplot(dl, 'FaceLabels', 'on'); axis equal;
+
+
+[p,e,t] = initmesh(dl);
+[p,e,t] = refinemesh(dl,p,e,t);
+%[p,e,t] = refinemesh(dl,p,e,t);
+%[p,e,t] = refinemesh(dl,p,e,t);
+
+figure;
+pdeplot(p,e,t);
+
+Nn = size(p,2);    % number of nodes
+Ne = size(t,2);    % number of elements
+Nd = size(e,2);    % number of edges
+
+
+% node_id is a 1xNn matrix where node_id(i)=0 if node i is in the boundary (known value) else it is 1.
+node_id = ones(Nn,1);
+% X0 contains for every node, the potential if it is known, else 0
+X0 = zeros(Nn,1);
+for id = 1:Nd
+    if e(6,id) == 0 || e(7,id) == 0
+    % one side of the edge is the outside of the mesh
+    % the nodes are on the boundary
+    % if the region is 1 or 2, dirichlet condition
+
+
+    if e(6,id) == 1 || e(7,id) == 1
+        % nodes are in the lower conductor (-V/2)
+        node_id( e(1,id) ) = 0;
+        node_id( e(2,id) ) = 0;
+        X0(e(1,id)) = -V/2;
+        X0(e(2,id)) = -V/2;
+    elseif e(6,id) == 2 || e(7,id) == 2
+        % nodes are in the upper conductor (+V/2)
+        node_id( e(1,id) ) = 0;
+        node_id( e(2,id) ) = 0;
+        X0(e(1,id)) = V/2;
+        X0(e(2,id)) = V/2;
+
+    end
+
+    end
+end
+
+
+
+
+
+Nf = nnz(node_id);    % number of unknown nodes
+Np = Nn - Nf;       % number of known nodes
+
+% matrix of known potentials
+Fp = zeros(Np,1);
+
+index = zeros(Nn,1);
+counter_unknown = 0;
+counter_known = 0;
+for ind = 1:Nn
+    if node_id(ind) == 1
+        counter_unknown = counter_unknown + 1;
+        index(ind) = counter_unknown;
+    else
+        counter_known = counter_known + 1;
+        index(ind) = counter_known;
+        Fp(counter_known) = X0(ind);
+    end
+end
+
+
+
+% calculate matrix Sff and Sfp
+Sff = spalloc(Nf,Nf,7*Nf);
+Sfp = spalloc(Nf, Np, 7*Np);
+for triangle = 1:Ne
+    n(1:3) = t(1:3,triangle);
+    x(1:3) = p(1,n(1:3)); y(1:3) = p(2,n(1:3));
+    D = det([1 x(1) y(1);1 x(2) y(2);1 x(3) y(3)]);
+    Ae = abs(D / 2);
+    b(1) = (y(2)-y(3))/D;
+    b(2) = (y(3)-y(1))/D;
+    b(3) = (y(1)-y(2))/D;
+    c(1) = (x(3)-x(2))/D;
+    c(2) = (x(1)-x(3))/D;
+    c(3) = (x(2)-x(1))/D;
+    for i = 1:3
+        for j = 1:3
+            Sij = er * e0 * (b(i)*b(j) + c(i)*c(j)) * Ae;
+            if node_id(n(i)) == 1
+                if node_id(n(j)) == 1
+                    % both i and j are unknown
+                    Sff(index(n(i)),index(n(j))) = Sff(index(n(i)),index(n(j))) + Sij;
+                else
+                    % i is unknown and j is known
+                    Sfp(index(n(i)), index(n(j))) = Sfp(index(n(i)), index(n(j))) + Sij;
+                end
+            end
+        end
+    end
+end
+
+
+Ff = Sff \ (-Sfp * Fp);
+
+
+for ind = 1:Nn
+    if node_id(ind) == 1
+        X0(ind) = Ff(index(ind));
+    end
+end
+
+
+
+% Plot the scalar field X0 over the mesh
+figure;
+pdeplot(p, e, t, 'XYData', X0);
+axis equal
+title('potential');
+colorbar
+
+[X0x, X0y] = pdegrad(p,t,X0);
+Ex = -X0x;
+Ey = -X0y;
+figure;
+pdeplot(p,e,t,'XYData',X0,'FlowData',[Ex;Ey]); axis equal;
+title('potential and field')
