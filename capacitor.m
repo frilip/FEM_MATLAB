@@ -6,7 +6,7 @@ h = 0.002;
 d = 0.01;
 V = 100;
 er = 2.2;
-A = 3*width;
+A = 3*w;
 dx = 2e-3;
 
 %     frame    conductor dwn  cond up       cond down BC   cond up BC
@@ -152,3 +152,29 @@ Ey = -X0y;
 figure;
 pdeplot(p,e,t,'XYData',X0,'FlowData',[Ex;Ey]); axis equal;
 title('potential and field')
+
+
+% energy over unit length 
+We = 0;
+for triangle = 1:Ne
+    n(1:3) = t(1:3,triangle);
+    x(1:3) = p(1,n(1:3)); y(1:3) = p(2,n(1:3));
+    D = det([1 x(1) y(1);1 x(2) y(2);1 x(3) y(3)]);
+    Ae = abs(D / 2);
+    b(1) = (y(2)-y(3))/D;
+    b(2) = (y(3)-y(1))/D;
+    b(3) = (y(1)-y(2))/D;
+    c(1) = (x(3)-x(2))/D;
+    c(2) = (x(1)-x(3))/D;
+    c(3) = (x(2)-x(1))/D;
+    for i = 1:3
+        for j = 1:3
+            We = We + 0.5 * e0 * X0(n(i)) * X0(n(j)) * (b(i)*b(j) + c(i)*c(j)) * Ae;
+        end
+    end
+end
+
+C =  2 * We / (V^2);
+
+disp(We)
+disp(C)

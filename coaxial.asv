@@ -100,7 +100,6 @@ end
 % calculate matrix Sff and Sfp
 Sff = spalloc(Nf,Nf,7*Nf);
 Sfp = spalloc(Nf, Np, 7*Np);
-
 for triangle = 1:Ne
     n(1:3) = t(1:3,triangle);
     x(1:3) = p(1,n(1:3)); y(1:3) = p(2,n(1:3));
@@ -122,7 +121,6 @@ for triangle = 1:Ne
                 else
                     % i is unknown and j is known
                     Sfp(index(n(i)), index(n(j))) = Sfp(index(n(i)), index(n(j))) + Sij;
-
                 end
             end
         end
@@ -130,8 +128,7 @@ for triangle = 1:Ne
 end
 
 
-Ff = (-Sfp * Fp) \ Sff;
-
+Ff = Sff \ (-Sfp * Fp);
 
 
 for ind = 1:Nn
@@ -146,11 +143,19 @@ end
 figure;
 pdeplot(p, e, t, 'XYData', X0);
 axis equal
-title('X0 values over mesh');
+title('potential');
 colorbar
 
 [X0x, X0y] = pdegrad(p,t,X0);
 Ex = -X0x;
 Ey = -X0y;
-
+figure;
 pdeplot(p,e,t,'XYData',X0,'FlowData',[Ex;Ey]); axis equal;
+title('potential and field')
+
+
+
+
+% energy over unit length 
+for triangle = 1:Ne
+end
