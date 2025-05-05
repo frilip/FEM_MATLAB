@@ -37,8 +37,7 @@ Ne = size(t,2);    % number of elements
 Nd = size(e,2);    % number of edges
 
 
-% node_id is a 1xNn matrix where node_id(i)=0 if node i is in the boundary
-% (known value) else it is 1.
+% node_id(i)=0 if node i has Dirichlet condition (known value), else it is 1.
 node_id = ones(Nn,1);
 % X0 contains for every node, the potential if it is known, else 0
 X0 = zeros(Nn,1);

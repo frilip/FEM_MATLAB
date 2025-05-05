@@ -7,22 +7,20 @@ d = 0.01;
 V = 100;
 er = 2.2;
 A = 3*w;
-bspace = 2e-3;  % boundary space
+
 
 frame = [3, 4, -A/2, A/2, A/2, -A/2, -A/2, -A/2, A/2, A/2];
 conductor_down = [3, 4, -w/2, w/2, w/2, -w/2, -d/2-h, -d/2-h, -d/2, -d/2];
 conductor_up = [3, 4, -w/2, w/2, w/2, -w/2, d/2, d/2, d/2+h, d/2+h];
-cond_dwn_boundary = [3, 4, -w/2-bspace, w/2+bspace, w/2+bspace, -w/2-bspace, -d/2-h-bspace, -d/2-h-bspace, -d/2+bspace, -d/2+bspace];
-cond_up_boundary = [3, 4, -w/2-bspace, w/2+bspace, w/2+bspace, -w/2-bspace, d/2-bspace, d/2-bspace, d/2+h+bspace, d/2+h+bspace];
 dielectric = [3, 4, -w/2, w/2, w/2, -w/2, d/2, d/2, -d/2, -d/2];
 
+% a region thatsurrounds the capacitor, will be used to identify dirichlet conditions 
+surrounding_space = [3, 4, -w, w, w, -w, -d, -d, d, d];  
 
 
-
-%     frame    conductor dwn  cond up       cond down BC   cond up BC
-gd = [frame', conductor_down', conductor_up', cond_dwn_boundary', cond_up_boundary', dielectric'];
+gd = [frame', conductor_down', conductor_up', dielectric',surrounding_space'];
  
-ns = char('frame','cond_up','cond_down', 'cond_up_BC','cond_down_BC','dielectric')';
+ns = char('frame','cond_up','cond_down', 'dielectric','surr_sp')';
 sf = 'frame - cond_up - cond_down';
 dl = decsg(gd,sf,ns);
 
@@ -43,7 +41,7 @@ Ne = size(t,2);    % number of elements
 Nd = size(e,2);    % number of edges
 
 
-% node_id is a 1xNn matrix where node_id(i)=0 if node i is in the boundary (known value) else it is 1.
+% node_id(i)=0 if node i has Dirichlet condition (known value), else it is 1.
 node_id = ones(Nn,1);
 % X0 contains for every node, the potential if it is known, else 0
 X0 = zeros(Nn,1);
@@ -51,29 +49,31 @@ for id = 1:Nd
     if e(6,id) == 0 || e(7,id) == 0
     % one side of the edge is the outside of the mesh
     % the nodes are on the boundary
-    % if the region is 1 or 2, dirichlet condition
 
-
-    if e(6,id) == 1 || e(7,id) == 1
-        % nodes are in the lower conductor (-V/2)
-        node_id( e(1,id) ) = 0;
-        node_id( e(2,id) ) = 0;
-        X0(e(1,id)) = -V/2;
-        X0(e(2,id)) = -V/2;
-    elseif e(6,id) == 2 || e(7,id) == 2
-        % nodes are in the upper conductor (+V/2)
-        node_id( e(1,id) ) = 0;
-        node_id( e(2,id) ) = 0;
-        X0(e(1,id)) = V/2;
-        X0(e(2,id)) = V/2;
-
-    end
-
+    % if it is inside region 1 (surrounding the capacitor) 
+    % or region 3 (in the cacacitor) then we have dirichlet conditions
+        if e(6,id) == 1 || e(7,id) == 1 || e(6,id) == 3 || e(7,id) == 3
+            % nodes belong to the capacitors edges
+            node_id( e(1,id) ) = 0;
+            node_id( e(2,id) ) = 0;
+            
+            if p(2,e(1,id)) > 0
+                % y value above 0, belongs to the upper conductor (+V/2)
+                % both of the nodes of the edge are in the same conductor
+                % as the edge is on the boundary
+                X0(e(1,id)) = V/2;
+                X0(e(2,id)) = V/2;
+            else
+                % belongs to the lower conductor (-V/2)
+                X0(e(1,id)) = -V/2;
+                X0(e(2,id)) = -V/2;
+            end
+        end
     end
 end
 
-
-
+figure;
+pdeplot(p, e, t, 'XYData', X0, 'Mesh', 'on');
 
 
 Nf = nnz(node_id);    % number of unknown nodes
