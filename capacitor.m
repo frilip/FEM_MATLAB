@@ -7,22 +7,23 @@ d = 0.01;
 V = 100;
 er = 2.2;
 A = 3*w;
-dx = 2e-3;
+bspace = 2e-3;  % boundary space
+
+frame = [3, 4, -A/2, A/2, A/2, -A/2, -A/2, -A/2, A/2, A/2];
+conductor_down = [3, 4, -w/2, w/2, w/2, -w/2, -d/2-h, -d/2-h, -d/2, -d/2];
+conductor_up = [3, 4, -w/2, w/2, w/2, -w/2, d/2, d/2, d/2+h, d/2+h];
+cond_dwn_boundary = [3, 4, -w/2-bspace, w/2+bspace, w/2+bspace, -w/2-bspace, -d/2-h-bspace, -d/2-h-bspace, -d/2+bspace, -d/2+bspace];
+cond_up_boundary = [3, 4, -w/2-bspace, w/2+bspace, w/2+bspace, -w/2-bspace, d/2-bspace, d/2-bspace, d/2+h+bspace, d/2+h+bspace];
+dielectric = [3, 4, -w/2, w/2, w/2, -w/2, d/2, d/2, -d/2, -d/2];
+
+
+
 
 %     frame    conductor dwn  cond up       cond down BC   cond up BC
-gd = [3        3              3             3              3;
-      4        4              4             4              4;
-      -A/2     -w/2          -w/2          -w/2-dx         -w/2-dx;
-       A/2      w/2           w/2           w/2+dx          w/2+dx;
-       A/2      w/2           w/2           w/2+dx          w/2+dx;
-      -A/2     -w/2          -w/2          -w/2-dx         -w/2-dx;
-      -A/2     -d/2 - h      d/2           -d/2 - h-dx     d/2 - dx;
-      -A/2     -d/2 - h      d/2           -d/2 - h-dx     d/2 - dx;
-      A/2      -d/2          d/2 + h       -d/2 + dx       d/2 + h + dx;
-      A/2      -d/2          d/2 + h       -d/2 + dx       d/2 + h + dx];
+gd = [frame', conductor_down', conductor_up', cond_dwn_boundary', cond_up_boundary', dielectric'];
  
-ns = char('frame','cond_up','cond_down', 'cond_up_BC','cond_down_BC')';
-sf = '(frame - cond_up_BC - cond_down_BC) + (cond_up_BC - cond_up) + (cond_down_BC - cond_down)';
+ns = char('frame','cond_up','cond_down', 'cond_up_BC','cond_down_BC','dielectric')';
+sf = 'frame - cond_up - cond_down';
 dl = decsg(gd,sf,ns);
 
 figure;

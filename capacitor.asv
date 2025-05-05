@@ -6,23 +6,24 @@ h = 0.002;
 d = 0.01;
 V = 100;
 er = 2.2;
-A = 5*width;
-dx = 5e-4;
+A = 3*w;
+bspace = 2e-3;  % boundary space
+
+frame = [3, 4, -A/2, A/2, A/2, -A/2, -A/2, -A/2, A/2, A/2];
+conductor_down = [3, 4, -w/2, w/2, w/2, -w/2, -d/2-h, -d/2-h, -d/2, -d/2];
+conductor_up = [3, 4, -w/2, w/2, w/2, -w/2, d/2, d/2, d/2+h, d/2+h];
+cond_dwn_boundary = [3, 4, -w/2-bspace, w/2+bspace, w/2+bspace, -w/2-bspace, -d/2-h-bspace, -d/2-h-bspace, -d/2+bspace, -d/2+bspace];
+cond_up_boundary = [3, 4, -w/2-bspace, w/2+bspace, w/2+bspace, -w/2-bspace, d/2-bspace, d/2-bspace, d/2+h+bspace, d/2+h+bspace];
+dielectric = [3, 4, -w/2, w/2, w/2, -w/2, d/2, d/2, -d/2, -d/2];
+
+
+
 
 %     frame    conductor dwn  cond up       cond down BC   cond up BC
-gd = [3        3              3             3              3;
-      4        4              4             4              4;
-      -A/2     -w/2          -w/2          -w/2-dx         -w/2-dx;
-       A/2      w/2           w/2           w/2+dx          w/2+dx;
-       A/2      w/2           w/2           w/2+dx          w/2+dx;
-      -A/2     -w/2          -w/2          -w/2-dx         -w/2-dx;
-      -A/2     -d/2 - h      d/2           -d/2 - h-dx     d/2 - dx;
-      -A/2     -d/2 - h      d/2           -d/2 - h-dx     d/2 - dx;
-      A/2      -d/2          d/2 + h       -d/2 + dx       d/2 + h + dx;
-      A/2      -d/2          d/2 + h       -d/2 + dx       d/2 + h + dx];
+gd = [frame', conductor_down', conductor_up', cond_dwn_boundary', cond_up_boundary', dielectric'];
  
-ns = char('frame','cond_up','cond_down', 'cond_up_BC','cond_down_BC')';
-sf = '(frame - cond_up_BC - cond_down_BC) + (cond_up_BC - cond_up) + (cond_down_BC - cond_down)';
+ns = char('frame','cond_up','cond_down', 'cond_up_BC','cond_down_BC','dielectric')';
+sf = '(frame - cond_up_BC - ';
 dl = decsg(gd,sf,ns);
 
 figure;
@@ -34,8 +35,8 @@ pdegplot(dl, 'FaceLabels', 'on'); axis equal;
 %[p,e,t] = refinemesh(dl,p,e,t);
 %[p,e,t] = refinemesh(dl,p,e,t);
 
-%figure;
-%pdeplot(p,e,t);
+figure;
+pdeplot(p,e,t);
 
 Nn = size(p,2);    % number of nodes
 Ne = size(t,2);    % number of elements
@@ -49,14 +50,23 @@ X0 = zeros(Nn,1);
 for id = 1:Nd
     if e(6,id) == 0 || e(7,id) == 0
     % one side of the edge is the outside of the mesh
-    % the nodes are on the boundary, Dirichlet condition only if 
-    node_id( e(1,id) ) = 0;
-    node_id( e(2,id) ) = 0;
+    % the nodes are on the boundary
+    % if the region is 1 or 2, dirichlet condition
+
 
     if e(6,id) == 1 || e(7,id) == 1
-        % nodes are in the inner boundary
-        X0(e(1,id)) = 1;
-        X0(e(2,id)) = 1;
+        % nodes are in the lower conductor (-V/2)
+        node_id( e(1,id) ) = 0;
+        node_id( e(2,id) ) = 0;
+        X0(e(1,id)) = -V/2;
+        X0(e(2,id)) = -V/2;
+    elseif e(6,id) == 2 || e(7,id) == 2
+        % nodes are in the upper conductor (+V/2)
+        node_id( e(1,id) ) = 0;
+        node_id( e(2,id) ) = 0;
+        X0(e(1,id)) = V/2;
+        X0(e(2,id)) = V/2;
+
     end
 
     end
@@ -64,19 +74,6 @@ end
 
 
 
-% Plot the mesh
-figure;
-pdeplot(p, e, t);
-axis equal
-hold on;
-
-% Get coordinates of nodes with Χ0 == 1, ie 1 volt 
-x_nodes = p(1, X0 == 1);
-y_nodes = p(2, X0 == 1);
-
-% Plot those nodes as red dots
-scatter(x_nodes, y_nodes, 20, 'r', 'filled');
-title('Mesh, red nodes have 1 volt Dirichlet boundary condition');
 
 
 Nf = nnz(node_id);    % number of unknown nodes
@@ -117,7 +114,7 @@ for triangle = 1:Ne
     c(3) = (x(2)-x(1))/D;
     for i = 1:3
         for j = 1:3
-            Sij = e0 * (b(i)*b(j) + c(i)*c(j)) * Ae;
+            Sij = er * e0 * (b(i)*b(j) + c(i)*c(j)) * Ae;
             if node_id(n(i)) == 1
                 if node_id(n(j)) == 1
                     % both i and j are unknown
@@ -147,12 +144,38 @@ end
 figure;
 pdeplot(p, e, t, 'XYData', X0);
 axis equal
-title('X0 values over mesh');
+title('potential');
 colorbar
 
 [X0x, X0y] = pdegrad(p,t,X0);
 Ex = -X0x;
 Ey = -X0y;
-
+figure;
 pdeplot(p,e,t,'XYData',X0,'FlowData',[Ex;Ey]); axis equal;
+title('potential and field')
 
+
+% energy over unit length 
+We = 0;
+for triangle = 1:Ne
+    n(1:3) = t(1:3,triangle);
+    x(1:3) = p(1,n(1:3)); y(1:3) = p(2,n(1:3));
+    D = det([1 x(1) y(1);1 x(2) y(2);1 x(3) y(3)]);
+    Ae = abs(D / 2);
+    b(1) = (y(2)-y(3))/D;
+    b(2) = (y(3)-y(1))/D;
+    b(3) = (y(1)-y(2))/D;
+    c(1) = (x(3)-x(2))/D;
+    c(2) = (x(1)-x(3))/D;
+    c(3) = (x(2)-x(1))/D;
+    for i = 1:3
+        for j = 1:3
+            We = We + 0.5 * e0 * X0(n(i)) * X0(n(j)) * (b(i)*b(j) + c(i)*c(j)) * Ae;
+        end
+    end
+end
+
+C =  2 * We / (V^2);
+
+disp(We)
+disp(C)
