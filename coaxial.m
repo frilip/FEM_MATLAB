@@ -1,4 +1,5 @@
 
+
 e0 = 8.854e-12;
 
 % radii of inner conductor and dielectric
@@ -21,16 +22,13 @@ ns = char('cond','die','condBC','dieBC')';
 sf = '(die-dieBC) + (dieBC-condBC) + (condBC-cond)';
 dl = decsg(gd,sf,ns);
 
-figure;
-pdegplot(dl, 'FaceLabels', 'on'); axis equal;
+
 
 [p,e,t] = initmesh(dl);
 [p,e,t] = refinemesh(dl,p,e,t);
-%[p,e,t] = refinemesh(dl,p,e,t);
+[p,e,t] = refinemesh(dl,p,e,t);
 %[p,e,t] = refinemesh(dl,p,e,t);
 
-%figure;
-%pdeplot(p,e,t);
 
 Nn = size(p,2);    % number of nodes
 Ne = size(t,2);    % number of elements
@@ -58,20 +56,6 @@ for id = 1:Nd
 end
 
 
-
-% Plot the mesh
-figure;
-pdeplot(p, e, t);
-axis equal
-hold on;
-
-% Get coordinates of nodes with Χ0 == 1, ie 1 volt 
-x_nodes = p(1, X0 == 1);
-y_nodes = p(2, X0 == 1);
-
-% Plot those nodes as red dots
-scatter(x_nodes, y_nodes, 20, 'r', 'filled');
-title('Mesh, red nodes have 1 volt Dirichlet boundary condition');
 
 
 Nf = nnz(node_id);    % number of unknown nodes
@@ -137,21 +121,10 @@ for ind = 1:Nn
 end
 
 
-
-% Plot the scalar field X0 over the mesh
-figure;
-pdeplot(p, e, t, 'XYData', X0);
-axis equal
-title('potential');
-colorbar
-
+% calculate the electric field E
 [X0x, X0y] = pdegrad(p,t,X0);
 Ex = -X0x;
 Ey = -X0y;
-figure;
-pdeplot(p,e,t,'XYData',X0,'FlowData',[Ex;Ey]); axis equal;
-title('potential and field')
-
 
 
 
@@ -180,3 +153,26 @@ C =  2 * We / (V^2);
 
 disp(We)
 disp(C)
+
+
+
+% plot regions
+fig_reg = figure('Units', 'centimeters', 'Position', [1, 1, 15, 15],"Visible","off");
+pdegplot(dl, 'FaceLabels', 'on'); axis equal; axis tight;
+title('regions');
+exportgraphics(gcf, './plots/coaxial_regions.pdf', 'ContentType', 'vector');
+
+% plot mesh
+fig_mesh = figure('Units', 'centimeters', 'Position', [1, 1, 15, 15],"Visible","off");
+pdeplot(p,e,t); axis equal; axis tight;
+title('triangulated mesh');
+exportgraphics(gcf, './plots/coaxial_mesh.pdf', 'ContentType', 'vector');
+
+
+% Plot the potential and field
+fig_field = figure('Units', 'centimeters', 'Position', [1, 1, 15,15], 'Visible','off');
+pdeplot(p,e,t,'XYData',X0,'FlowData',[Ex;Ey]); axis equal; axis tight;
+title('potential and electric field')
+colormap(winter);  
+colorbar;
+exportgraphics(gcf, './plots/coaxial_field.pdf', 'ContentType', 'vector');

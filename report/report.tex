@@ -312,21 +312,111 @@ c_1 = \frac{x_3 - x_2}{D},
 
 
 
-\subsubsection*{Χωρητικότητα ομοαξονικού αναλυτικά }
+\subsubsection*{Χωρητικότητα αναλυτικά }
 
 Η ανά μονάδα μήκους χωρητικότητα κυλινδρικού πυκνωτή δίνεται από την:\footnote{Θεόδωρος Τσιμπούκης, Ηλεκτρομαγνητικό πεδίο, σελ. 145}
 \[ C = \frac{2 \pi \epsilon}{\ln (\frac{b}{a})} =  6.67 \cdot 10^{-11} F\]
 
-\subsubsection*{Κώδικας \en matlab \gr}
+\subsubsection*{Κώδικας / Αποτελέσματα}
 
-...
+Οι παραπάνω μέθοδος \en FEM \gr για τον υπολογισμό του δυναμικού, όπως και αυτή για τον υπολογισμό 
+της ενέργειας ανά μονάδα μήκους υλοποιήθηκε σε \en matlab. \gr
+Δε θα αναφέρω εδώ λεπτομέρειες σε επίπεδο συναρτήσεων, υπάρχει αναλυτική εξήγηση με μορφή σχολίων στο αρχείο \en coaxial.m. \gr
 
-\subsubsection*{Αποτελέσματα}
 
-...
 
-\subsection*{Πυκνωτής}
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[b]{0.45\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{coaxial_regions.pdf}
+      \caption{}
+      \label{fig:coaxial_regions}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.45\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{coaxial_mesh_no_refine.pdf}
+      \caption{}
+      \label{fig:coaxial_mesh}
+  \end{subfigure}
+  \caption{}
+  \label{}
+\end{figure}
+
+
+
+
+\subsection*{Πυκνωτής επίπεδων πλακών}
 \subsubsection*{Χωρητικότητα ανά μονάδα μήκους πυκνωτή}
 
 
+\begin{figure}[h]
+  \centering
+  \begin{subfigure}{0.45\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{capacitor_regions.pdf}
+      \caption{}
+      \label{fig:capacitor_regions}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}{0.45\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{capacitor_mesh_no_refine.pdf}
+      \caption{}
+      \label{fig:capacitor_mesh}
+  \end{subfigure}
+  \caption{}
+  \label{}
+\end{figure}
+
+
+
+
+\begin{figure}[h]
+  \centering
+  \begin{subfigure}{0.45\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{coaxial_mesh.pdf}
+      \caption{}
+      \label{fig:coaxial_mesh_with_refines}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}{0.45\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{capacitor_mesh.pdf}
+      \caption{}
+      \label{fig:capacitor_mesh_with_refines}
+  \end{subfigure}
+  \caption{}
+  \label{}
+\end{figure}
+
+
+
+
+
+\begin{figure}[h]
+  \centering
+  \begin{subfigure}{0.45\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{coaxial_field.pdf}
+      \caption{Ομοαξονικό καλώδιο}
+      \label{fig:coaxial_field}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}{0.45\textwidth}
+      \centering
+      \raisebox{0.6cm}{\includegraphics[width=\textwidth]{capacitor_field.pdf}}
+      \caption{Πυκνωτής επίπεδων πλακών}
+      \label{fig:second}
+  \end{subfigure}
+  \caption{Το αποτέλεσμα της μεθόδου \en FEM \gr για τα δύο προβλήματα. Με χρώμα απεικονίζεται το δυναμικό ενώ με τα βέλη το ηλεκτρικό πεδίο.}
+  \label{fig:capacitor_field}
+\end{figure}
+
+
+
+\section*{Μέρος Β}
 \end{document}
