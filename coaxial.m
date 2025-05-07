@@ -9,13 +9,15 @@ beta = 1.75e-3;
 x0 = 0;
 y0 = 0;
 
-epsilon = 0.05e-3;   % width of boundary regions
+dx = 0.05e-3;   % width of boundary regions
+
+analytic_capacitance = 6.67014293e-11;
 
 %     conductor  dielectric         condactor bc       dielectric bc
 gd = [1          1                  1                  1;
       x0        x0                 x0                 x0;
       y0        y0                 y0                 y0;
-      alpha   beta   (alpha + epsilon)   (beta - epsilon)];
+      alpha   beta       (alpha + dx)         (beta - dx)];
 
 
 ns = char('cond','die','condBC','dieBC')';
@@ -25,9 +27,12 @@ dl = decsg(gd,sf,ns);
 
 
 [p,e,t] = initmesh(dl);
-[p,e,t] = refinemesh(dl,p,e,t);
-[p,e,t] = refinemesh(dl,p,e,t);
-%[p,e,t] = refinemesh(dl,p,e,t);
+% refine 
+refine_amount = 2;
+for i = 1:refine_amount
+    [p,e,t] = refinemesh(dl,p,e,t);
+end
+
 
 
 Nn = size(p,2);    % number of nodes
@@ -111,9 +116,42 @@ for triangle = 1:Ne
 end
 
 
-Ff = Sff \ (-Sfp * Fp);
+%---------------------%
+% Direct Solver
+%---------------------%
+tic;
+Ff_direct = Sff \ (-Sfp * Fp);
+time_direct = toc;
+fprintf('Direct solver time: %.6f seconds\n', time_direct);
+
+%---------------------%
+% Iterative Solver 
+%---------------------%
+tic;
+tol = 0.009;
+max_it = 150;
+Ff_pcg = pcg(Sff, (-Sfp * Fp), tol, max_it);
+time_pcg = toc;
+fprintf ('pcg solver time: %.6f seconds\n',time_pcg);
 
 
+
+% choose solver 
+solver = "Direct";        % change this variable to chose different solver
+
+if solver == "pcg"
+    Ff =  Ff_pcg;
+    fprintf('Using iterative solver!!\n');
+elseif solver == "Direct"
+    Ff = Ff_direct;
+    fprintf('Using direct solver!!\n')
+else
+    disp("invalid solver, going with direct...");
+    Ff = Ff_direct;
+end
+
+
+% update X0
 for ind = 1:Nn
     if node_id(ind) == 1
         X0(ind) = Ff(index(ind));
@@ -148,31 +186,38 @@ for triangle = 1:Ne
     end
 end
 
+
+% capacitance
 V = 1;
 C =  2 * We / (V^2);
 
-disp(We)
-disp(C)
+fprintf('Used %d refinements. The degree of freedom (nodes with uknown potential) is: %d.\n', refine_amount, Nf);
+fprintf('The calculated capacitance is: %d Farad.\n', C);
+fprintf('capacitance relative error is: %d%%.\n', abs((C - analytic_capacitance) / analytic_capacitance) * 100 );
 
+
+% Suppress warnings, because vector type is slow, and a warning saying that
+% will appear
+warning('off', 'all');
 
 
 % plot regions
 fig_reg = figure('Units', 'centimeters', 'Position', [1, 1, 15, 15],"Visible","off");
 pdegplot(dl, 'FaceLabels', 'on'); axis equal; axis tight;
-title('regions');
+title("regions");
 exportgraphics(gcf, './plots/coaxial_regions.pdf', 'ContentType', 'vector');
 
 % plot mesh
 fig_mesh = figure('Units', 'centimeters', 'Position', [1, 1, 15, 15],"Visible","off");
 pdeplot(p,e,t); axis equal; axis tight;
-title('triangulated mesh');
-exportgraphics(gcf, './plots/coaxial_mesh.pdf', 'ContentType', 'vector');
+title("triangulated mesh, " + refine_amount + " refinements");
+exportgraphics(gcf, "./plots/coaxial_mesh_"+refine_amount+".pdf", 'ContentType', 'vector');
 
 
 % Plot the potential and field
 fig_field = figure('Units', 'centimeters', 'Position', [1, 1, 15,15], 'Visible','off');
 pdeplot(p,e,t,'XYData',X0,'FlowData',[Ex;Ey]); axis equal; axis tight;
-title('potential and electric field')
-colormap(winter);  
+title("      potential and electric field, " + refine_amount + " refinements, " + solver + " solver");
+colormap(cool);  
 colorbar;
-exportgraphics(gcf, './plots/coaxial_field.pdf', 'ContentType', 'vector');
+exportgraphics(gcf, "./plots/coaxial_field_"+refine_amount+"_"+solver+".pdf", 'ContentType', 'vector');

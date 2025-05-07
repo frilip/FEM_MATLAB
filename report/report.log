@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2025/dev/Debian) (preloaded format=pdflatex 2025.1.1)  6 MAY 2025 22:33
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2025/dev/Debian) (preloaded format=pdflatex 2025.1.1)  8 MAY 2025 01:37
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -875,6 +875,15 @@ LaTeX Warning: Label `' multiply defined.
 
 LaTeX Warning: Label `' multiply defined.
 
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `sub@' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
 )
 \openout1 = `report.aux'.
 
@@ -982,63 +991,76 @@ Overfull \hbox (13.6229pt too wide) in paragraph at lines 78--78
 [2]
 
 [3]
-<../plots/coaxial_regions.pdf, id=62, 353.32pt x 378.41376pt>
+<../plots/coaxial_regions.pdf, id=67, 353.32pt x 378.41376pt>
 File: ../plots/coaxial_regions.pdf Graphic file (type pdf)
 <use ../plots/coaxial_regions.pdf>
-Package pdftex.def Info: ../plots/coaxial_regions.pdf  used on input line 333.
-(pdftex.def)             Requested size: 217.6621pt x 233.12437pt.
-<../plots/coaxial_mesh_no_refine.pdf, id=63, 353.32pt x 378.41376pt>
-File: ../plots/coaxial_mesh_no_refine.pdf Graphic file (type pdf)
-<use ../plots/coaxial_mesh_no_refine.pdf>
-Package pdftex.def Info: ../plots/coaxial_mesh_no_refine.pdf  used on input line 340.
-(pdftex.def)             Requested size: 217.6621pt x 233.12437pt.
-<../plots/capacitor_regions.pdf, id=64, 367.3725pt x 361.35pt>
+Package pdftex.def Info: ../plots/coaxial_regions.pdf  used on input line 342.
+(pdftex.def)             Requested size: 145.11052pt x 155.41624pt.
+<../plots/coaxial_mesh_0.pdf, id=68, 353.32pt x 378.41376pt>
+File: ../plots/coaxial_mesh_0.pdf Graphic file (type pdf)
+<use ../plots/coaxial_mesh_0.pdf>
+Package pdftex.def Info: ../plots/coaxial_mesh_0.pdf  used on input line 349.
+(pdftex.def)             Requested size: 145.11052pt x 155.41624pt.
+<../plots/coaxial_field_2_Direct.pdf, id=69, 359.3425pt x 345.29pt>
+File: ../plots/coaxial_field_2_Direct.pdf Graphic file (type pdf)
+<use ../plots/coaxial_field_2_Direct.pdf>
+Package pdftex.def Info: ../plots/coaxial_field_2_Direct.pdf  used on input line 356.
+(pdftex.def)             Requested size: 159.62083pt x 153.38222pt.
+
+
+[4 <../plots/coaxial_regions.pdf> <../plots/coaxial_mesh_0.pdf> <../plots/coaxial_field_2_Direct.pdf>]
+<../plots/capacitor_regions.pdf, id=135, 367.3725pt x 361.35pt>
 File: ../plots/capacitor_regions.pdf Graphic file (type pdf)
 <use ../plots/capacitor_regions.pdf>
-Package pdftex.def Info: ../plots/capacitor_regions.pdf  used on input line 359.
-(pdftex.def)             Requested size: 217.6621pt x 214.0989pt.
-<../plots/capacitor_mesh_no_refine.pdf, id=65, 367.3725pt x 361.35pt>
-File: ../plots/capacitor_mesh_no_refine.pdf Graphic file (type pdf)
-<use ../plots/capacitor_mesh_no_refine.pdf>
-Package pdftex.def Info: ../plots/capacitor_mesh_no_refine.pdf  used on input line 366.
-(pdftex.def)             Requested size: 217.6621pt x 214.0989pt.
+Package pdftex.def Info: ../plots/capacitor_regions.pdf  used on input line 431.
+(pdftex.def)             Requested size: 145.11052pt x 142.73444pt.
+<../plots/capacitor_mesh_0.pdf, id=136, 367.3725pt x 361.35pt>
+File: ../plots/capacitor_mesh_0.pdf Graphic file (type pdf)
+<use ../plots/capacitor_mesh_0.pdf>
+Package pdftex.def Info: ../plots/capacitor_mesh_0.pdf  used on input line 438.
+(pdftex.def)             Requested size: 145.11052pt x 142.73444pt.
+<../plots/capacitor_potential_2.pdf, id=137, 367.3725pt x 320.19624pt>
+File: ../plots/capacitor_potential_2.pdf Graphic file (type pdf)
+<use ../plots/capacitor_potential_2.pdf>
+Package pdftex.def Info: ../plots/capacitor_potential_2.pdf  used on input line 445.
+(pdftex.def)             Requested size: 159.62083pt x 139.123pt.
+<../plots/capacitor_field_2.pdf, id=138, 367.3725pt x 361.35pt>
+File: ../plots/capacitor_field_2.pdf Graphic file (type pdf)
+<use ../plots/capacitor_field_2.pdf>
+Package pdftex.def Info: ../plots/capacitor_field_2.pdf  used on input line 459.
+(pdftex.def)             Requested size: 212.82779pt x 209.34055pt.
+<../plots/capacitor_field_streamlines_2.pdf, id=139, 368.37625pt x 320.19624pt>
+File: ../plots/capacitor_field_streamlines_2.pdf Graphic file (type pdf)
+<use ../plots/capacitor_field_streamlines_2.pdf>
+Package pdftex.def Info: ../plots/capacitor_field_streamlines_2.pdf  used on input line 466.
+(pdftex.def)             Requested size: 241.84842pt x 210.2162pt.
 
 
-LaTeX Warning: `h' float specifier changed to `ht'.
+LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<../plots/coaxial_mesh.pdf, id=66, 353.32pt x 378.41376pt>
-File: ../plots/coaxial_mesh.pdf Graphic file (type pdf)
-<use ../plots/coaxial_mesh.pdf>
-Package pdftex.def Info: ../plots/coaxial_mesh.pdf  used on input line 381.
-(pdftex.def)             Requested size: 217.6621pt x 233.12437pt.
-<../plots/capacitor_mesh.pdf, id=67, 367.3725pt x 361.35pt>
-File: ../plots/capacitor_mesh.pdf Graphic file (type pdf)
-<use ../plots/capacitor_mesh.pdf>
-Package pdftex.def Info: ../plots/capacitor_mesh.pdf  used on input line 388.
-(pdftex.def)             Requested size: 217.6621pt x 214.0989pt.
+<../plots/coaxial_mesh_2.pdf, id=140, 353.32pt x 378.41376pt>
+File: ../plots/coaxial_mesh_2.pdf Graphic file (type pdf)
+<use ../plots/coaxial_mesh_2.pdf>
+Package pdftex.def Info: ../plots/coaxial_mesh_2.pdf  used on input line 485.
+(pdftex.def)             Requested size: 145.11052pt x 155.41624pt.
+<../plots/capacitor_mesh_2.pdf, id=141, 367.3725pt x 361.35pt>
+File: ../plots/capacitor_mesh_2.pdf Graphic file (type pdf)
+<use ../plots/capacitor_mesh_2.pdf>
+Package pdftex.def Info: ../plots/capacitor_mesh_2.pdf  used on input line 492.
+(pdftex.def)             Requested size: 145.11052pt x 142.73444pt.
+<../plots/coaxial_field_3_pcg.pdf, id=142, 359.3425pt x 345.29pt>
+File: ../plots/coaxial_field_3_pcg.pdf Graphic file (type pdf)
+<use ../plots/coaxial_field_3_pcg.pdf>
+Package pdftex.def Info: ../plots/coaxial_field_3_pcg.pdf  used on input line 499.
+(pdftex.def)             Requested size: 159.62083pt x 153.38222pt.
 
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-<../plots/coaxial_field.pdf, id=68, 359.3425pt x 345.29pt>
-File: ../plots/coaxial_field.pdf Graphic file (type pdf)
-<use ../plots/coaxial_field.pdf>
-Package pdftex.def Info: ../plots/coaxial_field.pdf  used on input line 404.
-(pdftex.def)             Requested size: 217.6621pt x 209.15662pt.
-<../plots/capacitor_field.pdf, id=69, 367.3725pt x 319.1925pt>
-File: ../plots/capacitor_field.pdf Graphic file (type pdf)
-<use ../plots/capacitor_field.pdf>
-Package pdftex.def Info: ../plots/capacitor_field.pdf  used on input line 411.
-(pdftex.def)             Requested size: 217.6621pt x 189.1207pt.
-
-LaTeX Warning: `h' float specifier changed to `ht'.
+LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
 
-[4 <../plots/coaxial_regions.pdf> <../plots/coaxial_mesh_no_refine.pdf>]
+[5 <../plots/capacitor_regions.pdf> <../plots/capacitor_mesh_0.pdf> <../plots/capacitor_potential_2.pdf>]
 
-[5 <../plots/capacitor_regions.pdf> <../plots/capacitor_mesh_no_refine.pdf> <../plots/coaxial_mesh.pdf> <../plots/capacitor_mesh.pdf>]
-
-[6 <../plots/coaxial_field.pdf> <../plots/capacitor_field.pdf>] (./report.aux)
+[6 <../plots/capacitor_field_2.pdf> <../plots/capacitor_field_streamlines_2.pdf> <../plots/coaxial_mesh_2.pdf> <../plots/capacitor_mesh_2.pdf> <../plots/coaxial_field_3_pcg.pdf>] (./report.aux)
  ***********
 LaTeX2e <2024-11-01>
 L3 programming layer <2024-11-02>
@@ -1051,18 +1073,18 @@ Package rerunfilecheck Info: File `report.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 25397 strings out of 473362
- 469994 string characters out of 5723556
- 845883 words of memory out of 5000000
- 48065 multiletter control sequences out of 15000+600000
- 576033 words of font info for 81 fonts, out of 8000000 for 9000
+ 25429 strings out of 473362
+ 471252 string characters out of 5723556
+ 846777 words of memory out of 5000000
+ 48096 multiletter control sequences out of 15000+600000
+ 574908 words of font info for 81 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,10n,93p,562b,891s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cbfonts/grmi1000.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cbfonts/grmn0600.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cbfonts/grmn0700.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cbfonts/grmn0800.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cbfonts/grmn0900.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cbfonts/grmn1000.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cbfonts/grmn1200.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cbfonts/grmn1728.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cbfonts/grxn1000.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cbfonts/grxn1200.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cbfonts/grxn1440.pfb>
-Output written on report.pdf (6 pages, 1976927 bytes).
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cbfonts/grmn0600.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cbfonts/grmn0700.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cbfonts/grmn0800.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cbfonts/grmn0900.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cbfonts/grmn1000.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cbfonts/grmn1200.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cbfonts/grmn1728.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cbfonts/grxn1000.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cbfonts/grxn1200.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cbfonts/grxn1440.pfb>
+Output written on report.pdf (6 pages, 3795127 bytes).
 PDF statistics:
- 271 PDF objects out of 1000 (max. 8388607)
- 191 compressed objects within 2 object streams
- 31 named destinations out of 1000 (max. 500000)
- 53 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 315 PDF objects out of 1000 (max. 8388607)
+ 224 compressed objects within 3 object streams
+ 32 named destinations out of 1000 (max. 500000)
+ 68 words of extra memory for PDF output out of 10000 (max. 10000000)
 

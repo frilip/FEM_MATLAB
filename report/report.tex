@@ -266,14 +266,6 @@ c_1 = \frac{x_3 - x_2}{D},
 γνωρίζουμε τις τιμές $\phi_p$, το $\epsilon$ είναι σταθερό στον χώρο και τα αθροίσματα είναι πεπερασμένα, οπότε:
 \[ W_e \approx  \frac{1}{2} \epsilon \iint_S  \sum_p \{ \phi_p \nabla N_p(\mathbf{r}) \} \cdot  \sum_q \{ \phi_q \nabla N_q(\mathbf{r}) \} dS\]
 \[ = \frac{1}{2} \epsilon  \sum_p \sum_q  \phi_p \phi_q \iint_S \nabla N_p(\mathbf{r})  \cdot \nabla N_q(\mathbf{r})  dS \]
-Αν συμβολίσω $N_i^t$ τις \emph{τοπικές} συναρτήσεις βάσης του κόμβου $i$ ενός τριγώνου $t$, για τριγωνικά στοιχεία πρώτης τάξης ισχύει: 
-\[ N_i^t (x,y) =  \zeta_i(x,y) = a_i + b_ix + c_iy, \text{\ εντός του στοιχείου και $0$ αλλού}\Rightarrow\]
-\[ \nabla N_i^t =   
-    \begin{bmatrix}
-        b_i \\
-        c_i
-    \end{bmatrix}
-                    , \text{\ εντός του στοιχείου και $0$ αλλού}\]
 Αντικαθιστώντας από την (\ref{eq:int_of_grad_Np_Nq_}):
 \[ W_e \approx \frac{1}{2} \epsilon  \sum_p \sum_{q \in N(p)}  \phi_p \phi_q   \sum_{t | p,q \in t} (b_i^tb_j^t + c_i^tc_j^t) A_e^t  \]
 \[ =   \sum_p \sum_{q \in N(p)} \frac{1}{2} \epsilon  \phi_p \phi_q   \sum_{t | p,q \in t} (b_i^tb_j^t + c_i^tc_j^t) A_e^t   \]
@@ -315,58 +307,166 @@ c_1 = \frac{x_3 - x_2}{D},
 \subsubsection*{Χωρητικότητα αναλυτικά }
 
 Η ανά μονάδα μήκους χωρητικότητα κυλινδρικού πυκνωτή δίνεται από την:\footnote{Θεόδωρος Τσιμπούκης, Ηλεκτρομαγνητικό πεδίο, σελ. 145}
-\[ C = \frac{2 \pi \epsilon}{\ln (\frac{b}{a})} =  6.67 \cdot 10^{-11} F\]
+\begin{equation} \label{eq:analytical_capacitance_coaxial}
+  C = \frac{2 \pi \epsilon}{\ln (\frac{b}{a})} =  6.67014293 \cdot 10^{-11} F
+\end{equation}
+
 
 \subsubsection*{Κώδικας / Αποτελέσματα}
 
-Οι παραπάνω μέθοδος \en FEM \gr για τον υπολογισμό του δυναμικού, όπως και αυτή για τον υπολογισμό 
+Η παραπάνω μέθοδος \en FEM \gr για τον υπολογισμό του δυναμικού, όπως και αυτή για τον υπολογισμό 
 της ενέργειας ανά μονάδα μήκους υλοποιήθηκε σε \en matlab. \gr
-Δε θα αναφέρω εδώ λεπτομέρειες σε επίπεδο συναρτήσεων, υπάρχει αναλυτική εξήγηση με μορφή σχολίων στο αρχείο \en coaxial.m. \gr
+Υπάρχει αναλυτική εξήγηση σε επίπεδο συναρτήσεων με μορφή σχολίων στο αρχείο \en coaxial.m. \gr
+Εδώ περιγράφεται συνοπτικά τη διαδικασία.
+
+Αρχικά ορίζω τις περιοχές που φαίνονται στο σχήμα \ref{fig:coaxial_regions} με τις παραμέτρους $a,b$. Οι περιοχές \en F1,F3 \gr (όρια)
+θα χρησιμοποιηθούν για τον προσδιορισμό των σημείων με συνθήκες \en Dirichlet. \gr 
+Οι ακμές που βρίσκονται στο όριο τις \en F1 \gr και του εξωτερικού (περιοχή 0) έχουν 
+γνωστό δυναμικό $\phi = 1$ \en Volt \gr ενώ οι αντίστοιχες τις περιοχής
+\en F3 \gr έχουν γνωστό δυναμικό $\phi = 0$ \en Volt. \gr 
+
+Ακολουθεί η δημιουργία τριγωνικού πλέγματος, στο σχήμα \ref{fig:coaxial_mesh} φαίνεται το αποτέλεσμα χωρίς \en refine. \gr
+Στο σχήμα \ref{fig:extra_1} φαίνονται οπτικοποιήσεις και του ομοαξονικού και του πυκνωτή παράλληλων πλακών για περισσότερα \en refines. \gr
+
+Ορίζεται καινούργια αρίθμηση για τους γνωστούς και αγνώστους κόμβους ώστε να τους επεξεργαστούμε ξεχωριστά, και έπειτα 
+υπολογίζονται οι πίνακες $\mathbf{S}_{ff}$ και $\mathbf{S}_{fp}$ όπως περιγράφτηκε. Λύνεται το σύστημα (\ref{eq:FEM})
+με \en direct \gr μέθοδο.
+Έπειτα υπολογίζεται η ένταση του ηλεκτρικού πεδίου ως $\mathbf{E} = - \nabla \phi$. Στο σχήμα \ref{fig:coaxial_field} φαίνονται 
+τα αποτελέσματα. 
 
 
-
-
-\begin{figure}[H]
+\begin{figure}[h!]
   \centering
-  \begin{subfigure}[b]{0.45\textwidth}
+  \begin{subfigure}[b]{0.3\textwidth}
       \centering
       \includegraphics[width=\textwidth]{coaxial_regions.pdf}
-      \caption{}
+      \caption{Περιοχές\vspace{1\baselineskip}}
       \label{fig:coaxial_regions}
   \end{subfigure}
   \hfill
-  \begin{subfigure}[b]{0.45\textwidth}
+  \begin{subfigure}[b]{0.3\textwidth}
       \centering
-      \includegraphics[width=\textwidth]{coaxial_mesh_no_refine.pdf}
-      \caption{}
+      \includegraphics[width=\textwidth]{coaxial_mesh_0.pdf}
+      \caption{Πλέγμα\vspace{1\baselineskip}}
       \label{fig:coaxial_mesh}
   \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.33\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{coaxial_field_2_Direct.pdf}
+    \caption{Δυναμικό (χρώμα) και ηλεκτρικό πεδίο (βέλη).}
+    \label{fig:coaxial_field}
+\end{subfigure}
   \caption{}
   \label{}
 \end{figure}
 
 
+
+Το πρόβλημα λύνεται με 0,1,2 και 3 \en refinements \gr στο πλέγμα.
+Το πλήθος βαθμών ελευθερίας σε κάθε περίπτωση είναι το πλήθος των άγνωστων κόμβων.
+Για \en refinements \gr 0,1,2 και 3 είναι 761, 3228, 13280 και 53856 αντίστοιχα.
+Στα γραφήματα δεν παρατηρείται διαφορά οπότε παρέχεται στο σχήμα \ref{fig:coaxial_field}
+το αποτέλεσμα μόνο για 2 \en refinements. \gr 
+Παρατηρείται ελάχιστη διαφορά στο αποτέλεσμα του υπολογισμού της χωρητικότητας, η 
+οποία υπολογίζεται ως εξής:
+
+Υπολογίζεται η ενέργεια με τη μέθοδο που παρουσιάστηκε παραπάνω. 
+Έπειτα βρίσκεται η χωρητικότητα ως $C = 2 W_e / V^2$.
+
+Το αποτέλεσμα ια \en refinements \gr 0,1,2 και 3 είναι 
+$6.68 \cdot 10^{-11} F$, $6.72567 \cdot 10^{-11} F$, $6.7065 \cdot 10^{-11} F$ 
+και $6.67016 \cdot 10^{-11} F$, με σχετικό σφάλμα απο την αναλυτική τιμή -εξίσωση (\ref{eq:analytical_capacitance_coaxial}) -
+$0.15\%$, $3.6\cdot 10^{-3} \%$, $7.55\cdot 10^{-3}\%$ και $3\cdot 10^{-4}\%$
+αντίστοιχα.
+Με περισσότερα \en refinements \gr παίρνουμε ακριβέστερα αποτελέσματα.
+
+
+
+Ο πίνακας $\mathbf{S}$ είναι αραιός (επειδή οι περισσότεροι κόμβοι είναι μη γειτονικοί
+και για μη γειτονικούς κόμβους $\mathbf{S}[p,q]=0$). 
+Επομένως μπορούμε να χρησιμοποιήσουμε \en iterative solver \gr ώστε να 
+βελτιστοποιήσουμε μνήμη και χρόνο.
+Χρησιμοποιήθηκε η συνάρτηση \en pcg \gr της \en matlab. \gr
+Η \en iterative \gr μέθοδος παρουσιάζει πλεονέκτημα ως προς την ταχύτητα και τη μνήμη, όμως τα αποτελέσματα είναι λιγότερο ακριβή 
+μιας ακολουθείται διαδικασία σύγκλισης. 
+
+Χρησιμοποιήθηκε \en tolerance \gr στο σφάλμα ίσο με 0.01. Το αποτέλεσμα φαίνεται στο σχήμα \ref{fig:iterative_coaxial}
+και όπως φαίνεται στα άκρα του καλωδίου παρουσιάζει οπτικό σφάλμα. Η υπολογισμένη χωρητικότητα με αυτή τη μέθοδο είναι 
+$7.12 \cdot 10^{-11} F$ με σημαντικό σφάλμα $4.58 \cdot 10^{-12} F$. 
+
+Προφανώς εαν επιλεχθεί μικρότερο \en tolerance \gr σφάλματος το αποτέλεσμα 
+θα είναι πολύ ακριβέστερο, επιλέχθηκε συγκεκριμένα αυτό για να επιδειχθούν 
+τα πλεονέκτημα και μειονεκτήματα της μεθόδου: για 3 \en refinements \gr
+η \en direct \gr μέθοδος τρέχει σε $0.072 sec$
+ενώ η \en iterative \gr σε $0.048 sec$. Επίσης μπορεί να επιταχυνθεί περαιτέρω 
+με καλό \en tuning \gr και παραλληλοποίηση. Για μεγαλύτερα σε πλήθος αγνώστων 
+προβλήματα οι διαφορές θα ήταν εμφανέστερες. 
+
+Για σύγκριση, στο 1 \en refinement, \gr σε μικρότερο χρόνο από την \en direct \gr
+($0.00129sec$ έναντι $0.00292sec$) η \en iterative \gr υπολογίζει χωρητικότητα
+$6.6887 \cdot 10^{-11} F$ με σχετικό σφάλμα $0.278 \%$, καλύτερη από ότι στα 3 \en refinements. \gr
 
 
 \subsection*{Πυκνωτής επίπεδων πλακών}
-\subsubsection*{Χωρητικότητα ανά μονάδα μήκους πυκνωτή}
+
+Ο πυκνωτής απείρου μήκους του σχήματος \ref{fig:capacitor} με διαστάσεις $w = 4cm$, $t = 2mm$ και $d=1cm$, διηλεκτρικό με $\epsilon_r = 2.2$ 
+τίθεται σε διαφορά δυναμικού $V = 100$ \en Volt. \gr Στις άκρες του υπολογιστικού χώρου υποτίθενται οριακές συνθήκες \en Neumann. \gr
+Οι πλάκες έχουν οριακές συνθήκες \en Dirichlet \gr με τους κόμβους που ανήκουν στην άνω να έχουν δυναμικό $+V/2$ και αυτούς
+που ανήκουν στην κάτω $-V/2$. 
+
+Ακολουθείται η ίδια διαδικασία με το ομοαξονικό καλώδιο (σχεδόν πανομοιότυπος κώδικας) για να υπολογιστούν το δυναμικό, το πεδίο και η χωρητικότητα. 
+Διαφορά παρουσιάζεται στο γεγονός ότι η διηλεκτρική σταθερά εξαρτάται από την περιοχή (όπως φαίνεται στο σχήμα \ref{fig:capacitor} 
+ανάμεσα στις πλάκες υπάρχει διηλεκτρικό με $\epsilon_r = 2.2 $ και έξω θεωρείται αέρας). Στο σχήμα
+\ref{fig:capacitor_regions} φαίνονται οι περιοχές που ορίστηκαν για να ξεχωρίζονται τα διηλεκτρικά (περιοχή \en F3 \gr)
+και οι συνθήκες \en Neumann \gr και \en Dirichlet \gr (περιοχή \en F1). \gr
+Στο σχήμα \ref{fig:capacitor_mesh} φαίνεται το πλέγμα και στο σχήμα \ref{fig:capacitor_potential} το δυναμικό μετά το πέρας της διαδικασίας.
 
 
-\begin{figure}[h]
+
+\begin{figure}[h!]
   \centering
-  \begin{subfigure}{0.45\textwidth}
+  \begin{subfigure}[b]{0.3\textwidth}
       \centering
       \includegraphics[width=\textwidth]{capacitor_regions.pdf}
-      \caption{}
+      \caption{Περιοχές}
       \label{fig:capacitor_regions}
   \end{subfigure}
   \hfill
-  \begin{subfigure}{0.45\textwidth}
+  \begin{subfigure}[b]{0.3\textwidth}
       \centering
-      \includegraphics[width=\textwidth]{capacitor_mesh_no_refine.pdf}
-      \caption{}
+      \includegraphics[width=\textwidth]{capacitor_mesh_0.pdf}
+      \caption{Πλέγμα}
       \label{fig:capacitor_mesh}
   \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.33\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{capacitor_potential_2.pdf}
+    \caption{Δυναμικό}
+    \label{fig:capacitor_potential}
+\end{subfigure}
+  \caption{}
+  \label{}
+\end{figure}
+
+
+
+\begin{figure}[h!]
+  \centering
+  \begin{subfigure}[b]{0.44\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{capacitor_field_2.pdf}
+      \caption{Ηλεκτρικό πεδίο πυκνωτή επίπεδων πλακών \vspace{\baselineskip}}
+      \label{}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.5\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{capacitor_field_streamlines_2.pdf}
+    \caption{Δυναμικό (χρώμα) και ηλεκτρικό πεδίο (γραμμές ροής) πυκνωτή επίπεδων πλακών}
+    \label{}
+\end{subfigure}
   \caption{}
   \label{}
 \end{figure}
@@ -374,47 +474,42 @@ c_1 = \frac{x_3 - x_2}{D},
 
 
 
-\begin{figure}[h]
+
+\subsubsection*{Επιπλέον γραφήματα}
+
+% extra figures------------- more refines......, iterative coaxial
+\begin{figure}[h!]
   \centering
-  \begin{subfigure}{0.45\textwidth}
+  \begin{subfigure}[b]{0.3\textwidth}
       \centering
-      \includegraphics[width=\textwidth]{coaxial_mesh.pdf}
-      \caption{}
-      \label{fig:coaxial_mesh_with_refines}
+      \includegraphics[width=\textwidth]{coaxial_mesh_2.pdf}
+      \caption{Πλέγμα ομοαξονικού καλωδίου με 2 \en refinements. \gr \vspace{1\baselineskip}}
+      \label{fig:coaxial_2_refinements}
   \end{subfigure}
   \hfill
-  \begin{subfigure}{0.45\textwidth}
+  \begin{subfigure}[b]{0.3\textwidth}
       \centering
-      \includegraphics[width=\textwidth]{capacitor_mesh.pdf}
-      \caption{}
-      \label{fig:capacitor_mesh_with_refines}
+      \includegraphics[width=\textwidth]{capacitor_mesh_2.pdf}
+      \caption{Πλέγμα πυκνωτή επίπεδων πλακών με 2 \en refinements. \gr \vspace{2\baselineskip}}
+      \label{fig:capacitor_2_refinements}
   \end{subfigure}
-  \caption{}
-  \label{}
+  \hfill
+  \begin{subfigure}[b]{0.33\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{coaxial_field_3_pcg.pdf}
+    \caption{Δυναμικό (χρώμα) και ηλεκτρικό πεδίο (βέλη) του ομοαξονικού καλωδίου με \en iterative solver.\gr }
+    \label{fig:iterative_coaxial}
+\end{subfigure}
+  \caption{Επιπλέον γραφήματα}
+  \label{fig:extra_1}
 \end{figure}
 
 
 
 
 
-\begin{figure}[h]
-  \centering
-  \begin{subfigure}{0.45\textwidth}
-      \centering
-      \includegraphics[width=\textwidth]{coaxial_field.pdf}
-      \caption{Ομοαξονικό καλώδιο}
-      \label{fig:coaxial_field}
-  \end{subfigure}
-  \hfill
-  \begin{subfigure}{0.45\textwidth}
-      \centering
-      \raisebox{0.6cm}{\includegraphics[width=\textwidth]{capacitor_field.pdf}}
-      \caption{Πυκνωτής επίπεδων πλακών}
-      \label{fig:second}
-  \end{subfigure}
-  \caption{Το αποτέλεσμα της μεθόδου \en FEM \gr για τα δύο προβλήματα. Με χρώμα απεικονίζεται το δυναμικό ενώ με τα βέλη το ηλεκτρικό πεδίο.}
-  \label{fig:capacitor_field}
-\end{figure}
+
+
 
 
 
