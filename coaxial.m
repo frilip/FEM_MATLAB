@@ -28,7 +28,7 @@ dl = decsg(gd,sf,ns);
 
 [p,e,t] = initmesh(dl);
 % refine 
-refine_amount = 2;
+refine_amount = 3;
 for i = 1:refine_amount
     [p,e,t] = refinemesh(dl,p,e,t);
 end
@@ -192,7 +192,7 @@ V = 1;
 C =  2 * We / (V^2);
 
 fprintf('Used %d refinements. The degree of freedom (nodes with uknown potential) is: %d.\n', refine_amount, Nf);
-fprintf('The calculated capacitance is: %d Farad.\n', C);
+fprintf('The calculated capacitance over unit length is: %d Farad/m.\n', C);
 fprintf('capacitance relative error is: %d%%.\n', abs((C - analytic_capacitance) / analytic_capacitance) * 100 );
 
 

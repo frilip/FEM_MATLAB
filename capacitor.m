@@ -6,7 +6,9 @@ h = 0.002;
 d = 0.01;
 V = 100;
 er = 2.2;
-A = 3*w;
+
+domain_size_relative_to_w = 9;
+A = domain_size_relative_to_w * w;
 
 
 frame = [3, 4, -A/2, A/2, A/2, -A/2, -A/2, -A/2, A/2, A/2];
@@ -177,9 +179,9 @@ end
 % capacitance
 C =  2 * We / (V^2);
 
-
+fprintf('Using domain size %dw x %dw.',domain_size_relative_to_w, domain_size_relative_to_w);
 fprintf('Used %d refinements. The degree of freedom (nodes with uknown potential) is: %d.\n', refine_amount, Nf);
-fprintf('The calculated capacitance is: %d Farad.\n', C);
+fprintf('The calculated capacitance over unit length is: %d Farad/m.\n', C);
 
 
 
@@ -188,13 +190,13 @@ fprintf('The calculated capacitance is: %d Farad.\n', C);
 fig_reg = figure('Units', 'centimeters', 'Position', [1, 1, 15, 15], 'Visible','off');
 pdegplot(dl, 'FaceLabels', 'on'); axis equal; axis tight;
 title('regions');
-exportgraphics(gcf, './plots/capacitor_regions.pdf', 'ContentType', 'vector');
+exportgraphics(gcf, "./plots/capacitor_regions_domain:" + domain_size_relative_to_w + ".pdf", 'ContentType', 'vector');
 
 % plot mesh
 fig_mesh = figure('Units', 'centimeters', 'Position', [1, 1, 15, 15], 'Visible','off');
 pdeplot(p,e,t); axis equal; axis tight;
 title("triangulated mesh, " + refine_amount + " refinements");
-exportgraphics(gcf, "./plots/capacitor_mesh_" + refine_amount + ".pdf", 'ContentType', 'vector');
+exportgraphics(gcf, "./plots/capacitor_mesh_" + refine_amount + "_domain:" + domain_size_relative_to_w + ".pdf", 'ContentType', 'vector');
 
 
 
@@ -204,7 +206,7 @@ pdeplot(p,e,t,'XYData',X0); axis equal; axis tight;
 title("potential, " + refine_amount + " refinements")
 colormap(jet);  
 colorbar;         
-exportgraphics(gcf, "./plots/capacitor_potential_" + refine_amount + ".pdf", 'ContentType', 'vector');
+exportgraphics(gcf, "./plots/capacitor_potential_" + refine_amount + "_domain:" + domain_size_relative_to_w + ".pdf", 'ContentType', 'vector');
 
 
 
@@ -214,7 +216,7 @@ pdegplot(dl);
 hold on;
 pdeplot(p,e,t,'FlowData',[Ex;Ey]); axis equal; axis tight;
 title("electric field, " + refine_amount + " refinements")      
-exportgraphics(gcf, "./plots/capacitor_field_" + refine_amount + ".pdf", 'ContentType', 'vector');
+exportgraphics(gcf, "./plots/capacitor_field_" + refine_amount + "_domain:" + domain_size_relative_to_w + ".pdf", 'ContentType', 'vector');
 
 
 
@@ -252,4 +254,4 @@ colormap(jet);
 colorbar;
 
 % Export
-exportgraphics(gcf, "./plots/capacitor_field_streamlines_" + refine_amount + ".pdf", 'ContentType', 'vector');
+exportgraphics(gcf, "./plots/capacitor_field_streamlines_" + refine_amount + "_domain:" + domain_size_relative_to_w + ".pdf", 'ContentType', 'vector');
