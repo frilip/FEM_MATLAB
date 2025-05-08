@@ -1,16 +1,103 @@
+%{
+
+                  FEM method for capacitor (parallel)
+*-------------------------------------------------------------------------*
+
+In the FEM method we triangulate the mesh and estimate the unknown function
+on the nodes of the triangles. These values are then interpolated
+to find the value anywhere on the mesh.
+
+The FEM method for solving potential for 2d electrostatic problems with
+Dirichlet or Neumann boundary conditions equates to solving the linear 
+system:
+                    Sff * Ff = - Sfp * Fp 
+where:
+* Ff is the column vector that contains all unknown potentials (on nodes)
+* Fp is the column vector that contains all known potentials
+and S is calculated by
+
+if for nodes i,j (local numbering) in a triangle, with coordinates 
+(xi,yi), (xj,yj), i,j in {1,2,3}:
+- Ae is the area of the triangle 
+- D = det([1 x(1) y(1);1 x(2) y(2);1 x(3) y(3)]);
+- b1 = (y(2)-y(3))/D;
+- c1 = (x(3)-x(2))/D;
+- bi,ci are given with circular rotation from above equations
+then:
+
+for nodes p,q (global numbering) with local numberin i,j 
+S(p,q) = sum e * (bibj + cicj) * Ae, for triangles where both i and j
+belong
+(e is the dielectric constant) 
+
+* Sff = S(p,q) for both p and q unknown 
+* Sfp = S(p,q) for p unknown and q known
+
+Sff and Sfp are 0 if p and q are not neighboars, so they are sparse
+matrixes.
+They can easily be calculated by:
+
+For every triangle:
+    For every combination of nodes i,j (local) -> p,q (global):
+        S(p,q) += e * (bibj + cicj) * Ae
+
+
+We solve for a parallel capacitor of infinite length and conductors of 
+width w, height h, distance between them d and dielectric between them
+er.
+The upper conductor has voltage +V/2 and the lower -V/2
+The domain is square, relative to w and can be modified.
+
+The mesh is created using [p,e,t] = initmesh()
+
+The global numbering of nodes is given by their position in the p matrix
+(matrix of all nodes)
+the local by their position in the t matrix (triangle)
+
+for more, read: 
+https://www.mathworks.com/help/pde/ug/mesh-data-pet-triples.html
+
+
+We will also need a map from the numbering given in the matrix p 
+to a different numbering where known and unknown nodes are differenciated
+This is done by the index array
+
+
+The energy over unit length will be calculated by adding:
+      0.5 * e0 * X0(n(i)) * X0(n(j)) * (b(i)*b(j) + c(i)*c(j)) * Ae;
+where X0(n(i)) is the potential (estimated) of node i, for every
+combination of nodes in every triangle
+
+for more info and derivation of the above see the report (in same
+directory)
+
+The capacitanve over unit length is calculated from the energy.
+
+
+The graphs are saved in vector form, which makes the procedure slow
+(some seconds),
+if you need faster results, remove 'ContentType', 'vector' 
+from exportgraphics.
+%}
+
+
+
+
 
 e0 = 8.854e-12;
 
+% dimentions
 w = 0.04;
 h = 0.002;
 d = 0.01;
 V = 100;
 er = 2.2;
 
+% computational domain is of dimention A x A 
 domain_size_relative_to_w = 9;
 A = domain_size_relative_to_w * w;
 
-
+% create regions
 frame = [3, 4, -A/2, A/2, A/2, -A/2, -A/2, -A/2, A/2, A/2];
 conductor_down = [3, 4, -w/2, w/2, w/2, -w/2, -d/2-h, -d/2-h, -d/2, -d/2];
 conductor_up = [3, 4, -w/2, w/2, w/2, -w/2, d/2, d/2, d/2+h, d/2+h];
@@ -27,7 +114,7 @@ sf = 'frame - cond_up - cond_down';
 dl = decsg(gd,sf,ns);
 
 
-
+% create triangular mesh
 [p,e,t] = initmesh(dl);
 
 % refine 
@@ -42,9 +129,14 @@ Ne = size(t,2);    % number of elements
 Nd = size(e,2);    % number of edges
 
 
+% initialise array node_id and X0 
+% both Nn x 1, node_id helps us tell which nodes have known and unkown
+% values
+% X0 is the potential array, it is initialised as 0 everywhere except
+% where the potential is known (Dirichlet boundary conditions)
+
 % node_id(i)=0 if node i has Dirichlet condition (known value), else it is 1.
 node_id = ones(Nn,1);
-% X0 contains for every node, the potential if it is known, else 0
 X0 = zeros(Nn,1);
 for id = 1:Nd
     if e(6,id) == 0 || e(7,id) == 0
@@ -81,6 +173,11 @@ Np = Nn - Nf;       % number of known nodes
 
 % matrix of known potentials
 Fp = zeros(Np,1);
+
+
+% index(p) = new numbering of node p (position in Ff or Fp)
+% the code below counts the number of known and unknown nodes encountered
+% set index to the corresponding value
 
 index = zeros(Nn,1);
 counter_unknown = 0;
@@ -143,9 +240,10 @@ Ff = Sff \ (-Sfp * Fp);
 
 
 
-% update X0 
+% update X0 to hold calculated potential 
 for ind = 1:Nn
     if node_id(ind) == 1
+        % update only for unknown nodes
         X0(ind) = Ff(index(ind));
     end
 end
@@ -185,6 +283,8 @@ fprintf('The calculated capacitance over unit length is: %d Farad/m.\n', C);
 
 
 
+
+% The figures are not shown, but saved!!
 
 % plot regions
 fig_reg = figure('Units', 'centimeters', 'Position', [1, 1, 15, 15], 'Visible','off');
