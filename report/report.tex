@@ -175,14 +175,21 @@ c_1 = \frac{x_3 - x_2}{D},
 \begin{equation} \label{eq:weak_form}
   -\iint_{\Omega} \nabla \phi' \cdot \epsilon \nabla \phi ds +  \oint_{c} \phi' \epsilon \frac{\partial \phi}{\partial \hat{n}}dl + \iint_{\Omega} \phi' \rho ds = 0
 \end{equation}
-όπου $c$ το όριο της επιφάνειας $\Omega$. Επειδή έχουμε είτε συνθήκες \en Dirichlet \gr (γνωστό $\phi$)  είτε \en Neumann \gr 
-($\frac{\partial \phi}{\partial \hat{n}} = 0$) στο όριο, ο δεύτερος όρος της εξίσωσης (\ref{eq:weak_form}) ισούται με 0. Επίσης και στα δύο προβλήματα 
+όπου $c$ το όριο της επιφάνειας $\Omega$. 
+
+Αν έχουμε ομογενής συνθήκες \en Neumann \gr 
+($\frac{\partial \phi}{\partial \hat{n}} = 0$) ο δεύτερος όρος της εξίσωσης (\ref{eq:weak_form}) ισούται με 0.
+Επίσης αν έχουμε συνθήκες \en Dirichlet \gr (γνωστό $\phi$) οι συναρτήσεις 
+δοκιμής $\phi' \in {N_i}$ θα είναι 0 στο όριο (οι κόμβοι που ανήκουν 
+στο όριο είναι γνωστοί και δεν έχουν συνάρτηση βάσης).
+Θεωρούμε ότι δεν έχουμε άλλου είδους οριακές συνθήκες. Έτσι
+ο δεύτερος όρος της εξίσωσης (\ref{eq:weak_form}) ισούται με 0. Επίσης και στα δύο προβλήματα 
 δεν υπάρχουν φορτία ($\rho = 0$), άρα:
 \[ \iint_{\Omega} \nabla \phi' \cdot \epsilon \nabla \phi ds = 0\]
 Διακριτοποιώ αντικαθιστώντας την εξίσωση (\ref{eq:phi_approx}), επίσης αφού $\phi' \in \{N_i\}$ γράφω στη θέση του $N_q$ για κάποιο $q \in \{1,..,N_n\}$:
 \[ \iint_{\Omega} \nabla N_q(\mathbf{r}) \cdot \epsilon \nabla (\sum_p \phi_p N_p(\mathbf{r}))  ds = 0 \Rightarrow\]
 \begin{equation} \label{eq:sum_out}
-  \sum_p \epsilon \phi_p \iint_{\Omega} \nabla N_q(\mathbf{r}) \cdot \nabla N_p(\mathbf{r})ds = 0
+  \sum_p  \phi_p \iint_{\Omega} \nabla N_q(\mathbf{r}) \cdot \epsilon \nabla N_p(\mathbf{r})ds = 0
 \end{equation}
 
 Ισχύει:
@@ -195,33 +202,33 @@ c_1 = \frac{x_3 - x_2}{D},
                     , \text{\ εντός του στοιχείου και $0$ αλλού}\]
 Για κάθε κόμβο η ολική συνάρτηση βάσης εντός κάθε τριγώνου στο οποίο αυτός ανήκει ισούται με 
 την τοπική συνάρτηση βάσης του σε αυτό το τρίγωνο και εκτός αυτών με μηδέν.
-Έπεται ότι το γινόμενο $\nabla N_p \cdot \nabla N_q$ ισούται με $0$ για μη γειτονικούς κόμβους. Για γειτονικούς κόμβους $p,q$ όπου 
+Έπεται ότι το γινόμενο $\nabla N_p \cdot \epsilon \nabla N_q$ ισούται με $0$ για μη γειτονικούς κόμβους. Για γειτονικούς κόμβους $p,q$ όπου 
 ανήκουν και οι δύο σε κάποιο 
 τρίγωνο $t$, ισχύει εντός του τριγώνου
-\[ \nabla N_p  \cdot \nabla N_q  = \nabla N_i^t \cdot \nabla N_j^t = 
+\[ \nabla N_p  \cdot \epsilon \nabla N_q  = \nabla N_i^t \cdot \epsilon \nabla N_j^t = 
     \begin{bmatrix}
         b_i \\
         c_i
     \end{bmatrix}
-      \cdot 
+      \cdot \epsilon
     \begin{bmatrix}
         b_j \\
         c_j        
     \end{bmatrix}
-    =  b_ib_j + c_ic_j
+    =  \epsilon (b_ib_j + c_ic_j)
 \]
-με $i,j$ την τοπική αρίθμηση εντός του $t$. Έτσι:
+με $i,j$ την τοπική αρίθμηση εντός του $t$. Έτσι, θεωρώντας ότι το $\epsilon$ είναι σταθερό εντός κάθε στοιχείου:
 \begin{equation} \label{eq:int_of_grad_Np_Nq_}
-  \iint_S \nabla N_p  \cdot \nabla N_q  dS = \sum_{t | p,q \in t} (b_ib_j + c_ic_j) A_e 
+  \iint_S \nabla N_p  \cdot \epsilon \nabla N_q  dS = \sum_{t | p,q \in t} \epsilon (b_ib_j + c_ic_j) A_e 
 \end{equation}
 δηλαδή άθροισμα της ποσότητας $(b_ib_j + c_ic_j) A_e $ για κάθε τρίγωνο $t$ που περιέχει και τον $p$ και τον $q$, 
 όπου $i,j$ η τοπική αρίθμηση των κόμβων $p,q$ στο τρίγωνο $t$, οι $b,c$ δίνονται από την (\ref{eq:abc}) και $A_e = D/2$ το εμβαδόν του τριγώνου.
 Η (\ref{eq:sum_out}) γράφεται:
 \begin{equation}  \label{eq:system_non_matrix_form}
-  \sum_p \epsilon \phi_p \sum_{t | p,q \in t} (b_ib_j + c_ic_j) A_e  = 0   \ \ \forall q \in \{1,..,N_n\}
+  \sum_p  \phi_p \sum_{t | p,q \in t} \epsilon (b_ib_j + c_ic_j) A_e  = 0   \ \ \forall q \in \{1,..,N_n\}
 \end{equation}
 Αν ορίσω τον τετραγωνικό πίνακα $N_n \times N_n$ $\mathbf{S}$:
-\[ \mathbf{S}[p,q] = \epsilon \sum_{t | p,q \in t} (b_ib_j + c_ic_j) A_e  \]
+\[ \mathbf{S}[p,q] =  \sum_{t | p,q \in t} \epsilon (b_ib_j + c_ic_j) A_e  \]
 και τον πίνακα στήλη $1 \times N_n$ $\mathbf{F}$ που περιέχει τα δυναμικά των κόμβων $\phi_p$, τότε το σύστημα (\ref{eq:system_non_matrix_form}) γράφεται:
 \[ \mathbf{S} \cdot \mathbf{F} = 0 \]
 
@@ -261,15 +268,15 @@ c_1 = \frac{x_3 - x_2}{D},
 Αφού έχουμε βρει το δυναμικό σε κάθε κόμβο, θα υπολογίσουμε την συνολική ενέργεια ανά μονάδα μήκους:
 
 \begin{equation}   \label{eq:We}
-  W_e = \frac{1}{2} \iint_S \epsilon |\mathbf{E}|^2dS = \frac{1}{2} \iint_S \epsilon \nabla \phi  \cdot \nabla \phi dS
+  W_e = \frac{1}{2} \iint_S \epsilon |\mathbf{E}|^2dS = \frac{1}{2} \iint_S  \nabla \phi  \cdot \epsilon \nabla \phi dS
 \end{equation}
 αναλύω το δυναμικό στις συναρτήσεις βάσης σύμφωνα με την (\ref{eq:phi_approx}):
-\[W_e \approx \frac{1}{2} \iint_S \epsilon \nabla (\sum_p \phi_p N_p(\mathbf{r}))  \cdot \nabla (\sum_q \phi_q N_q(\mathbf{r})) dS\]
-γνωρίζουμε τις τιμές $\phi_p$, το $\epsilon$ είναι σταθερό στον χώρο και τα αθροίσματα είναι πεπερασμένα, οπότε:
-\[ W_e \approx  \frac{1}{2} \epsilon \iint_S  \sum_p \{ \phi_p \nabla N_p(\mathbf{r}) \} \cdot  \sum_q \{ \phi_q \nabla N_q(\mathbf{r}) \} dS\]
-\[ = \frac{1}{2} \epsilon  \sum_p \sum_q  \phi_p \phi_q \iint_S \nabla N_p(\mathbf{r})  \cdot \nabla N_q(\mathbf{r})  dS \]
+\[W_e \approx \frac{1}{2} \iint_S \nabla (\sum_p \phi_p N_p(\mathbf{r}))  \cdot \epsilon  \nabla (\sum_q \phi_q N_q(\mathbf{r})) dS\]
+γνωρίζουμε τις τιμές $\phi_p$ και τα αθροίσματα είναι πεπερασμένα, οπότε:
+\[ W_e \approx  \frac{1}{2}  \iint_S  \sum_p \{ \phi_p \nabla N_p(\mathbf{r}) \} \cdot  \epsilon \sum_q \{ \phi_q \nabla N_q(\mathbf{r}) \} dS\]
+\[ = \frac{1}{2}   \sum_p \sum_q  \phi_p \phi_q \iint_S \nabla N_p(\mathbf{r})  \cdot \epsilon \nabla N_q(\mathbf{r})  dS \]
 Αντικαθιστώντας από την (\ref{eq:int_of_grad_Np_Nq_}):
-\[ W_e \approx \frac{1}{2} \epsilon  \sum_p \sum_{q}  \phi_p \phi_q   \sum_{t | p,q \in t} (b_ib_j + c_ic_j) A_e  \]
+\[ W_e \approx \frac{1}{2}  \sum_p \sum_{q}  \phi_p \phi_q   \sum_{t | p,q \in t} \epsilon  (b_ib_j + c_ic_j) A_e  \]
 
 Για να γλυτώσουμε υπολογιστικό χρόνο μπορούμε, όπως και στον υπολογισμό του πίνακα $\mathbf{S}$, να απαριθμήσουμε όλα τα 
 τρίγωνα και για κάθε έναν από τους $9$ συνδυασμούς των κόμβων να υπολογίζουμε την ποσότητα 
@@ -501,8 +508,9 @@ $48.8 \ pF/m$, $49.6 \ pF/m$, $49.8 \ pF/m$ και $49.9 \ pF/m$
 αρκετά ακριβή αποτελέσματα μεγαλώνοντας τον υπολογιστικό χώρο. 
 
 (Η ομοιομορφία εξασφαλίζεται από το γεγονός ότι αυξάνοντας τον χώρο ολοκλήρωσης, επειδή η προς ολοκλήρωση ποσότητα
-$\epsilon |\mathbf{E}|^2$ είναι παντού θετική, το ολοκλήρωμα θα αυξάνεται συνεχώς, όμως με φθίνων ρυθμό. 
-Έτσι δεν είναι δυνατόν σε κάποιο σημείο να αυξηθεί το σφάλμα).
+$\epsilon |\mathbf{E}|^2$ είναι παντού θετική, το ολοκλήρωμα θα αυξάνεται συνεχώς, όμως με φθίνων ρυθμό,
+πλησιάζοντας την πραγματική ποσότητα.
+Έτσι δεν είναι δυνατόν με αύξηση του χώρου ολοκλήρωσης να αυξηθεί το σφάλμα).
 
 
 \subsubsection*{Επιπλέον γραφήματα}
