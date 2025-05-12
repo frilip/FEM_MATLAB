@@ -257,6 +257,7 @@ Ey = -X0y;
 % energy over unit length 
 We = 0;
 for triangle = 1:Ne
+    region = t(4,triangle);
     n(1:3) = t(1:3,triangle);
     x(1:3) = p(1,n(1:3)); y(1:3) = p(2,n(1:3));
     D = det([1 x(1) y(1);1 x(2) y(2);1 x(3) y(3)]);
@@ -269,7 +270,13 @@ for triangle = 1:Ne
     c(3) = (x(2)-x(1))/D;
     for i = 1:3
         for j = 1:3
-            We = We + 0.5 * e0 * X0(n(i)) * X0(n(j)) * (b(i)*b(j) + c(i)*c(j)) * Ae;
+            if region == 3
+                % inside, use er * e0
+                We = We + 0.5 * er * e0 * X0(n(i)) * X0(n(j)) * (b(i)*b(j) + c(i)*c(j)) * Ae;
+            else
+                % outside, assume air, use only e0
+                We = We + 0.5 * e0 * X0(n(i)) * X0(n(j)) * (b(i)*b(j) + c(i)*c(j)) * Ae;
+            end
         end
     end
 end
@@ -282,6 +289,11 @@ fprintf('Used %d refinements. The degree of freedom (nodes with uknown potential
 fprintf('The calculated capacitance over unit length is: %d Farad/m.\n', C);
 
 
+
+
+% Suppress warnings, because saving as vector type is slow, 
+% and a warning saying that will appear
+warning('off', 'all');
 
 
 % The figures are not shown, but saved!!
