@@ -80,7 +80,7 @@ These equations are as many as the unknown nodes.
 They are equivalently written as:
 
 $$
--\iint_{\Omega} \nabla \phi' \cdot \epsilon \nabla \phi \, ds + \oint_{c} \phi' \epsilon \frac{\partial \phi}{\partial \hat{n}} \, dl + \iint_{\Omega} \phi' \rho \, ds = 0
+-\iint_{\Omega} \nabla \phi' \cdot \epsilon \nabla \phi  ds + \oint_{c} \phi' \epsilon \frac{\partial \phi}{\partial \hat{n}} dl + \iint_{\Omega} \phi' \rho ds = 0
 \tag{2}
 $$
 
@@ -92,7 +92,7 @@ no charge ($\rho = 0$)
 Hence:
 
 $$
-\iint_{\Omega} \nabla \phi' \cdot \epsilon \nabla \phi \, ds = 0
+\iint_{\Omega} \nabla \phi' \cdot \epsilon \nabla \phi  ds = 0
 $$
 
 Discretizing by replacing from (1), and taking $\phi' = N_q$ for some $q$:
@@ -102,7 +102,7 @@ $$
 $$
 
 $$
-\Rightarrow \sum_p \phi_p \iint_{\Omega} \nabla N_q(\mathbf{r}) \cdot \epsilon \nabla N_p(\mathbf{r}) \, ds = 0
+\Rightarrow \sum_p \phi_p \iint_{\Omega} \nabla N_q(\mathbf{r}) \cdot \epsilon \nabla N_p(\mathbf{r})  ds = 0
 \tag{3}
 $$
 
@@ -142,7 +142,7 @@ $$
 with $i, j$ the local indices in $t$. Assuming constant $\epsilon$ in each triangle:
 
 $$
-\iint_S \nabla N_p \cdot \epsilon \nabla N_q \, dS = \sum_{t \mid p,q \in t} \epsilon (b_i b_j + c_i c_j) A_e
+\iint_S \nabla N_p \cdot \epsilon \nabla N_q  dS = \sum_{t \mid p,q \in t} \epsilon (b_i b_j + c_i c_j) A_e
 \tag{4}
 $$
 
@@ -221,7 +221,7 @@ Solving (6) gives the unknown nodal potentials.
 Once we’ve found the potential, the total energy per unit length is:
 
 $$
-W_e = \frac{1}{2} \iint_S \epsilon |\mathbf{E}|^2 \, dS = \frac{1}{2} \iint_S \nabla \phi \cdot \epsilon \nabla \phi \, dS
+W_e = \frac{1}{2} \iint_S \epsilon |\mathbf{E}|^2  dS = \frac{1}{2} \iint_S \nabla \phi \cdot \epsilon \nabla \phi  dS
 \tag{7}
 $$
 
@@ -234,7 +234,7 @@ $$
 Since $\phi_p$ are known and the sums are finite:
 
 $$
-W_e \approx \frac{1}{2} \sum_p \sum_q \phi_p \phi_q \iint_S \nabla N_p(\mathbf{r}) \cdot \epsilon \nabla N_q(\mathbf{r}) \, dS
+W_e \approx \frac{1}{2} \sum_p \sum_q \phi_p \phi_q \iint_S \nabla N_p(\mathbf{r}) \cdot \epsilon \nabla N_q(\mathbf{r})  dS
 $$
 
 Substituting from (4):
