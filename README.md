@@ -183,7 +183,7 @@ Now consider nodes with **Dirichlet** boundary conditions.
 We rearrange $\mathbf{F}$ so that unknown (free) potentials are first:
 
 $$
-F = 
+\mathbf{F} = 
 \begin{bmatrix}
 \mathbf{F}_f \\\ \mathbf{F}_p
 \end{bmatrix}
