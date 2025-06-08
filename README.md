@@ -182,6 +182,9 @@ to entry $[p,q]$ of $\mathbf{S}$.
 Now consider nodes with **Dirichlet** boundary conditions.  
 We rearrange $\mathbf{F}$ so that unknown (free) potentials are first:
 
+
+
+
 $$
 \mathbf{F} = 
 \begin{bmatrix}
@@ -194,17 +197,19 @@ and:
 $$
 \mathbf{S} =
 \begin{bmatrix}
-\mathbf{S}_{ff} & \mathbf{S}_{fp} \\
-\mathbf{S}_{pf} & \mathbf{S}_{pp}
+\mathbf{S}\_{ff} & \mathbf{S}\_{fp} \\
+\mathbf{S}\_{pf} & \mathbf{S}\_{pp}
 \end{bmatrix}
 $$
+
+
 
 
 
 Then the system is:
 
 $$
-\mathbf{S}_{ff} \cdot \mathbf{F}_f = - \mathbf{S}_{fp} \cdot \mathbf{F}_p \tag{6}
+\mathbf{S}\_{ff} \cdot \mathbf{F}\_f = - \mathbf{S}\_{fp} \cdot \mathbf{F}\_p \tag{6}
 $$
 
 Solving (6) gives the unknown nodal potentials.
