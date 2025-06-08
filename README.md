@@ -185,7 +185,7 @@ We rearrange $\mathbf{F}$ so that unknown (free) potentials are first:
 $$
 F = 
 \begin{bmatrix}
-F_f \\ F_p
+F_f \\\ F_p
 \end{bmatrix}
 $$
 
