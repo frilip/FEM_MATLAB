@@ -187,12 +187,12 @@ We rearrange $\mathbf{F}$ so that unknown (free) potentials are first:
 $$
 \mathbf{F} =
 \begin{bmatrix}
-\mathbf{F}_f \\ \mathbf{F}_p
+\mathbf{F}_f \\\ \mathbf{F}_p
 \end{bmatrix},
 \quad
 \mathbf{S} =
 \begin{bmatrix}
-\mathbf{S}_{ff} & \mathbf{S}_{fp} \\ \mathbf{S}_{pf} & \mathbf{S}_{pp}
+\mathbf{S}_{ff} & \mathbf{S}_{fp} \\\ \mathbf{S}_{pf} & \mathbf{S}_{pp}
 \end{bmatrix}
 $$
 
