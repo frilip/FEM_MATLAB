@@ -95,14 +95,14 @@ $$
 \iint_{\Omega} \nabla \phi' \cdot \epsilon \nabla \phi  ds = 0
 $$
 
-Discretizing by replacing from (1), and taking $\phi' = N_q$ for some $q$:
+Discretizing by replacing from (1), and taking $\phi' = N_q$ for some $q \in \left \{1,..,N_n\right \}$:
 
 $$
-\iint_{\Omega} \nabla N_q(\mathbf{r}) \cdot \epsilon \nabla \left( \sum_p \phi_p N_p(\mathbf{r}) \right) ds = 0
+\iint_{\Omega} \nabla N_q(\mathbf{r}) \cdot \epsilon \nabla \left( \sum_p \phi_p N_p(\mathbf{r}) \right) ds = 0 \Rightarrow 
 $$
 
 $$
-\Rightarrow \sum_p \phi_p \iint_{\Omega} \nabla N_q(\mathbf{r}) \cdot \epsilon \nabla N_p(\mathbf{r})  ds = 0
+\sum_p \phi_p \iint_{\Omega} \nabla N_q(\mathbf{r}) \cdot \epsilon \nabla N_p(\mathbf{r})  ds = 0
 \tag{3}
 $$
 
@@ -150,11 +150,11 @@ where $A_e = D/2$ is the area of triangle $t$, and $b, c$ come from earlier form
 So (3) becomes:
 
 $$
-\sum_p \phi_p \sum_{t \mid p,q \in t} \epsilon (b_i b_j + c_i c_j) A_e = 0, \quad \forall q \in \{1,..,N_n\}
+\sum_p \phi_p \sum_{t \mid p,q \in t} \epsilon (b_i b_j + c_i c_j) A_e = 0, \quad \forall q \in \left \{1,..,N_n \right \}
 \tag{5}
 $$
 
-Define matrix $\mathbf{S}$ of size $N_n \times N_n$:
+Defining matrix $\mathbf{S}$ of size $N_n \times N_n$ as:
 
 $$
 \mathbf{S}[p,q] = \sum_{t \mid p,q \in t} \epsilon (b_i b_j + c_i c_j) A_e
