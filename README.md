@@ -186,6 +186,10 @@ $$
 F = 
 \begin{bmatrix}
 \mathbf{F}_f \\\ \mathbf{F}_p
+\end{bmatrix},
+
+\begin{bmatrix}
+\mathbf{F}_f \\\ \mathbf{F}_p
 \end{bmatrix}
 $$
 
