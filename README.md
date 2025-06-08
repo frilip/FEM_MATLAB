@@ -189,6 +189,8 @@ $$
 \end{bmatrix}
 $$
 
+and:
+
 $$
 \mathbf{S} =
 \begin{bmatrix}
