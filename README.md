@@ -95,7 +95,7 @@ $$
 \iint_{\Omega} \nabla \phi' \cdot \epsilon \nabla \phi  ds = 0
 $$
 
-Discretizing by replacing from (1), and taking $\phi' = N_q$ for some $q \in \left \{1,..,N_n\right \}$:
+Discretizing by replacing from (1), and taking $\phi' = N_q$ for some $q \in \{1,..,N_n\}$:
 
 $$
 \iint_{\Omega} \nabla N_q(\mathbf{r}) \cdot \epsilon \nabla \left( \sum_p \phi_p N_p(\mathbf{r}) \right) ds = 0 \Rightarrow 
@@ -150,7 +150,7 @@ where $A_e = D/2$ is the area of triangle $t$, and $b, c$ come from earlier form
 So (3) becomes:
 
 $$
-\sum_p \phi_p \sum_{t \mid p,q \in t} \epsilon (b_i b_j + c_i c_j) A_e = 0, \quad \forall q \in \left \{1,..,N_n \right \}
+\sum_p \phi_p \sum_{t \mid p,q \in t} \epsilon (b_i b_j + c_i c_j) A_e = 0, \quad \forall q \in \{1,..,N_n \}
 \tag{5}
 $$
 
