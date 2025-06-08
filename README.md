@@ -186,21 +186,10 @@ $$
 F = 
 \begin{bmatrix}
 \mathbf{F}_f \\\ \mathbf{F}_p
-\end{bmatrix},
-
-\begin{bmatrix}
-\mathbf{F}_f \\\ \mathbf{F}_p
 \end{bmatrix}
 $$
 
-
 $$
-\mathbf{F} =
-\begin{bmatrix}
-\mathbf{F}_f \\
-\mathbf{F}_p
-\end{bmatrix},
-\quad
 \mathbf{S} =
 \begin{bmatrix}
 \mathbf{S}_{ff} & \mathbf{S}_{fp} \\
@@ -208,11 +197,12 @@ $$
 \end{bmatrix}
 $$
 
+
+
 Then the system is:
 
 $$
-\mathbf{S}_{ff} \cdot \mathbf{F}_f = - \mathbf{S}_{fp} \cdot \mathbf{F}_p
-\tag{6}
+\mathbf{S}_{ff} \cdot \mathbf{F}_f = - \mathbf{S}_{fp} \cdot \mathbf{F}_p \tag{6}
 $$
 
 Solving (6) gives the unknown nodal potentials.
