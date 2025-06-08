@@ -1,6 +1,6 @@
 # The FEM Method for Homogenous Poisson and Eigenvalue Problems
 
-### Method Formulation
+### Method Formulation for electrostatic potential problems
 
 We are solving 2D problems, so we divide the computational region into 2D simplexes, i.e., triangles.  
 Defining the simplex coordinates of a point $(x,y)$ in a triangle as $\zeta_i(x,y) = h_i / H_i$  
@@ -182,16 +182,18 @@ to entry $[p,q]$ of $\mathbf{S}$.
 Now consider nodes with **Dirichlet** boundary conditions.  
 We rearrange $\mathbf{F}$ so that unknown (free) potentials are first:
 
+
+
 $$
 \mathbf{F} =
 \begin{bmatrix}
-\mathbf{F}_f \\
+\mathbf{F}_f \\\
 \mathbf{F}_p
 \end{bmatrix},
 \quad
 \mathbf{S} =
 \begin{bmatrix}
-\mathbf{S}_{ff} & \mathbf{S}_{fp} \\
+\mathbf{S}_{ff} & \mathbf{S}_{fp} \\\
 \mathbf{S}_{pf} & \mathbf{S}_{pp}
 \end{bmatrix}
 $$
@@ -250,8 +252,7 @@ In the files coaxial.m, capacitor.m is the MATLAB implementation of the above.
 Some results:
 
 
-<img src="plots/markdown_capacitor.png">
-
----
-
-<img src="plots/markdown_coaxial.png">
+<div style="display: flex; justify-content: space-between;">
+  <img src="plots/markdown_capacitor.png" alt="Capacitor" width="48%" />
+  <img src="plots/markdown_coaxial.png" alt="Coaxial" width="48%" />
+</div>
