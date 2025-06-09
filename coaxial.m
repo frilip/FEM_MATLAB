@@ -131,17 +131,17 @@ node_id = ones(Nn,1);
 X0 = zeros(Nn,1);
 for id = 1:Nd
     if e(6,id) == 0 || e(7,id) == 0
-    % one side of the edge is the outside of the mesh
-    % the nodes are on the boundary
-    node_id( e(1,id) ) = 0;
-    node_id( e(2,id) ) = 0;
-
-    if e(6,id) == 1 || e(7,id) == 1
-        % nodes are in the inner boundary (region 1)
-        % so they have known potential 1 Volt
-        X0(e(1,id)) = 1;
-        X0(e(2,id)) = 1;
-    end
+        % one side of the edge is the outside of the mesh
+        % the nodes are on the boundary
+        node_id( e(1,id) ) = 0;
+        node_id( e(2,id) ) = 0;
+    
+        if e(6,id) == 1 || e(7,id) == 1
+            % nodes are in the inner boundary (region 1)
+            % so they have known potential 1 Volt
+            X0(e(1,id)) = 1;
+            X0(e(2,id)) = 1;
+        end
 
     end
 end

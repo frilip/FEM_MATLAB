@@ -212,6 +212,8 @@ $$
 \mathbf{S}\_{ff} \cdot \mathbf{F}\_f = - \mathbf{S}\_{fp} \cdot \mathbf{F}\_p \tag{6}
 $$
 
+(because S is symmetric).
+
 Solving (6) gives the unknown nodal potentials.
 
 ---
