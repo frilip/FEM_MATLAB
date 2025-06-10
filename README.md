@@ -285,15 +285,11 @@ $$
 
 With $\mathbf{S}$ as previous but without the dielectric constant:
 
-$$\mathbf{S}[p,q] =  \sum_{t | p,q \in t}  (b_ib_j + c_ic_j) A_e  $$
+$$\mathbf{S}[p,q] =  \sum\_{t | p,q \in t}  (b_ib_j + c_ic_j) A_e  $$
 
 and $\mathbf{T}$ the mass matrix:
-$$\mathbf{T}[p,q] =  \sum_{t | p,q \in t}
-\begin{cases}
-    A_e / 6, & p=q \\
-    A_e / 12, & p \neq q
-\end{cases}
-$$
+
+$$\mathbf{T}[p,q] =  \sum\_{t | p,q \in t}   A_e / 6, \ if \ p = q,  \ \ A_e / 12, \ if \ p \neq q$$
 
 This is an eigenvalue problem where the solutions are $k_c^2$ and $\mathbf{E}$
 or $\mathbf{H}$: the magnitude of the fields in the direction of propagation, for every node in the mesh (column vector).
