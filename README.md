@@ -265,3 +265,100 @@ Some results:
   <img src="plots/markdown_capacitor.png" alt="Capacitor" width="48%" />
   <img src="plots/markdown_coaxial.png" alt="Coaxial" width="48%" />
 </div>
+
+
+The calculated capacitance of a parallel plaque capacitor, with plaque dimensions
+$4 \ cm \times 2 \ mm $ and infinite length (heavy edge phenomena) is $C = 92.51 \ pF/m$.
+
+
+## Waveguide problem formulation
+
+We solve 
+
+
+$$
+  \begin{split}
+    TE: \ \ \ (\mathbf{S} - k_c^2\mathbf{T})\mathbf{H} = \mathbf{0} \\
+    TM: \ \ \ (\mathbf{S} - k_c^2\mathbf{T})\mathbf{Ε} = \mathbf{0}
+  \end{split}
+$$
+
+With $\mathbf{S}$ as previous but without the dielectric constant:
+
+$$\mathbf{S}[p,q] =  \sum_{t | p,q \in t}  (b_ib_j + c_ic_j) A_e  $$
+
+and $\mathbf{T}$ the mass matrix:
+$$\mathbf{T}[p,q] =  \sum_{t | p,q \in t}
+\begin{cases}
+    A_e / 6, & p=q \\
+    A_e / 12, & p \neq q
+\end{cases}
+$$
+
+This is an eigenvalue problem where the solutions are $k_c^2$ and $\mathbf{E}$
+or $\mathbf{H}$: the magnitude of the fields in the direction of propagation, for every node in the mesh (column vector).
+
+
+
+### Boundary conditions
+
+TE modes: homogenous Neumann boundary conditions $\rightarrow$ all nodes are free.
+
+TM modes: homogenous Dirichlet boundary conditions $\rightarrow$ boundary nodes are prescribed. 
+
+
+$$
+\mathbf{E} = 
+\begin{bmatrix}
+\mathbf{E}_f \\
+\mathbf{E}_p
+\end{bmatrix}, \quad
+\mathbf{S} = 
+\begin{bmatrix}
+\mathbf{S}\_{ff} & \mathbf{S}\_{fp} \\
+\mathbf{S}\_{pf} & \mathbf{S}\_{pp}
+\end{bmatrix}, \quad
+\mathbf{T} = 
+\begin{bmatrix}
+\mathbf{T}\_{ff} & \mathbf{T}\_{fp} \\
+\mathbf{T}\_{pf} & \mathbf{T}\_{pp}
+\end{bmatrix}
+$$
+
+The system becomes:
+
+
+$$(\mathbf{S}\_{ff} - k_c^2 \mathbf{T}\_{ff}) \cdot \mathbf{E}_f + (\mathbf{S}\_{fp} - k_c^2 \mathbf{T}\_{fp}) \cdot \mathbf{E}_p = \mathbf{0}$$
+
+
+electric field is zero at the boundary ($\mathbf{E}_p = 0$), thus:
+
+$$
+  (\mathbf{S}\_{ff} - k_c^2 \mathbf{T}\_{ff}) \cdot \mathbf{E}_f = \mathbf{0}
+$$
+
+
+### Remaining components
+
+
+Having found $H_z$ for TE modes and $E_z$ for TM modes, we can calculate the whole fields.
+
+$$
+  \begin{aligned}
+    \text{TE}: \ \ \ \ \ & &     \ \ \ \ \ \ \  \text{TM}: \ \ \ \ \ & & \\ 
+    E_x &= - &\frac{j \omega \mu}{k_c^2} \frac{\partial H_z}{\partial y} \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \         E_x &= - &\frac{j \beta}{k_c^2} \frac{\partial E_z}{\partial x}  \\ 
+    E_y &=  &\frac{j \omega \mu}{k_c^2} \frac{\partial H_z}{\partial x} \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  \  \        E_y &= - &\frac{j \beta}{k_c^2} \frac{\partial E_z}{\partial y}  \\ 
+    H_x &= - &\frac{j \beta}{k_c^2} \frac{\partial H_z}{\partial x}  \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \         H_x &=   &\frac{j \omega \epsilon }{k_c^2} \frac{\partial E_z}{\partial y} \\ 
+    H_y &= - &\frac{j \beta}{k_c^2} \frac{\partial H_z}{\partial y}   \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \     H_y &= - &\frac{j \omega \epsilon }{k_c^2} \frac{\partial E_z}{\partial x}  \\ 
+  \end{aligned}
+$$
+
+### Some results
+
+TM modes, magnitude of electric field in the direction of propagation:
+
+<img src=plots/markdown_TM_first_modes.png>
+
+streamlines of the transverse electric field (blue) and the transverse magnetic field (black):
+
+<img src=plots/markdown_TM_first_modes_transverse.png>

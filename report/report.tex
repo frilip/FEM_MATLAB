@@ -230,7 +230,7 @@ c_1 = \frac{x_3 - x_2}{D},
 Αν ορίσω τον τετραγωνικό πίνακα $N_n \times N_n$ $\mathbf{S}$:
 \[ \mathbf{S}[p,q] =  \sum_{t | p,q \in t} \epsilon (b_ib_j + c_ic_j) A_e  \]
 και τον πίνακα στήλη $1 \times N_n$ $\mathbf{F}$ που περιέχει τα δυναμικά των κόμβων $\phi_p$, τότε το σύστημα (\ref{eq:system_non_matrix_form}) γράφεται:
-\[ \mathbf{S} \cdot \mathbf{F} = 0 \]
+\[ \mathbf{S} \cdot \mathbf{F} = \mathbf{0} \]
 
 Μπορούμε να υπολογίσουμε εύκολα τον πίνακα $\mathbf{S}$ αν απαριθμήσουμε κάθε τρίγωνο στον χώρο και έπειτα για κάθε έναν από τους
 9 συνδυασμούς των κόμβων του (έστω $p,q$ ολικά, $i,j$ τοπικά) υπολογίσουμε την ποσότητα $\epsilon (b_ib_j + c_ic_j) A_e$ και την προσθέσουμε στην θέση $[p,q]$ του πίνακα.
@@ -253,7 +253,28 @@ c_1 = \frac{x_3 - x_2}{D},
   \mathbf{S}_{pf} & \mathbf{S}_{pp}
   \end{array} \right]
 \]
-Τότε:
+
+\[
+  \mathbf{S} \cdot \mathbf{F} = \mathbf{0} \Rightarrow 
+  \left[ \begin{array}{@{}c|c@{}}
+    \mathbf{S}_{ff} & \mathbf{S}_{fp} \\
+    \hline
+    \mathbf{S}_{pf} & \mathbf{S}_{pp}
+    \end{array} \right] \cdot
+    \left[ \begin{array}{@{}c@{}}
+      \mathbf{F}_f \\
+      \hline
+      \mathbf{F}_p
+      \end{array} \right] = \mathbf{0} \Rightarrow
+      \left[ \begin{array}{@{}c@{}}
+        \mathbf{S}_{ff} \cdot \mathbf{F}_f + \mathbf{S}_{fp} \cdot \mathbf{F}_p \\
+        \hline
+        \mathbf{S}_{pf} \cdot \mathbf{F}_f + \mathbf{S}_{pp} \cdot \mathbf{F}_p
+        \end{array} \right] = \mathbf{0}
+\]
+
+Επειδή ο πίνακας $\mathbf{S}$ είναι συμμετρικός, αρκεί να λυθεί το πάνω μέρος:
+
 \begin{equation}   \label{eq:FEM}
   \mathbf{S}_{ff} \cdot \mathbf{F}_f = - \mathbf{S}_{fp} \cdot \mathbf{F}_p
 \end{equation}
@@ -587,8 +608,144 @@ $\epsilon |\mathbf{E}|^2$ είναι παντού θετική, το ολοκλ�
 
 Βρίσκουμε τους εννέα πρώτους ρυθμούς (είτε ΤΕ είτε ΤΜ) ενός κυλινδρικού κυματοδηγού
 ακτίνας $a = 1 \ cm$. 
+Οι ρυθμοί υπολογίζονται ξεχωριστά για ΤΕ και ΤΜ και επιστρέφονται οι 9 μικρότεροι. 
 
-Οι ρυθμοί υπολογίζονται ξεχωριστά για ΤΕ και ΤΜ. Ο αλγόριθμος \en FEM \gr είναι ο εξής:
+Ο αλγόριθμος \en FEM \gr είναι ο εξής:
+Λύνεται το πρόβλημα ιδιοτιμών:
+
+\begin{equation}   \label{eq:eigen_system}
+  \begin{split}
+    TE: \ \ \ (\mathbf{S} - k_c^2\mathbf{T})\mathbf{H} = \mathbf{0} \\
+    TM: \ \ \ (\mathbf{S} - k_c^2\mathbf{T})\mathbf{Ε} = \mathbf{0}
+  \end{split}
+\end{equation}
+
+Με τον πίνακα $\mathbf{S}$ να υπολογίζεται όπως προηγουμένως, όμως χωρίς τη διηλεκτρική σταθερά, δηλαδή:
+
+\[\mathbf{S}[p,q] =  \sum_{t | p,q \in t}  (b_ib_j + c_ic_j) A_e  \]
+
+και $\mathbf{T}$ είναι ο πίνακας μάζας που δίνεται από την
+\[\mathbf{T}[p,q] =  \sum_{t | p,q \in t}
+\begin{cases}
+    A_e / 6, & p=q \\
+    A_e / 12, & p \neq q
+\end{cases}
+ \]
+
+
+Η λύση σε κάθε περίπτωση θα είναι ο πίνακας $\mathbf{H}$ ή $\mathbf{E}$ και η ιδιοτιμή $k_c^2$ που του αντιστοιχεί. Οι πίνακες $\mathbf{H}$, $\mathbf{E}$
+(πίνακες στήλη) περιέχουν για κάθε κόμβο του πλέγματος την τιμή των $H_z, E_z$, δηλαδή τα πλάτος των αντίστοιχων πεδίων κατά τη διεύθυνση διάδοσης.
+
+\subsubsection*{Οριακές συνθήκες}
+
+Στην περίπτωση των ΤΕ ρυθμών, λύνουμε ώς προς $\mathbf{H}$, το οποίο έχει ομογενής \en Neumann \gr οριακές συνθήκες στο όριο. Επομένως όλοι οι κόμβοι 
+αφήνονται ελεύθεροι και το σύστημα δε χρειάζεται επεξεργασία.
+
+Στην περίπτωση των ΤΜ ρυθμών, λύνουμε ως προς $\mathbf{E}$, το οποίο στο όριο έχει ομογενής συνθήκες \en Dirchlet. \gr 
+Έτσι πρέπει, όπως και στο ηλεκτροστατικό πρόβλημα, να αναλυθούν τα $\mathbf{E}$, $\mathbf{S}$ και $\mathbf{T}$ στους γνωστούς και άγνωστους κόμβους:
+\[\mathbf{E} = 
+  \left[ \begin{array}{@{}c@{}}
+  \mathbf{E}_f \\
+  \hline
+  \mathbf{E}_p
+  \end{array} \right], \ \ \ \ \ \mathbf{S} = 
+  \left[ \begin{array}{@{}c|c@{}}
+    \mathbf{S}_{ff} & \mathbf{S}_{fp} \\
+    \hline
+    \mathbf{S}_{pf} & \mathbf{S}_{pp}
+    \end{array} \right], \ \ \ \ \ \mathbf{T} = 
+    \left[ \begin{array}{@{}c|c@{}}
+      \mathbf{T}_{ff} & \mathbf{T}_{fp} \\
+      \hline
+      \mathbf{T}_{pf} & \mathbf{T}_{pp}
+      \end{array} \right]
+  \]
+
+Τότε το σύστημα γίνεται:
+
+\[ \left(
+  \left[ \begin{array}{@{}c|c@{}}
+    \mathbf{S}_{ff} & \mathbf{S}_{fp} \\
+    \hline
+    \mathbf{S}_{pf} & \mathbf{S}_{pp}
+    \end{array} \right] - k_c^2 
+    \left[ \begin{array}{@{}c|c@{}}
+      \mathbf{T}_{ff} & \mathbf{T}_{fp} \\
+      \hline
+      \mathbf{T}_{pf} & \mathbf{T}_{pp}
+      \end{array} \right]
+  \right)
+  \cdot \left[ \begin{array}{@{}c@{}}
+    \mathbf{E}_f \\
+    \hline
+    \mathbf{E}_p
+    \end{array} \right] = \mathbf{0}    \Rightarrow
+\]
+
+\[
+  \left[ \begin{array}{@{}c|c@{}}
+    \mathbf{S}_{ff} - k_c^2 \mathbf{T}_{ff} & \mathbf{S}_{fp} - k_c^2 \mathbf{T}_{fp} \\
+    \hline
+    \mathbf{S}_{pf} - k_c^2 \mathbf{T}_{pf} & \mathbf{S}_{pp} - k_c^2 \mathbf{T}_{pp}
+    \end{array} \right]
+\cdot \left[ \begin{array}{@{}c@{}}
+  \mathbf{E}_f \\
+  \hline
+  \mathbf{E}_p
+  \end{array} \right] = \mathbf{0}  \Rightarrow
+\]
+
+\[
+  \left[ \begin{array}{@{}c@{}}
+    (\mathbf{S}_{ff} - k_c^2 \mathbf{T}_{ff}) \cdot \mathbf{E}_f + (\mathbf{S}_{fp} - k_c^2 \mathbf{T}_{fp}) \cdot \mathbf{E}_p\\
+    \hline
+    (\mathbf{S}_{pf} - k_c^2 \mathbf{T}_{pf}) \cdot \mathbf{E}_f + (\mathbf{S}_{pp} - k_c^2 \mathbf{T}_{pp}) \cdot \mathbf{E}_p
+    \end{array} \right] = \mathbf{0}  
+\]
+ 
+Από τη συμμετρία, αρκεί να λύσουμε το πάνω μέρος:
+
+\[(\mathbf{S}_{ff} - k_c^2 \mathbf{T}_{ff}) \cdot \mathbf{E}_f + (\mathbf{S}_{fp} - k_c^2 \mathbf{T}_{fp}) \cdot \mathbf{E}_p = \mathbf{0}\]
+
+
+και επειδή στο όριο το ηλεκτρικό πεδίο είναι 0, δηλαδή $\mathbf{E}_p = 0$, προκύπτει:
+
+\begin{equation}
+  (\mathbf{S}_{ff} - k_c^2 \mathbf{T}_{ff}) \cdot \mathbf{E}_f = \mathbf{0}
+\end{equation}
+
+
+\subsubsection*{Υπόλοιπες συνιστώσες}
+
+Έχοντας βρει το $H_z$ για ΤΕ και $E_z$ για ΤΜ μπορούμε να υπολογίσουμε τις υπόλοιπες συνιστώσες:\footnote{Οι τύποι έχουν παρθεί από
+το βιβλίο ΜΙΚΡΟΚΥΜΑΤΑ θεωρία και εφαρμογές των Τραϊανός Β. Γιούλτσης, Εμμανουήλ Ε. Κριεζής, σελ. 136, με επεξεργασία για ΤΕ και ΤΜ ρυθμούς}
+
+
+\begin{equation}
+  \begin{aligned}
+    \text{TE}: \ \ \ \ \ & &     \ \ \ \ \ \ \  \text{TM}: \ \ \ \ \ & & \\ 
+    E_x &= - &\frac{j \omega \mu}{k_c^2} \frac{\partial H_z}{\partial y} \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \         E_x &= - &\frac{j \beta}{k_c^2} \frac{\partial E_z}{\partial x}  \\ 
+    E_y &=  &\frac{j \omega \mu}{k_c^2} \frac{\partial H_z}{\partial x} \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \  \  \        E_y &= - &\frac{j \beta}{k_c^2} \frac{\partial E_z}{\partial y}  \\ 
+    H_x &= - &\frac{j \beta}{k_c^2} \frac{\partial H_z}{\partial x}  \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \         H_x &=   &\frac{j \omega \epsilon }{k_c^2} \frac{\partial E_z}{\partial y} \\ 
+    H_y &= - &\frac{j \beta}{k_c^2} \frac{\partial H_z}{\partial y}   \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \     H_y &= - &\frac{j \omega \epsilon }{k_c^2} \frac{\partial E_z}{\partial x}  \\ 
+  \end{aligned}
+\end{equation}
+
+
+
+
+\subsubsection*{Υλοποίηση}
+
+Αφού υλοποιηθεί η μέθοδος πεπερασμένων στοιχείων στο \en MATLAB \gr παίρνουμε τους πρώτους 12 ΤΕ ρυθμούς (μικρότερης ιδιοτιμή)
+οι οποίοι φαίνονται στο σχήμα \ref{fig:TE_12_first}. 
+
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.7\textwidth]{TE_first_12_modes.pdf}
+  \caption{}
+  \label{fig:TE_12_first}
+\end{figure}
 
 
 

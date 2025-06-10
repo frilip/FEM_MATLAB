@@ -1,5 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1749494045.18033 "/home/frfr/Documents/Τημμυ/Υπολογιστικός ΗΜ/project/report/report.tex" "report.pdf" "report" 1749494046.58589 0
+["pdflatex"] 1749592540.6154 "/home/frfr/Documents/Τημμυ/Υπολογιστικός ΗΜ/project/report/report.tex" "report.pdf" "report" 1749592542.35828 0
+  "../plots/TE_first_12_modes.pdf" 1749592537.89328 656845 bdd42f3c974e04637359690229340d80 ""
   "../plots/capacitor_field_2_domain:5.pdf" 1747059948.43417 32296 38d4bb930444bc60635eb453fa7019c6 ""
   "../plots/capacitor_field_streamlines_2_domain:5.pdf" 1747059951.37819 1259869 6190a6c1dec472b400540cda2052ae6e ""
   "../plots/capacitor_mesh_0_domain:5.pdf" 1747059739.05682 22826 e7a10dbbe11cc369de7c88c395444a22 ""
@@ -12,7 +13,7 @@
   "../plots/coaxial_mesh_2.pdf" 1746722225.30493 650683 59b1dd66ff313f867c882e56dbe77570 ""
   "../plots/coaxial_regions.pdf" 1746722224.00895 11750 cb6af0c418a110b0dfc66224c3dfdce5 ""
   "/etc/texmf/web2c/texmf.cnf" 1747429988.95935 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/frfr/Documents/Τημμυ/Υπολογιστικός ΗΜ/project/report/report.tex" 1749494043.52862 35146 a9ee3a6ca8b410d46c0662c2b41f6a2b ""
+  "/home/frfr/Documents/Τημμυ/Υπολογιστικός ΗΜ/project/report/report.tex" 1749584936.69424 42165 9ad055ffcba35b1926c3826463deea27 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1246382020 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
@@ -215,9 +216,9 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1741904018 41538 c016915c1d51223b6dbbfe27341748a8 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1747430056 5467255 9a64d1b40e0b893fc5588ecce9d8accf ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1747430122 3347387 277f593e2f88a24872730569e77ef609 ""
-  "report.aux" 1749494046.40465 10581 6ce477e44169eaa4e5e5abc8fca5b277 "pdflatex"
-  "report.out" 1749494045.65265 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "report.tex" 1749494043.52862 35146 a9ee3a6ca8b410d46c0662c2b41f6a2b ""
+  "report.aux" 1749592542.10132 11008 5375f17334a5e93e8b64c4cb259913b4 "pdflatex"
+  "report.out" 1749592541.20931 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "report.tex" 1749584936.69424 42165 9ad055ffcba35b1926c3826463deea27 ""
   (generated)
   "report.aux"
   "report.log"

@@ -47,6 +47,7 @@ end
 
 
 e0 = 8.854e-12;
+speed_of_light = 299792458;
 
 radius = 0.01;
 % center coordinates
@@ -134,7 +135,6 @@ for triangle = 1:Ne
     x(1:3) = p(1,n(1:3)); y(1:3) = p(2,n(1:3));
     D = det([1 x(1) y(1);1 x(2) y(2);1 x(3) y(3)]);
     Ae = abs(D / 2);
-    disp(Ae);
     b(1) = (y(2)-y(3))/D;
     b(2) = (y(3)-y(1))/D;
     b(3) = (y(1)-y(2))/D;
@@ -143,7 +143,7 @@ for triangle = 1:Ne
     c(3) = (x(2)-x(1))/D;
     for i = 1:3
         for j = 1:3
-            Sij = e0 * (b(i)*b(j) + c(i)*c(j)) * Ae;
+            Sij = (b(i)*b(j) + c(i)*c(j)) * Ae;
 
             % ---- TE modes ----
             S_TE(n(i),n(j)) = S_TE(n(i),n(j)) + Sij;
@@ -171,15 +171,15 @@ for triangle = 1:Ne
 end
 
 % Solve TE 
-n = 12;   % number of eigenvectors to get
-[Hz_k_TE, ks_TE] = eigs(S_TE, T_TE, k, "smallestabs");
+eig_num = 12;   % number of eigenvectors to get
+[Hz_k_TE, ks_TE] = eigs(S_TE, T_TE, eig_num, "smallestabs");
 
 
 % Solve TM
-[Ef_z_k, ks_TM] = eigs(Sff_TM, Tff_TM, k, "smallestabs");
+[Ef_z_k, ks_TM] = eigs(Sff_TM, Tff_TM, eig_num, "smallestabs");
 % Now create the array for all nodes
-Ez_k_TM = zeros(k, Nn);
-for mode = 1:k
+Ez_k_TM = zeros(eig_num, Nn);
+for mode = 1:eig_num
     for ind = 1:Nn
         if node_id(ind) == 1  
             % update only for unknown nodes
@@ -188,12 +188,61 @@ for mode = 1:k
     end
 end
 
-disp(ks_TE);
+
+% Calculate the cutoff frequencies
+fc_TE = zeros(1, eig_num);
+for i = 1:eig_num
+    fc_TE(i) = sqrt( ks_TE(i,i) ) * speed_of_light / (2 * pi);
+end
+fc_TM = zeros(1, eig_num);
+for i = 1:eig_num
+    fc_TM(i) = sqrt( ks_TM(i,i) ) * speed_of_light / (2 * pi);
+end
+
+disp(["The cutoff frequencies of the first ", eig_num, " calculated TE modes are:"])
+disp(fc_TE);
+disp(["The cutoff frequencies of the first ", eig_num, " calculated TM modes are:"])
+disp(fc_TM);
 
 
-% TE
-figure;
-for mode = 1:k
+
+
+% ----------------- FIGURES ---------------------
+warning('off', 'all');
+
+
+% TE plot Hz 
+figure('visible','off');
+title("TE first " + eig_num + "modes");
+for i = 1:eig_num
+    subplot(ceil(sqrt(eig_num)), ceil(eig_num / ceil(sqrt(eig_num))), i);
+    pdeplot(p, e, t, 'XYData', Hz_k_TE(:,i), Contour="on");
+    title(['Mode ', num2str(i)]);
+    colormap(jet);
+    axis equal tight;
+end
+exportgraphics(gcf, "./plots/TE_first_"+eig_num+"_modes.pdf", 'ContentType', 'vector');
+
+
+
+
+% TM plot Ez
+figure('visible','off');
+title("TM first " + eig_num + "modes");
+for i = 1:eig_num
+    subplot(ceil(sqrt(eig_num)), ceil(eig_num / ceil(sqrt(eig_num))), i);
+    pdeplot(p, e, t, 'XYData', Ez_k_TM(:,i), Contour="on");
+    title(['Mode ', num2str(i)]);
+    colormap(jet);
+    axis equal tight;
+end
+exportgraphics(gcf, "./plots/TM_first_"+eig_num+"_modes.pdf", 'ContentType', 'vector');
+
+
+
+% TE plot transverse streamlines
+figure('visible','off');
+for mode = 1:eig_num
     [ux, uy] = pdegrad(p,t,Hz_k_TE(:,mode));
     aEx_TM = -uy;
     aEy_TM =  ux;
@@ -201,18 +250,20 @@ for mode = 1:k
     aHy_TM = -uy;
 
     % Subplot layout
-    subplot(ceil(sqrt(k)), ceil(k / ceil(sqrt(k))), mode);
+    subplot(ceil(sqrt(eig_num)), ceil(eig_num / ceil(sqrt(eig_num))), mode);
     % Plot E field (blue)
     plot_streamlines(aEx_TM, aEy_TM, p, e, t, 'b');
     hold on;
     % Plot H field (red)
     plot_streamlines(aHx_TM, aHy_TM, p, e, t, 'k');
-    title(['TE Mode ', num2str(mode)]);
+    title(['Mode ', num2str(mode)]);
+    axis equal tight;
 end
+exportgraphics(gcf, "./plots/TE_first_"+eig_num+"_modes_transverse.pdf", 'ContentType', 'vector');
 
-% TM
-figure;
-for mode = 1:k
+% TM plot transverse streamlines
+figure('visible','off');
+for mode = 1:eig_num
     [ux, uy] = pdegrad(p,t,Ez_k_TM(:,mode));
     aEx_TM = -ux;
     aEy_TM = -uy;
@@ -220,11 +271,13 @@ for mode = 1:k
     aHy_TM = -ux;
 
     % Subplot layout
-    subplot(ceil(sqrt(k)), ceil(k / ceil(sqrt(k))), mode);
+    subplot(ceil(sqrt(eig_num)), ceil(eig_num / ceil(sqrt(eig_num))), mode);
     % Plot E field (blue)
     plot_streamlines(aEx_TM, aEy_TM, p, e, t, 'b');
     hold on;
     % Plot H field (red)
     plot_streamlines(aHx_TM, aHy_TM, p, e, t, 'k');
-    title(['TE Mode ', num2str(mode)]);
+    title(['Mode ', num2str(mode)]);
+    axis equal tight;
 end
+exportgraphics(gcf, "./plots/TM_first_"+eig_num+"_modes_transverse.pdf", 'ContentType', 'vector');

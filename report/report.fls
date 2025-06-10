@@ -371,6 +371,10 @@ INPUT ../plots/coaxial_field_3_pcg.pdf
 INPUT ../plots/coaxial_field_3_pcg.pdf
 INPUT ../plots/coaxial_field_3_pcg.pdf
 INPUT ../plots/coaxial_field_3_pcg.pdf
+INPUT ../plots/TE_first_12_modes.pdf
+INPUT ../plots/TE_first_12_modes.pdf
+INPUT ../plots/TE_first_12_modes.pdf
+INPUT ../plots/TE_first_12_modes.pdf
 INPUT report.aux
 INPUT ./report.out
 INPUT ./report.out

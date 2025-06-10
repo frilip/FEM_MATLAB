@@ -32,7 +32,6 @@ function plot_streamlines(Fx, Fy, p, e, t, color)
     set(h, 'Color', color, 'LineWidth', 0.4);
 
     axis equal tight;
-    title('Streamlines of Vector Field');
 end
 
 
@@ -199,12 +198,57 @@ for i = 1:eig_num
     fc_TM(i) = sqrt( ks_TM(i,i) ) * speed_of_light / (2 * pi);
 end
 
+disp(["The cutoff frequencies of the first ", eig_num, " calculated TE modes are:"])
 disp(fc_TE);
+disp(["The cutoff frequencies of the first ", eig_num, " calculated TM modes are:"])
 disp(fc_TM);
 
 
-% TE
-figure;
+
+
+% ----------------- FIGURES ---------------------
+warning('off', 'all');
+
+
+% TE plot Hz 
+figure('visible','off');
+title("TE first " + eig_num + "modes");
+for i = 1:eig_num
+    subplot(ceil(sqrt(eig_num)), ceil(eig_num / ceil(sqrt(eig_num))), i);
+    pdeplot(p, e, t, 'XYData', Hz_k_TE(:,i), Contour="on");
+    title(['Mode ', num2str(i)]);
+    colormap(jet);
+    % Adjust colorbar precision
+    cb = colorbar;
+    ticks = cb.Ticks;
+    cb.TickLabels = arrayfun(@(x) sprintf('%.1f', x), ticks, 'UniformOutput', false);
+    axis equal tight;
+end
+exportgraphics(gcf, "./plots/TE_first_"+eig_num+"_modes.pdf", 'ContentType', 'vector');
+
+
+
+
+% TM plot Ez
+figure('visible','off');
+title("TM first " + eig_num + "modes");
+for i = 1:eig_num
+    subplot(ceil(sqrt(eig_num)), ceil(eig_num / ceil(sqrt(eig_num))), i);
+    pdeplot(p, e, t, 'XYData', Ez_k_TM(:,i), Contour="on");
+    title(['Mode ', num2str(i)]);
+    colormap(jet);
+    axis equal tight;
+end
+exportgraphics(gcf, "./plots/TM_first_"+eig_num+"_modes.pdf", 'ContentType', 'vector');
+
+
+
+
+% TE plot transverse streamlines
+figure('visible','off');
+layout = tiledlayout(ceil(sqrt(eig_num)), ceil(eig_num / ceil(sqrt(eig_num))));
+layout.TileSpacing = 'none';   
+layout.Padding = 'none';       
 for mode = 1:eig_num
     [ux, uy] = pdegrad(p,t,Hz_k_TE(:,mode));
     aEx_TM = -uy;
@@ -212,18 +256,22 @@ for mode = 1:eig_num
     aHx_TM = -ux;
     aHy_TM = -uy;
 
-    % Subplot layout
-    subplot(ceil(sqrt(eig_num)), ceil(eig_num / ceil(sqrt(eig_num))), mode);
+    nexttile;
     % Plot E field (blue)
     plot_streamlines(aEx_TM, aEy_TM, p, e, t, 'b');
     hold on;
     % Plot H field (red)
     plot_streamlines(aHx_TM, aHy_TM, p, e, t, 'k');
-    title(['TE Mode ', num2str(mode)]);
+    axis tight;
+    axis equal;
 end
+exportgraphics(gcf, "./plots/TE_first_"+eig_num+"_modes_transverse.pdf", 'ContentType', 'vector');
 
-% TM
-figure;
+% TM plot transverse streamlines
+figure('visible','off');
+layout = tiledlayout(ceil(sqrt(eig_num)), ceil(eig_num / ceil(sqrt(eig_num))));
+layout.TileSpacing = 'none';   
+layout.Padding = 'none';     
 for mode = 1:eig_num
     [ux, uy] = pdegrad(p,t,Ez_k_TM(:,mode));
     aEx_TM = -ux;
@@ -231,12 +279,13 @@ for mode = 1:eig_num
     aHx_TM =  uy;
     aHy_TM = -ux;
 
-    % Subplot layout
-    subplot(ceil(sqrt(eig_num)), ceil(eig_num / ceil(sqrt(eig_num))), mode);
+    nexttile;
     % Plot E field (blue)
     plot_streamlines(aEx_TM, aEy_TM, p, e, t, 'b');
     hold on;
     % Plot H field (red)
     plot_streamlines(aHx_TM, aHy_TM, p, e, t, 'k');
-    title(['TE Mode ', num2str(mode)]);
+    axis equal tight;
 end
+exportgraphics(gcf, "./plots/TM_first_"+eig_num+"_modes_transverse.pdf", 'ContentType', 'vector');
+
