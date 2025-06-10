@@ -47,6 +47,7 @@ end
 
 
 e0 = 8.854e-12;
+speed_of_light = 299792458;
 
 radius = 0.01;
 % center coordinates
@@ -132,18 +133,17 @@ Tff_TM = spalloc(Nf_TM,Nf_TM,7*Nf_TM);
 for triangle = 1:Ne
     n(1:3) = t(1:3,triangle);
     x(1:3) = p(1,n(1:3)); y(1:3) = p(2,n(1:3));
-    ks_TE = det([1 x(1) y(1);1 x(2) y(2);1 x(3) y(3)]);
-    Ae = abs(ks_TE / 2);
-    b(1) = (y(2)-y(3))/ks_TE;
-    b(2) = (y(3)-y(1))/ks_TE;
-    b(3) = (y(1)-y(2))/ks_TE;
-    c(1) = (x(3)-x(2))/ks_TE;
-    c(2) = (x(1)-x(3))/ks_TE;
-    c(3) = (x(2)-x(1))/ks_TE;
+    D = det([1 x(1) y(1);1 x(2) y(2);1 x(3) y(3)]);
+    Ae = abs(D / 2);
+    b(1) = (y(2)-y(3))/D;
+    b(2) = (y(3)-y(1))/D;
+    b(3) = (y(1)-y(2))/D;
+    c(1) = (x(3)-x(2))/D;
+    c(2) = (x(1)-x(3))/D;
+    c(3) = (x(2)-x(1))/D;
     for i = 1:3
         for j = 1:3
-
-            Sij = e0 * (b(i)*b(j) + c(i)*c(j)) * Ae;
+            Sij = (b(i)*b(j) + c(i)*c(j)) * Ae;
 
             % ---- TE modes ----
             S_TE(n(i),n(j)) = S_TE(n(i),n(j)) + Sij;
@@ -164,14 +164,6 @@ for triangle = 1:Ne
                     else
                         Tff_TM(index(n(i)),index(n(j))) = Tff_TM(index(n(i)),index(n(j))) + Ae/12;
                     end
-                else
-                    % i is unknown and j is known
-                    Sfp_TM(index(n(i)), index(n(j))) = Sfp_TM(index(n(i)), index(n(j))) + Sij;
-                    if i == j
-                        Tfp_TM(index(n(i)),index(n(j))) = Tfp_TM(index(n(i)),index(n(j))) + Ae/6;
-                    else
-                        Tfp_TM(index(n(i)),index(n(j))) = Tfp_TM(index(n(i)),index(n(j))) + Ae/12;
-                    end
                 end
             end
         end
@@ -179,30 +171,41 @@ for triangle = 1:Ne
 end
 
 % Solve TE 
-k = 12;   % number of eigenvectors to get
-[Hz_k_TE, ks_TE] = eigs(S_TE, T_TE, k, "smallestabs");
+eig_num = 12;   % number of eigenvectors to get
+[Hz_k_TE, ks_TE] = eigs(S_TE, T_TE, eig_num, "smallestabs");
 
 
 % Solve TM
-[Ef_z_k, ks_TM] = eigs(Sff_TM, Tff_TM, k, "smallestabs");
+[Ef_z_k, ks_TM] = eigs(Sff_TM, Tff_TM, eig_num, "smallestabs");
 % Now create the array for all nodes
-Ez_k_TM = zeros(k, Nn);
-for mode = 1:k
+Ez_k_TM = zeros(eig_num, Nn);
+for mode = 1:eig_num
     for ind = 1:Nn
         if node_id(ind) == 1  
             % update only for unknown nodes
-            Ez_k_TM(ind, mode) = Hf_z_k(index(ind), mode);
+            Ez_k_TM(ind, mode) = Ef_z_k(index(ind), mode);
         end
     end
 end
 
 
-disp(ks_TE)
-disp(ks_TM)
+% Calculate the cutoff frequencies
+fc_TE = zeros(1, eig_num);
+for i = 1:eig_num
+    fc_TE(i) = sqrt( ks_TE(i,i) ) * speed_of_light / (2 * pi);
+end
+fc_TM = zeros(1, eig_num);
+for i = 1:eig_num
+    fc_TM(i) = sqrt( ks_TM(i,i) ) * speed_of_light / (2 * pi);
+end
+
+disp(fc_TE);
+disp(fc_TM);
+
 
 % TE
 figure;
-for mode = 1:k
+for mode = 1:eig_num
     [ux, uy] = pdegrad(p,t,Hz_k_TE(:,mode));
     aEx_TM = -uy;
     aEy_TM =  ux;
@@ -210,7 +213,7 @@ for mode = 1:k
     aHy_TM = -uy;
 
     % Subplot layout
-    subplot(ceil(sqrt(k)), ceil(k / ceil(sqrt(k))), mode);
+    subplot(ceil(sqrt(eig_num)), ceil(eig_num / ceil(sqrt(eig_num))), mode);
     % Plot E field (blue)
     plot_streamlines(aEx_TM, aEy_TM, p, e, t, 'b');
     hold on;
@@ -221,7 +224,7 @@ end
 
 % TM
 figure;
-for mode = 1:k
+for mode = 1:eig_num
     [ux, uy] = pdegrad(p,t,Ez_k_TM(:,mode));
     aEx_TM = -ux;
     aEy_TM = -uy;
@@ -229,7 +232,7 @@ for mode = 1:k
     aHy_TM = -ux;
 
     % Subplot layout
-    subplot(ceil(sqrt(k)), ceil(k / ceil(sqrt(k))), mode);
+    subplot(ceil(sqrt(eig_num)), ceil(eig_num / ceil(sqrt(eig_num))), mode);
     % Plot E field (blue)
     plot_streamlines(aEx_TM, aEy_TM, p, e, t, 'b');
     hold on;
