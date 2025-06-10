@@ -362,3 +362,9 @@ TM modes, magnitude of electric field in the direction of propagation:
 streamlines of the transverse electric field (blue) and the transverse magnetic field (black):
 
 <img src=plots/markdown_TM_first_modes_transverse.png>
+
+
+
+### Acknowledgments
+- Theodore Rossidis (theoretic help on electromagnetism)
+- Panagiota Boskou (just asked for it)
