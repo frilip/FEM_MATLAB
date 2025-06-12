@@ -351,13 +351,13 @@ $$
 
 ### Some results
 
-TM modes, magnitude of electric field in the direction of propagation:
+The first nine modes are given below:
 
-<img src=plots/markdown_TM_first_modes.png>
+Magnitude on the direction of propagation (of the corresponding field)
+<img src=plots/markdown_first_modes.png>
 
 streamlines of the transverse electric field (blue) and the transverse magnetic field (black):
-
-<img src=plots/markdown_TM_first_modes_transverse.png>
+<img src=plots/markdown_first_modes_transverse.png>
 
 
 

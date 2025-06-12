@@ -46,6 +46,7 @@ end
 
 
 e0 = 8.854e-12;
+mu0 = 4 * pi * 1e-7;
 speed_of_light = 299792458;
 
 radius = 0.01;
@@ -204,6 +205,61 @@ disp(["The cutoff frequencies of the first ", eig_num, " calculated TM modes are
 disp(fc_TM);
 
 
+% ------ calculate the x y fields ------
+
+% TE
+Ex_k_TE = zeros(Ne, eig_num);
+Ey_k_TE = zeros(Ne, eig_num);
+Hx_k_TE = zeros(Ne, eig_num);
+Hy_k_TE = zeros(Ne, eig_num);
+for mode = 1:eig_num
+    [ux, uy] = pdegrad(p,t,Hz_k_TE(:,mode));
+    omega = 2 * pi * fc_TE(mode);
+    kappa =  omega * sqrt(e0 * mu0);
+    kc_squared = ks_TE(mode, mode);
+    beta = sqrt(kappa^2 - kc_squared);
+    Ex_k_TE(:,mode) = - omega * mu0 * uy / kc_squared;
+    Ey_k_TE(:,mode) =   omega * mu0 * ux / kc_squared;
+    Hx_k_TE(:,mode) = - 1i * beta * ux / kc_squared;
+    Hy_k_TE(:,mode) = - 1i * beta * uy / kc_squared;
+end
+% TM
+Ex_k_TM = zeros(Ne, eig_num);
+Ey_k_TM = zeros(Ne, eig_num);
+Hx_k_TM = zeros(Ne, eig_num);
+Hy_k_TM = zeros(Ne, eig_num);
+for mode = 1:eig_num
+    [ux, uy] = pdegrad(p,t,Ez_k_TM(:,mode));
+    omega = 2 * pi * fc_TM(mode);
+    kappa =  omega * sqrt(e0 * mu0);
+    kc_squared = ks_TM(mode, mode);
+    beta = sqrt(kappa^2 - kc_squared);
+    Ex_k_TM(:,mode) = - 1i * beta * ux / kc_squared;
+    Ey_k_TM(:,mode) = - 1i * beta * uy / kc_squared;
+    Hx_k_TM(:,mode) =    omega * e0 * uy / kc_squared;
+    Hy_k_TM(:,mode) = -  omega * e0 * ux / kc_squared;
+end
+
+
+
+% get the 9 modes with smallest cutoff frequency
+first_9_modes = zeros(Nn, 9);
+
+first_9_modes(:,1) = Ez_k_TM(:,3);
+first_9_modes(:,2) = Hz_k_TE(:,1);
+first_9_modes(:,3) = Ez_k_TM(:,4);
+first_9_modes(:,4) = Hz_k_TE(:,3);
+first_9_modes(:,5) = Ez_k_TM(:,6);
+first_9_modes(:,6) = Ez_k_TM(:,8);
+first_9_modes(:,7) = Hz_k_TE(:,4);
+first_9_modes(:,8) = Ez_k_TM(:,10);
+first_9_modes(:,9) = Ez_k_TM(:,12);
+
+
+
+
+
+
 
 
 % ----------------- FIGURES ---------------------
@@ -243,13 +299,112 @@ exportgraphics(gcf, "./plots/TM_first_"+eig_num+"_modes.pdf", 'ContentType', 've
 
 
 
+set(gca, 'XTick', [], 'YTick', []);
+% plot first nine modes 
+figure('Visible','off');
+layout = tiledlayout(3,3);
+layout.TileSpacing = 'none';   
+layout.Padding = 'none';  
 
+% plot first nine modes 
+figure('Visible','off');
+layout = tiledlayout(3,3);
+nexttile;
+pdeplot(p,e,t, 'XYData', Hz_k_TE(:,3), Contour="on"); axis equal tight; colorbar;
+title("TE"); set(gca, 'XTick', [], 'YTick', []);
+nexttile;
+pdeplot(p,e,t, 'XYData', Ez_k_TM(:,1), Contour="on"); axis equal tight; colorbar;
+title("TM"); set(gca, 'XTick', [], 'YTick', []);
+nexttile;
+pdeplot(p,e,t, 'XYData', Hz_k_TE(:,4), Contour="on"); axis equal tight; colorbar;
+title("TE"); set(gca, 'XTick', [], 'YTick', []);
+nexttile;
+pdeplot(p,e,t, 'XYData', Ez_k_TM(:,3), Contour="on"); axis equal tight; colorbar;
+title("TM"); set(gca, 'XTick', [], 'YTick', []);
+nexttile;
+pdeplot(p,e,t, 'XYData', Hz_k_TE(:,6), Contour="on"); axis equal tight; colorbar;
+title("TE"); set(gca, 'XTick', [], 'YTick', []);
+nexttile;
+pdeplot(p,e,t, 'XYData', Hz_k_TE(:,8), Contour="on"); axis equal tight; colorbar;
+title("TE"); set(gca, 'XTick', [], 'YTick', []);
+nexttile;
+pdeplot(p,e,t, 'XYData', Ez_k_TM(:,4), Contour="on"); axis equal tight; colorbar;
+title("TM"); set(gca, 'XTick', [], 'YTick', []);
+nexttile;
+pdeplot(p,e,t, 'XYData', Hz_k_TE(:,10), Contour="on"); axis equal tight; colorbar;
+title("TE"); set(gca, 'XTick', [], 'YTick', []);
+nexttile;
+pdeplot(p,e,t, 'XYData', Hz_k_TE(:,12), Contour="on"); axis equal tight; colorbar;
+title("TE"); set(gca, 'XTick', [], 'YTick', []);
+colormap("jet");
+exportgraphics(gcf, "./plots/Waveguide_first_nine_modes.pdf", 'ContentType', 'vector');
+
+
+
+
+% plot the first 9 modes, transverse fields
+figure('Visible','off');
+layout = tiledlayout(4, 3);   % use 4 by 3 to leave some gap for the title
+layout.TileSpacing = 'compact';   
+layout.Padding = 'none';
+
+nexttile;
+plot_streamlines(Ex_k_TE(:,3), Ey_k_TE(:,3), p, e, t, 'b'); hold on;
+plot_streamlines(Hx_k_TE(:,3), Hy_k_TE(:,3), p, e, t, 'k'); axis equal tight off;
+title("TE");
+
+nexttile;
+plot_streamlines(Ex_k_TM(:,1), Ey_k_TM(:,1), p, e, t, 'b'); hold on;
+plot_streamlines(Hx_k_TM(:,1), Hy_k_TM(:,1), p, e, t, 'k'); axis equal tight off;
+title("TM");
+
+nexttile;
+plot_streamlines(Ex_k_TE(:,4), Ey_k_TE(:,4), p, e, t, 'b'); hold on;
+plot_streamlines(Hx_k_TE(:,4), Hy_k_TE(:,4), p, e, t, 'k'); axis equal tight off;
+title("TE");
+
+nexttile;
+plot_streamlines(Ex_k_TM(:,3), Ey_k_TM(:,3), p, e, t, 'b'); hold on;
+plot_streamlines(Hx_k_TM(:,3), Hy_k_TM(:,3), p, e, t, 'k'); axis equal tight off;
+title("TM");
+
+nexttile;
+plot_streamlines(Ex_k_TE(:,6), Ey_k_TE(:,6), p, e, t, 'b'); hold on;
+plot_streamlines(Hx_k_TE(:,6), Hy_k_TE(:,6), p, e, t, 'k'); axis equal tight off;
+title("TE");
+
+nexttile;
+plot_streamlines(Ex_k_TE(:,8), Ey_k_TE(:,8), p, e, t, 'b'); hold on;
+plot_streamlines(Hx_k_TE(:,8), Hy_k_TE(:,8), p, e, t, 'k'); axis equal tight off;
+title("TE");
+
+nexttile;
+title("TM");
+plot_streamlines(Ex_k_TM(:,4), Ey_k_TM(:,4), p, e, t, 'b'); hold on;
+plot_streamlines(Hx_k_TM(:,4), Hy_k_TM(:,4), p, e, t, 'k'); axis equal tight off;
+
+nexttile;
+plot_streamlines(Ex_k_TE(:,10), Ey_k_TE(:,10), p, e, t, 'b'); hold on;
+plot_streamlines(Hx_k_TE(:,10), Hy_k_TE(:,10), p, e, t, 'k'); axis equal tight off;
+title("TE");
+
+nexttile;
+plot_streamlines(Ex_k_TE(:,12), Ey_k_TE(:,12), p, e, t, 'b'); hold on;
+plot_streamlines(Hx_k_TE(:,12), Hy_k_TE(:,12), p, e, t, 'k'); axis equal tight off;
+title("TE");
+
+exportgraphics(gcf, "./plots/Waveguide_first_nine_modes_transverse.pdf", 'ContentType', 'vector');
+
+
+
+
+%{
 % TE plot transverse streamlines
 figure('visible','off');
-layout = tiledlayout(ceil(sqrt(eig_num)), ceil(eig_num / ceil(sqrt(eig_num))));
+layout = tiledlayout(3, 3);
 layout.TileSpacing = 'none';   
 layout.Padding = 'none';       
-for mode = 1:eig_num
+for mode = 1:9
     [ux, uy] = pdegrad(p,t,Hz_k_TE(:,mode));
     aEx_TM = -uy;
     aEy_TM =  ux;
@@ -288,4 +443,4 @@ for mode = 1:eig_num
     axis equal tight;
 end
 exportgraphics(gcf, "./plots/TM_first_"+eig_num+"_modes_transverse.pdf", 'ContentType', 'vector');
-
+%}

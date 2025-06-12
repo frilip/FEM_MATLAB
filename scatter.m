@@ -158,9 +158,10 @@ end
 
 
 alpha = -1i * k0 - 1 / (2 * comp_radius);
+alpha = 0;
 
 % solve system
-Ez_f = (Sff - rot_frec .^ 2 * Tff - alpha * Tff) \ (- (Sfp - rot_frec .^ 2 * Tfp) * Ez_p );
+Ez_f = (Sff - rot_frec .^ 2 * Tff - alpha * conj(Tff)) \ (- (Sfp - rot_frec .^ 2 * Tfp) * Ez_p );
 
 
 % update Ez 
@@ -174,5 +175,5 @@ end
 field = Ei + Ez;
 
 figure;
-pdeplot(p,e,t,'XYData',real(field)); axis equal tight;
+pdeplot(p,e,t,'XYData',real(Ez)); axis equal tight;
 colormap("jet");
