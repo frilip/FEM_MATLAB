@@ -9,22 +9,28 @@ k0 = 2 * pi * frec / speed_of_light;
 rot_frec = 2 * pi * frec;
 
 
-% test_case gets values 1, 2, 3 to signify what radii to choose
-test_case = 3;
-switch test_case
+% com_case, scat_case get values 1 to 3 to signify what radii to choose
+comp_case = 3;
+scat_case = 3;
+
+switch scat_case
     case 1
         scatterer_radius = wavelength / 4;
-        comp_radius = wavelength;
     case 2
-        scatterer_radius = wavelength;
-        comp_radius = 3 * wavelength;
+        scatterer_radius = wavelength / 2;
     case 3
         scatterer_radius = 5 * wavelength / 3;
-        comp_radius = 7 * wavelength;
     otherwise
         % assume case 2
         scatterer_radius = wavelength;
-        comp_radius = 3 * wavelength;
+end
+switch comp_case
+    case 1
+        comp_radius = wavelength / 2 + scatterer_radius;
+    case 2
+        comp_radius = wavelength + scatterer_radius;
+    case 3
+        comp_radius = 2 * wavelength + scatterer_radius;
 end
 
 % center coordinates
@@ -50,7 +56,7 @@ dl = decsg(gd,sf,ns);
 % create triangular mesh
 [p,e,t] = initmesh(dl);
 % refine 
-refine_amount = 1;
+refine_amount = 2;
 for i = 1:refine_amount
     [p,e,t] = refinemesh(dl,p,e,t);
 end
@@ -83,10 +89,6 @@ for id = 1:Nd
 
     end
 end
-
-figure;
-pdeplot(p,e,t,'XYData',real(Ez), 'Mesh', 'on');
-colormap("jet");
 
 
 Nf = nnz(node_id);    % number of unknown nodes
@@ -156,12 +158,27 @@ for triangle = 1:Ne
     end
 end
 
+% find matrix C of the boundary matrix 
+Cff = spalloc(Nf,Nf,7*Nf);
+for edge = 1:Nd
+    node1 = e(1, edge);           
+    node2 = e(2, edge);          
+    x1 = p(1, node1);
+    y1 = p(2, node1);
+    x2 = p(1, node2);
+    y2 = p(2, node2);
+    length = sqrt((x2 - x1)^2 + (y2 - y1)^2);
+    
+    Cff(index(node1),index(node2)) = Cff(index(node1),index(node2)) + length / (6 * mu0);
+    Cff(index(node1),index(node1)) = Cff(index(node1),index(node1)) + length / (3 * mu0);
+    Cff(index(node2),index(node2)) = Cff(index(node2),index(node2)) + length / (3 * mu0);
+end
+
 
 alpha = -1i * k0 - 1 / (2 * comp_radius);
-alpha = 0;
 
 % solve system
-Ez_f = (Sff - rot_frec .^ 2 * Tff - alpha * conj(Tff)) \ (- (Sfp - rot_frec .^ 2 * Tfp) * Ez_p );
+Ez_f = (Sff - rot_frec .^ 2 * Tff - alpha * Cff) \ (- (Sfp - rot_frec .^ 2 * Tfp) * Ez_p );
 
 
 % update Ez 
@@ -174,6 +191,7 @@ end
 
 field = Ei + Ez;
 
-figure;
-pdeplot(p,e,t,'XYData',real(Ez)); axis equal tight;
+figure('Visible','off');
+pdeplot(p,e,t,'XYData',abs(field)); axis equal tight;
 colormap("jet");
+exportgraphics(gcf, "./plots/scatter_case_"+scat_case+"_"+comp_case+".pdf", 'ContentType', 'vector');

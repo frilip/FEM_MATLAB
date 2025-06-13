@@ -208,36 +208,34 @@ disp(fc_TM);
 % ------ calculate the x y fields ------
 
 % TE
-Ex_k_TE = zeros(Ne, eig_num);
-Ey_k_TE = zeros(Ne, eig_num);
-Hx_k_TE = zeros(Ne, eig_num);
-Hy_k_TE = zeros(Ne, eig_num);
+% the variables have an "a" infront of them to signify that they are 
+% analogous to the actual values, but with different magnitude
+aEx_k_TE = zeros(Ne, eig_num);
+aEy_k_TE = zeros(Ne, eig_num);
+aHx_k_TE = zeros(Ne, eig_num);
+aHy_k_TE = zeros(Ne, eig_num);
 for mode = 1:eig_num
     [ux, uy] = pdegrad(p,t,Hz_k_TE(:,mode));
-    omega = 2 * pi * fc_TE(mode);
-    kappa =  omega * sqrt(e0 * mu0);
-    kc_squared = ks_TE(mode, mode);
-    beta = sqrt(kappa^2 - kc_squared);
-    Ex_k_TE(:,mode) = - omega * mu0 * uy / kc_squared;
-    Ey_k_TE(:,mode) =   omega * mu0 * ux / kc_squared;
-    Hx_k_TE(:,mode) = - 1i * beta * ux / kc_squared;
-    Hy_k_TE(:,mode) = - 1i * beta * uy / kc_squared;
+    % Calculate the other coordinates without the constants 
+    % because we don't have a frequency and eihter way we care
+    % way we care about the flow 
+    aEx_k_TE(:,mode) = - uy;
+    aEy_k_TE(:,mode) =   ux;
+    aHx_k_TE(:,mode) = - ux;
+    aHy_k_TE(:,mode) = - uy;
 end
 % TM
-Ex_k_TM = zeros(Ne, eig_num);
-Ey_k_TM = zeros(Ne, eig_num);
-Hx_k_TM = zeros(Ne, eig_num);
-Hy_k_TM = zeros(Ne, eig_num);
+aEx_k_TM = zeros(Ne, eig_num);
+aEy_k_TM = zeros(Ne, eig_num);
+aHx_k_TM = zeros(Ne, eig_num);
+aHy_k_TM = zeros(Ne, eig_num);
 for mode = 1:eig_num
     [ux, uy] = pdegrad(p,t,Ez_k_TM(:,mode));
-    omega = 2 * pi * fc_TM(mode);
-    kappa =  omega * sqrt(e0 * mu0);
-    kc_squared = ks_TM(mode, mode);
-    beta = sqrt(kappa^2 - kc_squared);
-    Ex_k_TM(:,mode) = - 1i * beta * ux / kc_squared;
-    Ey_k_TM(:,mode) = - 1i * beta * uy / kc_squared;
-    Hx_k_TM(:,mode) =    omega * e0 * uy / kc_squared;
-    Hy_k_TM(:,mode) = -  omega * e0 * ux / kc_squared;
+
+    aEx_k_TM(:,mode) = - ux;
+    aEy_k_TM(:,mode) = - uy;
+    aHx_k_TM(:,mode) =   uy;
+    aHy_k_TM(:,mode) = - ux;
 end
 
 
@@ -344,56 +342,56 @@ exportgraphics(gcf, "./plots/Waveguide_first_nine_modes.pdf", 'ContentType', 've
 
 % plot the first 9 modes, transverse fields
 figure('Visible','off');
-layout = tiledlayout(4,3);
+layout = tiledlayout(4, 3);   % use 4 by 3 to leave some gap for the title
 layout.TileSpacing = 'compact';   
 layout.Padding = 'none';
 
 nexttile;
+plot_streamlines(aEx_k_TE(:,3), aEy_k_TE(:,3), p, e, t, 'b'); hold on;
+plot_streamlines(aHx_k_TE(:,3), aHy_k_TE(:,3), p, e, t, 'k'); axis equal tight off;
 title("TE");
-plot_streamlines(Ex_k_TE(:,3), Ey_k_TE(:,3), p, e, t, 'b'); hold on;
-plot_streamlines(Hx_k_TE(:,3), Hy_k_TE(:,3), p, e, t, 'k'); axis equal tight off;
+
+nexttile;
+plot_streamlines(aEx_k_TM(:,1), aEy_k_TM(:,1), p, e, t, 'b'); hold on;
+plot_streamlines(aHx_k_TM(:,1), aHy_k_TM(:,1), p, e, t, 'k'); axis equal tight off;
+title("TM");
+
+nexttile;
+plot_streamlines(aEx_k_TE(:,4), aEy_k_TE(:,4), p, e, t, 'b'); hold on;
+plot_streamlines(aHx_k_TE(:,4), aHy_k_TE(:,4), p, e, t, 'k'); axis equal tight off;
+title("TE");
+
+nexttile;
+plot_streamlines(aEx_k_TM(:,3), aEy_k_TM(:,3), p, e, t, 'b'); hold on;
+plot_streamlines(aHx_k_TM(:,3), aHy_k_TM(:,3), p, e, t, 'k'); axis equal tight off;
+title("TM");
+
+nexttile;
+plot_streamlines(aEx_k_TE(:,6), aEy_k_TE(:,6), p, e, t, 'b'); hold on;
+plot_streamlines(aHx_k_TE(:,6), aHy_k_TE(:,6), p, e, t, 'k'); axis equal tight off;
+title("TE");
+
+nexttile;
+plot_streamlines(aEx_k_TE(:,8), aEy_k_TE(:,8), p, e, t, 'b'); hold on;
+plot_streamlines(aHx_k_TE(:,8), aHy_k_TE(:,8), p, e, t, 'k'); axis equal tight off;
+title("TE");
 
 nexttile;
 title("TM");
-plot_streamlines(Ex_k_TM(:,1), Ey_k_TM(:,1), p, e, t, 'b'); hold on;
-plot_streamlines(Hx_k_TM(:,1), Hy_k_TM(:,1), p, e, t, 'k'); axis equal tight off;
+plot_streamlines(aEx_k_TM(:,4), aEy_k_TM(:,4), p, e, t, 'b'); hold on;
+plot_streamlines(aHx_k_TM(:,4), aHy_k_TM(:,4), p, e, t, 'k'); axis equal tight off;
 
 nexttile;
+plot_streamlines(aEx_k_TE(:,10), aEy_k_TE(:,10), p, e, t, 'b'); hold on;
+plot_streamlines(aHx_k_TE(:,10), aHy_k_TE(:,10), p, e, t, 'k'); axis equal tight off;
 title("TE");
-plot_streamlines(Ex_k_TE(:,4), Ey_k_TE(:,4), p, e, t, 'b'); hold on;
-plot_streamlines(Hx_k_TE(:,4), Hy_k_TE(:,4), p, e, t, 'k'); axis equal tight off;
 
 nexttile;
-title("TM");
-plot_streamlines(Ex_k_TM(:,3), Ey_k_TM(:,3), p, e, t, 'b'); hold on;
-plot_streamlines(Hx_k_TM(:,3), Hy_k_TM(:,3), p, e, t, 'k'); axis equal tight off;
-
-nexttile;
+plot_streamlines(aEx_k_TE(:,12), aEy_k_TE(:,12), p, e, t, 'b'); hold on;
+plot_streamlines(aHx_k_TE(:,12), aHy_k_TE(:,12), p, e, t, 'k'); axis equal tight off;
 title("TE");
-plot_streamlines(Ex_k_TE(:,6), Ey_k_TE(:,6), p, e, t, 'b'); hold on;
-plot_streamlines(Hx_k_TE(:,6), Hy_k_TE(:,6), p, e, t, 'k'); axis equal tight off;
 
-nexttile;
-title("TE");
-plot_streamlines(Ex_k_TE(:,8), Ey_k_TE(:,8), p, e, t, 'b'); hold on;
-plot_streamlines(Hx_k_TE(:,8), Hy_k_TE(:,8), p, e, t, 'k'); axis equal tight off;
-
-nexttile;
-title("TM");
-plot_streamlines(Ex_k_TM(:,4), Ey_k_TM(:,4), p, e, t, 'b'); hold on;
-plot_streamlines(Hx_k_TM(:,4), Hy_k_TM(:,4), p, e, t, 'k'); axis equal tight off;
-
-nexttile;
-title("TE");
-plot_streamlines(Ex_k_TE(:,10), Ey_k_TE(:,10), p, e, t, 'b'); hold on;
-plot_streamlines(Hx_k_TE(:,10), Hy_k_TE(:,10), p, e, t, 'k'); axis equal tight off;
-
-nexttile;
-title("TE");
-plot_streamlines(Ex_k_TE(:,12), Ey_k_TE(:,12), p, e, t, 'b'); hold on;
-plot_streamlines(Hx_k_TE(:,12), Hy_k_TE(:,12), p, e, t, 'k'); axis equal tight off;
-
-exportgraphics(gcf, "./plots/Waveguide_first_ninde_modes_transverse.pdf", 'ContentType', 'vector');
+exportgraphics(gcf, "./plots/Waveguide_first_nine_modes_transverse.pdf", 'ContentType', 'vector');
 
 
 
