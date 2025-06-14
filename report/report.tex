@@ -32,7 +32,8 @@
 
 \begin{document}
 \maketitle
-
+\begin{comment}
+  
 
 \section*{Μέρος Α}
 
@@ -796,7 +797,7 @@ $[0, 0.8788, 0.8788, 1.4583,1.4583, 1.8304, 2.0067,2.0068,2.5415, 2.5416,2.5489,
 
 
 
-Οι συχνότητες υπολογίζονται αναλυτικά ως 
+Οι συχνότητες αποκοπής υπολογίζονται αναλυτικά ως 
 \[f_c^{TE_{nm}} = \frac{c}{2 \pi a} p_{nm}' \ \ \ \ f_c^{TM_{nm}} = \frac{c}{2 \pi a} p_{nm}\]
 με $a$ την ακτίνα, $p_{nm}'$  τις ρίζες των συναρτήσεων \en Bessel \gr με πρώτες τιμές:
 \[
@@ -927,7 +928,96 @@ $[0, 0.8788, 0.8788, 1.4583,1.4583, 1.8304, 2.0067,2.0068,2.5415, 2.5416,2.5489,
 \end{center}
 \gr
 
+
+
+\end{comment}
+
 \subsection*{Σκέδαση από άπειρο κυκλικό τέλεια αγώγιμο κύλινδρο}
+
+
+\textlatin{Galerkin}
+\begin{equation}  \label{eq:scatter_galerkin}
+  \iint_{\Omega} \nabla E_z^{s\prime} \cdot \mu^{-1} \nabla E_z^s dS - \omega^2 \iint_{\Omega} E_z^{s\prime} \epsilon E_z^s dS - \oint_{\partial \Omega } \mu^{-1} E_z^{s\prime} \frac{\partial E_z^s}{\partial \hat{n}} dl = 0 
+  \ \ \ \ \text{με}  E_z^{s\prime} \in \{N_i\}
+\end{equation}
+
+Ο συμβολισμός $E_z^{s\prime} $ δηλώνει τις συναρτήσεις δοκιμής, οι οποίες στη μέθοδο \en Garelkin \gr είναι οι συναρτήσεις βάσης. Λίγο άβολος συμβολισμός...
+
+Οι οριακές συνθήκες \en ABC \gr είναι:
+\begin{equation}  \label{eq:ABC}
+  \frac{\partial E_z^{s}}{\partial \hat{n}} = \left( -j k - \frac{1}{2R} \right) E_z^s
+\end{equation}
+
+Υποβάλλοντας την (\ref{eq:ABC}) στην διατύπωση \en Galerkin: \gr 
+
+\begin{equation}
+  \iint_{\Omega} \nabla E_z^{s\prime} \cdot \mu^{-1} \nabla E_z^s dS - \omega^2 \iint_{\Omega} E_z^{s\prime} \epsilon E_z^s dS 
+  + \oint_{\partial \Omega } \mu^{-1} \left( jk + \frac{1}{2R} \right) E_z^{s\prime} E_z^s dl = 0 
+\end{equation}
+
+Διακριτοποιώ:
+
+\begin{equation}
+  E_z^s \approx \sum_p E_z^s (p) N_p 
+\end{equation}
+
+όπου με $E_z^s(p)$ συμβολίζω την τιμή του $E_z^s$ στον κόμβο $p$, και αντικαθιστώ στην (\ref{eq:scatter_galerkin}) τις συναρτήσεις δοκιμής με $N_q$:
+
+\begin{equation}
+  \iint_{\Omega} \nabla N_q \cdot \mu^{-1}  \nabla \left( \sum_p E_z^s(p) N_p \right) dS 
+  - \omega^2 \iint_{\Omega} N_q \epsilon \sum_p E_z^s(p) N_p dS 
+  + \oint_{\partial \Omega} \alpha \mu^{-1} N_q \sum_{p} E_z^s(p) N_p dl = 0
+\end{equation}
+
+με $\alpha = jk + \frac{1}{2R}$.
+Υπολογίζουμε κάθε όρο ξεχωριστά:
+
+Ο πρώτος όρος χειρίζεται όπως και στο ηλεκτροστατικό πρόβλημα:
+
+\begin{equation}
+  \begin{align}
+    \iint_{\Omega} \nabla N_q \cdot \mu^{-1}  \nabla \left( \sum_p E_z^s(p) N_p \right) dS  = \\
+    \iint_{\Omega} \nabla N_q \cdot \mu^{-1}   \left( \sum_p E_z^s(p) \nabla N_p \right) dS  = \\
+    \sum_p E_z^s(p) \iint_{\Omega} \nabla N_q \cdot \mu^{-1}   \nabla N_p dS  = \\ 
+    \sum_p E_z^s(p) \sum_{t | p,q \in t} \mu^{-1} (b_ib_j + c_ic_j) A_e
+  \end{align}
+\end{equation}
+
+όπου $i,j$ οι τοπικές αριθμήσεις των $p,q$. 
+
+Ο δεύτερος όρος ισούται με\footnote{\textlatin{Matthew N.O. Shadiku: Numerical Techniques in Electromagnetism, Second Edition}, σελ.  430, για το ολοκλήρωμα.}
+
+\begin{equation}
+    - \omega^2 \iint_{\Omega} N_q \epsilon \sum_p E_z^s(p) N_p dS = 
+    - \omega^2 \sum_p E_z^s(p) \iint_{\Omega} N_q \epsilon  N_p dS = 
+    - \omega^2 \sum_p E_z^s(p) \cdot
+    \begin{cases}
+      \epsilon Ae / 6, & p = q \\ 
+      \epsilon Ae / 12, & p \neq q
+    \end{cases}
+\end{equation}
+
+
+
+
+Για τον τρίτο όρο πρέπει να λύσουμε το επικαμπύλιο διότι δεν μηδενίζεται λόγω των οριακών συνθηκών \en ABC: \gr 
+
+\begin{equation}
+    \oint_{\partial \Omega} \alpha \mu^{-1} N_q \sum_{p} E_z^s(p) N_p dl = \alpha \sum_p E_z^s(p) \oint_{\partial \Omega} N_q \mu^{-1} N_p dl
+\end{equation}
+
+Θεωρούμε το $\mu$ σταθερό εντός κάθε στοιχείου (όπως κάναμε και για το $\epsilon$).
+Το ολοκλήρωμα εφαρμόζεται μόνο στις οριακές ακμές. Το γινόμενο των $N_p, N_q$ είναι μη μηδενικό μόνο για γειτονικούς κόμβους.
+
+
+
+
+
+
+
+
+
+
 
 
 \end{document}

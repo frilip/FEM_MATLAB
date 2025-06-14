@@ -161,17 +161,20 @@ end
 % find matrix C of the boundary matrix 
 Cff = spalloc(Nf,Nf,7*Nf);
 for edge = 1:Nd
-    node1 = e(1, edge);           
-    node2 = e(2, edge);          
-    x1 = p(1, node1);
-    y1 = p(2, node1);
-    x2 = p(1, node2);
-    y2 = p(2, node2);
-    length = sqrt((x2 - x1)^2 + (y2 - y1)^2);
-    
-    Cff(index(node1),index(node2)) = Cff(index(node1),index(node2)) + length / (6 * mu0);
-    Cff(index(node1),index(node1)) = Cff(index(node1),index(node1)) + length / (3 * mu0);
-    Cff(index(node2),index(node2)) = Cff(index(node2),index(node2)) + length / (3 * mu0);
+    if e(6,edge) == 0 || e(7,edge) == 0
+        % apply only on boundary edges
+        node1 = e(1, edge);           
+        node2 = e(2, edge);          
+        x1 = p(1, node1);
+        y1 = p(2, node1);
+        x2 = p(1, node2);
+        y2 = p(2, node2);
+        length = sqrt((x2 - x1)^2 + (y2 - y1)^2);
+        
+        Cff(index(node1),index(node2)) = Cff(index(node1),index(node2)) + length / (6 * mu0);
+        Cff(index(node1),index(node1)) = Cff(index(node1),index(node1)) + length / (3 * mu0);
+        Cff(index(node2),index(node2)) = Cff(index(node2),index(node2)) + length / (3 * mu0);
+    end
 end
 
 
