@@ -39,8 +39,8 @@
 \begin{document}
 \maketitle
   
-\begin{comment}
-  
+
+
 
 
 \section*{Μέρος Α}
@@ -937,15 +937,17 @@ $[0, 0.8788, 0.8788, 1.4583,1.4583, 1.8304, 2.0067,2.0068,2.5415, 2.5416,2.5489,
 \gr
 
 
-\end{comment}
-
-\section*{διαγραφε με}
 
 \subsection*{Σκέδαση από άπειρο κυκλικό τέλεια αγώγιμο κύλινδρο}
 
-Λύνουμε το πρόβλημα σκέδασης 
+Λύνουμε το πρόβλημα σκέδασης του επίπεδου κύματος $\mathbf{E}^i = \hat{\mathbf{z}}E_0 e^{-jk_0x}, \ E_0 = 1 V/m$ 
+σε απείρου μήκους τέλεια αγώγιμο κύλινδρο διαμέτρου $2a$ που βρίσκεται στο αέρα. Το κύμα είναι ΤΜ. Στο όριο υιοθετούμε 
+$ABC$ απορροφητικές συνθήκες πρώτης τάξης. 
 
-\textlatin{Galerkin}
+
+Η διατύπωση 
+\textlatin{Galerkin} του προβλήματος είναι:
+
 \begin{equation}  \label{eq:scatter_galerkin}
   \iint_{\Omega} \nabla E_z^{s\prime} \cdot \mu^{-1} \nabla E_z^s dS - \omega^2 \iint_{\Omega} E_z^{s\prime} \epsilon E_z^s dS - \oint_{\partial \Omega } \mu^{-1} E_z^{s\prime} \frac{\partial E_z^s}{\partial \hat{n}} dl = 0 
   \ \ \ \ \text{με}  E_z^{s\prime} \in \{N_i\}
@@ -973,7 +975,7 @@ $[0, 0.8788, 0.8788, 1.4583,1.4583, 1.8304, 2.0067,2.0068,2.5415, 2.5416,2.5489,
 
 όπου με $E_z^s(p)$ συμβολίζω την τιμή του $E_z^s$ στον κόμβο $p$, και αντικαθιστώ στην (\ref{eq:scatter_galerkin}) τις συναρτήσεις δοκιμής με $N_q$:
 
-\begin{equation}
+\begin{equation} \label{eq:three_ints}
   \iint_{\Omega} \nabla N_q \cdot \mu^{-1}  \nabla \left( \sum_p E_z^s(p) N_p \right) dS 
   - \omega^2 \iint_{\Omega} N_q \epsilon \sum_p E_z^s(p) N_p dS 
   + \oint_{\partial \Omega} \alpha \mu^{-1} N_q \sum_{p} E_z^s(p) N_p dl = 0
@@ -984,7 +986,7 @@ $[0, 0.8788, 0.8788, 1.4583,1.4583, 1.8304, 2.0067,2.0068,2.5415, 2.5416,2.5489,
 
 Ο πρώτος όρος χειρίζεται όπως και στο ηλεκτροστατικό πρόβλημα:
 
-\begin{equation}
+\begin{equation}  \label{eq:first_int}
   \begin{aligned}
     \iint_{\Omega} \nabla N_q \cdot \mu^{-1}  \nabla \left( \sum_p E_z^s(p) N_p \right) dS  = \\
     \iint_{\Omega} \nabla N_q \cdot \mu^{-1}   \left( \sum_p E_z^s(p) \nabla N_p \right) dS  = \\
@@ -997,7 +999,7 @@ $[0, 0.8788, 0.8788, 1.4583,1.4583, 1.8304, 2.0067,2.0068,2.5415, 2.5416,2.5489,
 
 Ο δεύτερος όρος ισούται με\footnote{\textlatin{Matthew N.O. Shadiku: Numerical Techniques in Electromagnetism, Second Edition}, σελ.  430, για το ολοκλήρωμα.}
 
-\begin{equation}
+\begin{equation}  \label{eq:second_int}
     - \omega^2 \iint_{\Omega} N_q \epsilon \sum_p E_z^s(p) N_p dS = 
     - \omega^2 \sum_p E_z^s(p) \iint_{\Omega} N_q \epsilon  N_p dS = 
     - \omega^2 \sum_p E_z^s(p) \cdot
@@ -1017,8 +1019,201 @@ $[0, 0.8788, 0.8788, 1.4583,1.4583, 1.8304, 2.0067,2.0068,2.5415, 2.5416,2.5489,
 \end{equation}
 
 Θεωρούμε το $\mu$ σταθερό εντός κάθε στοιχείου (όπως κάναμε και για το $\epsilon$).
-Το ολοκλήρωμα εφαρμόζεται μόνο στις οριακές ακμές. Το γινόμενο των $N_p, N_q$ είναι μη μηδενικό μόνο για γειτονικούς κόμβους.
+Το ολοκλήρωμα εφαρμόζεται μόνο στις οριακές ακμές (οι κόκκινες στο σχήμα \ref{fig:mesh-ABC-boundary}). 
+Το γινόμενο των $N_p, N_q$ είναι μη μηδενικό μόνο για γειτονικούς κόμβους.
 
+
+
+
+\begin{figure}[h]
+  \centering
+  % (a) Quarter-circle mesh
+  \begin{subfigure}[t]{0.32\textwidth}  
+    \centering
+    \begin{tikzpicture}[scale=2, every node/.style={circle, draw, thick, minimum size=1mm}]
+      \node[fill=red!60] (n1) at (2,0) {};
+      \node[fill=red!60] (n2) at ({2*cos(15)},{2*sin(15)}) {};
+      \node[fill=red!60] (n3) at ({2*cos(30)},{2*sin(30)}) {};
+      \node[fill=red!60] (n4) at (1.4,1.4) {};
+      \node[fill=blue!30] (c) at (1,0.5) {};
+      \draw[thick] (c) -- (n1) -- (n2) -- (n3) -- (n4);
+      \draw[thick] (c) -- (n2);
+      \draw[thick] (c) -- (n3);
+      \draw[thick] (c) -- (n4);
+      \node[draw=none, inner sep=0pt] at (1.5,0) {\scriptsize$\cdots$};
+      \node[draw=none, inner sep=0pt] at (0.8,1.2) {\scriptsize$\cdots$};
+    \end{tikzpicture}
+    \caption{Οριακοί κόμβοι.}
+    \label{fig:mesh-ABC-boundary}
+  \end{subfigure}  
+  \hfill
+  % (b) Two intersecting basis functions
+  \begin{subfigure}[t]{0.32\textwidth}
+    \centering
+    \begin{tikzpicture}[scale=2]
+      \draw[->] (0,0) -- (2.2,0) node[right] {$x$};
+      \draw[->] (0,0) -- (0,1.2) node[above] {$N(x)$};
+      \draw (0.05,1) -- (-0.05,1) node[left] {1};
+      \draw (0.3,0) -- (0.3,-0.05) node[below] {$x_p$};
+      \draw (1.8,0) -- (1.8,-0.05) node[below] {$x_q$};
+      \draw[thick, red] (0.3,0) -- (1.8,1);
+      \draw[thick, blue] (0.3,1) -- (1.8,0);
+      \node[red] at (1.6,1.05) {$N_q(x)$};
+      \node[blue] at (0.5,1.05) {$N_p(x)$};
+    \end{tikzpicture}
+    \caption{Επικάλυψη συναρτήσεων βάσης για γειτονικούς κόμβους στο όριο.}
+    \label{fig:basis_functs_neigh}
+  \end{subfigure}   
+  \hfill
+  % (c) Hat function
+  \begin{subfigure}[t]{0.32\textwidth}
+    \centering
+    \begin{tikzpicture}[scale=2]
+      \draw[->] (0,0) -- (2.5,0) node[right] {$x$};
+      \draw[->] (0,0) -- (0,1.3) node[above] {$N(x)$};
+      \draw (0.2,0.05) -- (0.2,-0.05) node[below] {$x_q$};
+      \draw (1,0.05) -- (1,-0.05) node[below] {$x_p$};
+      \draw (2,0.05) -- (2,-0.05) node[below] {$x_r$};
+      \draw (0.05,1) -- (-0.05,1) node[left] {1};
+      \draw[thick, red] (0.2,0) -- (1,1) node[above, red] {$N_p(x)$} -- (2,0);
+    \end{tikzpicture}
+    \caption{Ολική συνάρτηση βάσης ενός κόμβου στο όριο.}
+    \label{fig:basis_functs_one_glob}
+  \end{subfigure}   
+
+  \caption{}
+\end{figure}
+
+
+
+
+Αν οι $p,q$ είναι γειτονικοί, τότε οι συναντήσεις βάσης στο όριο έχουν επικάλυψη όπως φαίνεται στο σχήμα \ref{fig:basis_functs_neigh}
+όπου με $x$ θεωρώ την κατεύθυνση της οριακής ακμής που τους συνδέει. Αν θέσω $x=0$ στον $p$ και $x=l = x_q - x_p$ 
+στον $q$ τότε
+η αναλυτική τους έκφραση είναι: 
+
+\begin{center}
+  \begin{minipage}[t]{0.45\textwidth}
+    \vspace{0pt} % Align tops
+    \begin{align*}
+      N_p(x) &= \frac{l - x}{l}, \\ 
+      N_q(x) &= \frac{x}{l}
+    \end{align*}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[t]{0.5\textwidth}
+    \vspace{0pt} % Align tops
+    \begin{tikzpicture}[scale=2]
+      \draw[->] (0,0) -- (2.2,0) node[right] {$x$};
+      \draw[->] (0,0) -- (0,1.2) node[above] {$N(x)$};
+      \draw (0.05,1) -- (-0.05,1) node[left] {1};
+      \draw (0,0) -- (0,-0.05) node[below] {$0$};
+      \draw (1.8,0) -- (1.8,-0.05) node[below] {$l$};
+      \draw[thick, red] (0,0) -- (1.8,1);
+      \draw[thick, blue] (0,1) -- (1.8,0);
+      \node[red] at (1.6,1.05) {$N_q(x)$};
+      \node[blue] at (0.5,1.05) {$N_p(x)$};
+    \end{tikzpicture}
+  \end{minipage}
+  \end{center}
+  
+
+
+Το ολοκλήρωμα γίνεται:
+
+\begin{align*}
+  \oint_{\partial \Omega} N_q \mu^{-1} N_p dl &=  \mu^{-1} \int_0^{l} \frac{l - x}{l} \frac{x}{l} \\ 
+  &= \frac{l}{6\mu}
+\end{align*}
+
+Αν $p = q$ τότε \emph{εντός ενός στοιχείου}: 
+
+\begin{align*}
+  \int N_q \mu^{-1} N_p dl &= \mu^{-1} \int_0^{l} \left( \frac{l - x}{l} \right)^2 dx \\ 
+  &= \frac{l}{3\mu}
+\end{align*}
+με $l$ εδώ να συμβολίζει το μήκος του στοιχείου.
+
+Αν ορίσω πίνακα $C[p,q]$ που περιέχει την τιμή του επικαμπύλιου ολοκληρώματος για κόμβους $p,q$ τότε σύμφωνα με τα παραπάνω 
+μπορούμε να τον υπολογίσουμε απαριθμώντας κάθε οριακή ακμή και για κάθε συνδυασμό των κόμβων της προσθέτουμε την αντίστοιχη 
+ποσότητα ($\frac{l}{6\mu}$ ή $\frac{l}{3\mu}$) με $l = \sqrt{(x_i-x_j)^2 + (y_i-y_j)^2}$ 
+όπου εδώ $x,y$ οι καρτεσιανές συντεταγμένες των κόμβων της ακμής. 
+
+
+Εν τέλη η (\ref{eq:three_ints}) ισοδυναμεί με το σύστημα:
+
+\begin{equation}
+  (\mathbf{S}_{ff} - \omega^2\mathbf{T}_{ff}-\alpha \mathbf{C}_{ff})\cdot \mathbf{E}_f^s = - (\mathbf{S}_{fp} - \omega^2\mathbf{T}_{fp}) \cdot \mathbf{E}_p^i
+\end{equation}
+
+Με τους πίνακες $\mathbf{S}_{ff}, \mathbf{S}_{fp}$ να υπολογίζονται από την (\ref{eq:first_int}) και τους 
+$\mathbf{T}_{ff}, \mathbf{T}_{fp}$ από την (\ref{eq:second_int}). Ο $\mathbf{E}_p$ περιέχει τις (γνωστές) τιμές του $E_z^s$ στους κόμβους στις 
+συνθήκες \en Dirichlet \gr στον σκεδαστή, δηλαδή $E_z^s = - E_z^i$.
+
+Υλοποιώ τα παραπάνω με χρήση της \en MATLAB. \gr 
+Χρησιμοποιώ κυκλικό υπολογιστικό χώρο ακτίνας $R$ και σκεδαστή ακτίνας $a$, κάνω 9 πειράματα με τις τιμές:
+
+\begin{table}[h]
+  \renewcommand{\arraystretch}{2} % Increases row height
+  \setlength{\tabcolsep}{12pt}    % Adds column padding
+  \centering
+  \begin{tabular}{|c|c|c|}
+  \hline
+  $R = \frac{3\lambda}{4}$, \hspace{3pt} $a = \frac{\lambda}{4}$ &
+  $R = \frac{5\lambda}{4}$, \hspace{3pt} $a = \frac{\lambda}{4}$ &
+  $R = \frac{9\lambda}{4}$, \hspace{3pt} $a = \frac{\lambda}{4}$ \\
+  \hline
+  $R = \lambda$, \hspace{3pt} $a = \frac{\lambda}{2}$ &
+  $R = \frac{3\lambda}{2}$, \hspace{3pt} $a = \frac{\lambda}{2}$ &
+  $R = \frac{5\lambda}{2}$, \hspace{3pt} $a = \frac{\lambda}{2}$ \\
+  \hline
+  $R = \frac{13\lambda}{6}$, \hspace{3pt} $a = \frac{5\lambda}{3}$ &
+  $R = \frac{8\lambda}{3}$, \hspace{3pt} $a = \frac{5\lambda}{3}$ &
+  $R = \frac{11\lambda}{3}$, \hspace{3pt} $a = \frac{5\lambda}{3}$ \\
+  \hline
+  \end{tabular}
+  \end{table}
+Με $\lambda$ το μήκος κύματος και συχνότητα $f = 300 \ MHz$. Αν απεικονίσουμε πλάτος του συνολικού πεδίου $|E_z^s + E_z^i|$ παίρνουμε:
+
+\begin{figure}[H]
+  \centering
+  \renewcommand{\thesubfigure}{\arabic{subfigure}} % Optional: number subfigures as 1,2,...
+  \begin{tabular}{ccc}
+    \subcaptionbox*{}{%
+      \includegraphics[width=0.25\textwidth]{scatter_case_1_1.pdf}
+    } &
+    \subcaptionbox*{}{%
+      \includegraphics[width=0.25\textwidth]{scatter_case_1_2.pdf}
+    } &
+    \subcaptionbox*{}{%
+      \includegraphics[width=0.25\textwidth]{scatter_case_1_3.pdf}
+    } \\
+    \subcaptionbox*{}{%
+      \includegraphics[width=0.25\textwidth]{scatter_case_2_1.pdf}
+    } &
+    \subcaptionbox*{}{%
+      \includegraphics[width=0.25\textwidth]{scatter_case_2_2.pdf}
+    } &
+    \subcaptionbox*{}{%
+      \includegraphics[width=0.25\textwidth]{scatter_case_2_3.pdf}
+    } \\
+    \subcaptionbox*{}{%
+      \includegraphics[width=0.25\textwidth]{scatter_case_3_1.pdf}
+    } &
+    \subcaptionbox*{}{%
+      \includegraphics[width=0.25\textwidth]{scatter_case_3_2.pdf}
+    } &
+    \subcaptionbox*{}{%
+      \includegraphics[width=0.25\textwidth]{scatter_case_3_3.pdf}
+    }
+  \end{tabular}
+  \caption{}
+  \end{figure}
+  
+Βλέπουμε αποτελέσματα κοντά στα επιθυμητά. Ένα πρόβλημα που παρατηρούμε είναι ότι τα κύματα παρουσιάζουν κάποιες περιοδικές 
+διακυμάνσεις μεγάλης συχνότητας οι οποίες δεν θα έπρεπε να εμφανίζονται. Η πιθανότερη αιτία αυτού 
+είναι ότι χρησιμοποιήθηκαν οριακές συνθήκες \en ABC \gr πρώτης τάξης, οι οποίες δεν είναι πλήρως απορροφητικές, 
+έτσι υπάρχουν ανακλάσεις από τα όρια του υπολογιστικού χώρου οι οποίες συμβάλλουν στα τελικά πεδία.
 
 
 \end{document}

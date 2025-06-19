@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2025/dev/Debian) (preloaded format=pdflatex 2025.5.17)  18 JUN 2025 20:37
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2025/dev/Debian) (preloaded format=pdflatex 2025.5.17)  19 JUN 2025 16:10
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -874,7 +874,23 @@ File: l3backend-pdftex.def 2024-05-08 L3 backend support: PDF output (pdfTeX)
 LaTeX Font Info:    Trying to load font information for LGR+cmr on input line 7.
  (/usr/share/texlive/texmf-dist/tex/latex/cbfonts-fd/lgrcmr.fd
 File: lgrcmr.fd 2017/07/29 v1.2 Greek European Computer Regular
-))
+)
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `' multiply defined.
+
+
+LaTeX Warning: Label `sub@' multiply defined.
+
+
+LaTeX Warning: Label `eq:eigen_system' multiply defined.
+
+)
 \openout1 = `report.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 39.
@@ -966,33 +982,217 @@ File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 LaTeX Font Info:    Trying to load font information for U+msb on input line 41.
  (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-) Excluding 'comment' comment.
+)
+Overfull \hbox (13.6229pt too wide) in paragraph at lines 88--88
+ [][]\LGR/cmr/m/n/10 eswterikìc 
+ []
+
+
 
 [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
 
-[2] (./report.aux)
+[2]
+
+[3]
+<../plots/coaxial_regions.pdf, id=68, 353.32pt x 378.41376pt>
+File: ../plots/coaxial_regions.pdf Graphic file (type pdf)
+<use ../plots/coaxial_regions.pdf>
+Package pdftex.def Info: ../plots/coaxial_regions.pdf  used on input line 380.
+(pdftex.def)             Requested size: 145.11052pt x 155.41624pt.
+<../plots/coaxial_mesh_0.pdf, id=69, 353.32pt x 378.41376pt>
+File: ../plots/coaxial_mesh_0.pdf Graphic file (type pdf)
+<use ../plots/coaxial_mesh_0.pdf>
+Package pdftex.def Info: ../plots/coaxial_mesh_0.pdf  used on input line 387.
+(pdftex.def)             Requested size: 145.11052pt x 155.41624pt.
+<../plots/coaxial_field_2_Direct.pdf, id=70, 359.3425pt x 345.29pt>
+File: ../plots/coaxial_field_2_Direct.pdf Graphic file (type pdf)
+<use ../plots/coaxial_field_2_Direct.pdf>
+Package pdftex.def Info: ../plots/coaxial_field_2_Direct.pdf  used on input line 394.
+(pdftex.def)             Requested size: 159.62083pt x 153.38222pt.
+
+
+[4 <../plots/coaxial_regions.pdf> <../plots/coaxial_mesh_0.pdf> <../plots/coaxial_field_2_Direct.pdf>]
+<../plots/capacitor_regions_domain:5.pdf, id=137, 363.3575pt x 361.35pt>
+File: ../plots/capacitor_regions_domain:5.pdf Graphic file (type pdf)
+<use ../plots/capacitor_regions_domain:5.pdf>
+Package pdftex.def Info: ../plots/capacitor_regions_domain:5.pdf  used on input line 474.
+(pdftex.def)             Requested size: 145.11052pt x 144.31137pt.
+<../plots/capacitor_mesh_0_domain:5.pdf, id=138, 363.3575pt x 361.35pt>
+File: ../plots/capacitor_mesh_0_domain:5.pdf Graphic file (type pdf)
+<use ../plots/capacitor_mesh_0_domain:5.pdf>
+Package pdftex.def Info: ../plots/capacitor_mesh_0_domain:5.pdf  used on input line 481.
+(pdftex.def)             Requested size: 145.11052pt x 144.31137pt.
+<../plots/capacitor_potential_2_domain:5.pdf, id=139, 366.36874pt x 321.2pt>
+File: ../plots/capacitor_potential_2_domain:5.pdf Graphic file (type pdf)
+<use ../plots/capacitor_potential_2_domain:5.pdf>
+Package pdftex.def Info: ../plots/capacitor_potential_2_domain:5.pdf  used on input line 488.
+(pdftex.def)             Requested size: 159.62083pt x 139.94142pt.
+<../plots/capacitor_field_2_domain:5.pdf, id=141, 363.3575pt x 361.35pt>
+File: ../plots/capacitor_field_2_domain:5.pdf Graphic file (type pdf)
+<use ../plots/capacitor_field_2_domain:5.pdf>
+Package pdftex.def Info: ../plots/capacitor_field_2_domain:5.pdf  used on input line 502.
+(pdftex.def)             Requested size: 212.82779pt x 211.65631pt.
+<../plots/capacitor_field_streamlines_2_domain:5.pdf, id=142, 366.36874pt x 322.20375pt>
+File: ../plots/capacitor_field_streamlines_2_domain:5.pdf Graphic file (type pdf)
+<use ../plots/capacitor_field_streamlines_2_domain:5.pdf>
+Package pdftex.def Info: ../plots/capacitor_field_streamlines_2_domain:5.pdf  used on input line 509.
+(pdftex.def)             Requested size: 241.84842pt x 212.69446pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+
+[5 <../plots/capacitor_regions_domain:5.pdf> <../plots/capacitor_mesh_0_domain:5.pdf> <../plots/capacitor_potential_2_domain:5.pdf>]
+
+[6 <../plots/capacitor_field_2_domain:5.pdf> <../plots/capacitor_field_streamlines_2_domain:5.pdf>]
+<../plots/coaxial_mesh_2.pdf, id=186, 353.32pt x 378.41376pt>
+File: ../plots/coaxial_mesh_2.pdf Graphic file (type pdf)
+<use ../plots/coaxial_mesh_2.pdf>
+Package pdftex.def Info: ../plots/coaxial_mesh_2.pdf  used on input line 582.
+(pdftex.def)             Requested size: 145.11052pt x 155.41624pt.
+<../plots/capacitor_mesh_2_domain:5.pdf, id=187, 363.3575pt x 361.35pt>
+File: ../plots/capacitor_mesh_2_domain:5.pdf Graphic file (type pdf)
+<use ../plots/capacitor_mesh_2_domain:5.pdf>
+Package pdftex.def Info: ../plots/capacitor_mesh_2_domain:5.pdf  used on input line 589.
+(pdftex.def)             Requested size: 145.11052pt x 144.31137pt.
+
+Underfull \hbox (badness 1062) in paragraph at lines 590--590
+[]\LGR/cmr/m/n/9 (bþ) |Plèg-ma pu-knw-t  pa-rˆl-lh-lwn
+ []
+
+<../plots/coaxial_field_3_pcg.pdf, id=188, 359.3425pt x 345.29pt>
+File: ../plots/coaxial_field_3_pcg.pdf Graphic file (type pdf)
+<use ../plots/coaxial_field_3_pcg.pdf>
+Package pdftex.def Info: ../plots/coaxial_field_3_pcg.pdf  used on input line 596.
+(pdftex.def)             Requested size: 159.62083pt x 153.38222pt.
+
+LaTeX Warning: Command \textEpsilon invalid in math mode on input line 630.
+
+
+LaTeX Warning: Command \textEpsilon invalid in math mode on input line 630.
+
+
+
+[7 <../plots/coaxial_mesh_2.pdf> <../plots/capacitor_mesh_2_domain:5.pdf> <../plots/coaxial_field_3_pcg.pdf>]
+<../plots/TE_first_12_modes.pdf, id=233, 341.275pt x 273.02pt>
+File: ../plots/TE_first_12_modes.pdf Graphic file (type pdf)
+<use ../plots/TE_first_12_modes.pdf>
+Package pdftex.def Info: ../plots/TE_first_12_modes.pdf  used on input line 755.
+(pdftex.def)             Requested size: 338.5863pt x 270.88637pt.
+
+
+[8 <../plots/TE_first_12_modes.pdf>]
+<../plots/Waveguide_first_nine_modes.pdf, id=297, 352.31625pt x 268.00125pt>
+File: ../plots/Waveguide_first_nine_modes.pdf Graphic file (type pdf)
+<use ../plots/Waveguide_first_nine_modes.pdf>
+Package pdftex.def Info: ../plots/Waveguide_first_nine_modes.pdf  used on input line 779.
+(pdftex.def)             Requested size: 338.5863pt x 257.55634pt.
+<../plots/Waveguide_first_nine_modes_transverse.pdf, id=300, 378.41376pt x 297.11pt>
+File: ../plots/Waveguide_first_nine_modes_transverse.pdf Graphic file (type pdf)
+<use ../plots/Waveguide_first_nine_modes_transverse.pdf>
+Package pdftex.def Info: ../plots/Waveguide_first_nine_modes_transverse.pdf  used on input line 800.
+(pdftex.def)             Requested size: 314.39998pt x 246.85057pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+
+[9 <../plots/Waveguide_first_nine_modes.pdf>]
+<../plots/given.png, id=349, 1096.84781pt x 606.76688pt>
+File: ../plots/given.png Graphic file (type png)
+<use ../plots/given.png>
+Package pdftex.def Info: ../plots/given.png  used on input line 864.
+(pdftex.def)             Requested size: 314.39998pt x 173.921pt.
+
+
+[10 <../plots/Waveguide_first_nine_modes_transverse.pdf> <../plots/given.png>]
+
+[11]
+Overfull \hbox (14.76526pt too wide) in paragraph at lines 1079--1080
+ [][] 
+ []
+
+
+
+[12]
+<../plots/scatter_case_1_1.pdf, id=391, 321.2pt x 276.03125pt>
+File: ../plots/scatter_case_1_1.pdf Graphic file (type pdf)
+<use ../plots/scatter_case_1_1.pdf>
+Package pdftex.def Info: ../plots/scatter_case_1_1.pdf  used on input line 1184.
+(pdftex.def)             Requested size: 120.92421pt x 103.92001pt.
+<../plots/scatter_case_1_2.pdf, id=392, 321.2pt x 275.0275pt>
+File: ../plots/scatter_case_1_2.pdf Graphic file (type pdf)
+<use ../plots/scatter_case_1_2.pdf>
+Package pdftex.def Info: ../plots/scatter_case_1_2.pdf  used on input line 1187.
+(pdftex.def)             Requested size: 120.92421pt x 103.54211pt.
+<../plots/scatter_case_1_3.pdf, id=393, 321.2pt x 275.0275pt>
+File: ../plots/scatter_case_1_3.pdf Graphic file (type pdf)
+<use ../plots/scatter_case_1_3.pdf>
+Package pdftex.def Info: ../plots/scatter_case_1_3.pdf  used on input line 1190.
+(pdftex.def)             Requested size: 120.92421pt x 103.54211pt.
+<../plots/scatter_case_2_1.pdf, id=394, 323.2075pt x 275.0275pt>
+File: ../plots/scatter_case_2_1.pdf Graphic file (type pdf)
+<use ../plots/scatter_case_2_1.pdf>
+Package pdftex.def Info: ../plots/scatter_case_2_1.pdf  used on input line 1193.
+(pdftex.def)             Requested size: 120.92421pt x 102.89584pt.
+<../plots/scatter_case_2_2.pdf, id=395, 321.2pt x 275.0275pt>
+File: ../plots/scatter_case_2_2.pdf Graphic file (type pdf)
+<use ../plots/scatter_case_2_2.pdf>
+Package pdftex.def Info: ../plots/scatter_case_2_2.pdf  used on input line 1196.
+(pdftex.def)             Requested size: 120.92421pt x 103.54211pt.
+<../plots/scatter_case_2_3.pdf, id=396, 321.2pt x 275.0275pt>
+File: ../plots/scatter_case_2_3.pdf Graphic file (type pdf)
+<use ../plots/scatter_case_2_3.pdf>
+Package pdftex.def Info: ../plots/scatter_case_2_3.pdf  used on input line 1199.
+(pdftex.def)             Requested size: 120.92421pt x 103.54211pt.
+<../plots/scatter_case_3_1.pdf, id=397, 321.2pt x 275.0275pt>
+File: ../plots/scatter_case_3_1.pdf Graphic file (type pdf)
+<use ../plots/scatter_case_3_1.pdf>
+Package pdftex.def Info: ../plots/scatter_case_3_1.pdf  used on input line 1202.
+(pdftex.def)             Requested size: 120.92421pt x 103.54211pt.
+<../plots/scatter_case_3_2.pdf, id=398, 323.2075pt x 275.0275pt>
+File: ../plots/scatter_case_3_2.pdf Graphic file (type pdf)
+<use ../plots/scatter_case_3_2.pdf>
+Package pdftex.def Info: ../plots/scatter_case_3_2.pdf  used on input line 1205.
+(pdftex.def)             Requested size: 120.92421pt x 102.89584pt.
+<../plots/scatter_case_3_3.pdf, id=399, 314.17375pt x 278.03876pt>
+File: ../plots/scatter_case_3_3.pdf Graphic file (type pdf)
+<use ../plots/scatter_case_3_3.pdf>
+Package pdftex.def Info: ../plots/scatter_case_3_3.pdf  used on input line 1208.
+(pdftex.def)             Requested size: 120.92421pt x 107.01343pt.
+
+
+[13]
+
+[14 <../plots/scatter_case_1_1.pdf> <../plots/scatter_case_1_2.pdf> <../plots/scatter_case_1_3.pdf> <../plots/scatter_case_2_1.pdf> <../plots/scatter_case_2_2.pdf> <../plots/scatter_case_2_3.pdf> <../plots/scatter_case_3_1.pdf> <../plots/scatter_case_3_2.pdf> <../plots/scatter_case_3_3.pdf>] (./report.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
+
+
+LaTeX Warning: There were multiply-defined labels.
+
 Package rerunfilecheck Info: File `report.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 25165 strings out of 473197
- 463966 string characters out of 5718605
- 846775 words of memory out of 5000000
- 47999 multiletter control sequences out of 15000+600000
- 572125 words of font info for 72 fonts, out of 8000000 for 9000
+ 25770 strings out of 473197
+ 480037 string characters out of 5718605
+ 872475 words of memory out of 5000000
+ 48538 multiletter control sequences out of 15000+600000
+ 577100 words of font info for 82 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 84i,8n,91p,585b,462s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cbfonts/grmn0600.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cbfonts/grmn0700.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cbfonts/grmn0800.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cbfonts/grmn1000.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cbfonts/grmn1200.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cbfonts/grmn1728.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cbfonts/grxn1200.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cbfonts/grxn1440.pfb>
-Output written on report.pdf (2 pages, 196625 bytes).
+ 84i,15n,91p,585b,936s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cbfonts/grmi1000.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cbfonts/grmn0600.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cbfonts/grmn0700.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cbfonts/grmn0800.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cbfonts/grmn0900.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cbfonts/grmn1000.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cbfonts/grmn1200.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cbfonts/grmn1728.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cbfonts/grxn1000.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cbfonts/grxn1200.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cbfonts/grxn1440.pfb>
+Output written on report.pdf (14 pages, 19416977 bytes).
 PDF statistics:
- 117 PDF objects out of 1000 (max. 8388607)
- 80 compressed objects within 1 object stream
- 14 named destinations out of 1000 (max. 500000)
- 13 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 588 PDF objects out of 1000 (max. 8388607)
+ 409 compressed objects within 5 object streams
+ 70 named destinations out of 1000 (max. 500000)
+ 133 words of extra memory for PDF output out of 10000 (max. 10000000)
 
