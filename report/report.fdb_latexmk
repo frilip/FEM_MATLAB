@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1750338604.44122 "/home/frfr/Documents/Τημμυ/Υπολογιστικός ΗΜ/project/report/report.tex" "report.pdf" "report" 1750338608.74639 0
+["pdflatex"] 1750339709.81531 "/home/frfr/Documents/Τημμυ/Υπολογιστικός ΗΜ/project/report/report.tex" "report.pdf" "report" 1750339714.10831 0
   "../plots/TE_first_12_modes.pdf" 1749770190.48475 1072154 6a76d12efc135f18bc9b2e6fa4ebd79d ""
   "../plots/Waveguide_first_nine_modes.pdf" 1749770211.61732 1042779 dbdf784de53917a42de6dd6f3d215015 ""
   "../plots/Waveguide_first_nine_modes_transverse.pdf" 1749770222.16961 7465682 37f93f1364a4901db7f256f17859f5a8 ""
@@ -25,7 +25,7 @@
   "../plots/scatter_case_3_2.pdf" 1749816269.81932 584981 b6a11244bc50b989e10f12d5ab675f43 ""
   "../plots/scatter_case_3_3.pdf" 1749816538.79216 839063 9f14d0adf697ad1916d47331ef598577 ""
   "/etc/texmf/web2c/texmf.cnf" 1747429988.95935 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/frfr/Documents/Τημμυ/Υπολογιστικός ΗΜ/project/report/report.tex" 1750338604.21767 65754 129414e309303359f49c5d9ac96931af ""
+  "/home/frfr/Documents/Τημμυ/Υπολογιστικός ΗΜ/project/report/report.tex" 1750339709.56454 66610 c3d905c205a90b72a9c3de310338dd7d ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1246382020 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
@@ -232,9 +232,9 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1741904018 41538 c016915c1d51223b6dbbfe27341748a8 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1747430056 5467255 9a64d1b40e0b893fc5588ecce9d8accf ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1747430122 3347387 277f593e2f88a24872730569e77ef609 ""
-  "report.aux" 1750338608.53775 15400 73793a9ccec06e9b163eab4ab54e0d13 "pdflatex"
-  "report.out" 1750338605.00969 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "report.tex" 1750338604.21767 65754 129414e309303359f49c5d9ac96931af ""
+  "report.aux" 1750339713.87659 15736 3226b7e2a2fd2e9b7db49208cb7090a2 "pdflatex"
+  "report.out" 1750339710.34855 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "report.tex" 1750339709.56454 66610 c3d905c205a90b72a9c3de310338dd7d ""
   (generated)
   "report.aux"
   "report.log"
