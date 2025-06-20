@@ -1,4 +1,4 @@
-# The FEM Method for Homogenous Poisson and Eigenvalue Problems
+# The FEM Method for Homogenous Poisson, Wave and Eigenvalue Problems
 
 ### Method Formulation for electrostatic potential problems
 
@@ -358,6 +358,20 @@ Magnitude on the direction of propagation (of the corresponding field)
 
 streamlines of the transverse electric field (blue) and the transverse magnetic field (black):
 <img src=plots/markdown_first_modes_transverse.png>
+
+
+
+# Scatter
+
+Scatter of a plane wave on a cylindrical conductive surface. Using first order ABC boundary conditions.
+
+The method is formulized in the report.
+
+## Some results 
+
+<img src=plots/scatter_case_1_1.png>
+<img src=plots/scatter_case_1_2.png>
+<img src=plots/scatter_case_1_3.png>
 
 
 
