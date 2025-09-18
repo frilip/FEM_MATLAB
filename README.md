@@ -376,5 +376,4 @@ The method is formulized in the report.
 
 
 ### Acknowledgments
-- Theodore Rossidis (theoretic help on electromagnetism)
-- Panagiota Boskou (just asked for it)
+- Theodore Rossidis (theoretical help on electromagnetism)
